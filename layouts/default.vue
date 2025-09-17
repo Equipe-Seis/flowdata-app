@@ -10,6 +10,8 @@
           title="Dashboard" color="primary" />
         <v-list-item to="/fornecedores/fornecedores" link @click="closeDrawerOnMobile" prepend-icon="mdi-truck"
           title="Fornecedores" color="primary" />
+      <v-list-item to="/suppliers/suppliers" link @click="closeDrawerOnMobile" prepend-icon="mdi-truck"
+          title="Suppliers" color="primary" />
         <v-list-item to="/insumos/insumos" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant"
           title="Insumos" color="primary" />
         <v-list-item to="/estoque/movimentacao_estoque" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant-closed"
@@ -29,7 +31,7 @@
       <v-toolbar-title @click="navigateTo('/dashboard')" class="font-weight-bold">FlowData</v-toolbar-title>
       <template v-slot:append>
         <div class="d-flex align-center ga-3 px-2" id="user-info">
-          <p>Olá, Jane Doe</p>
+          <UserDetails />
           <v-btn icon="mdi-logout" color="accent" @click="logout"></v-btn>
         </div>
       </template>
@@ -49,6 +51,7 @@ import { useRouter } from 'vue-router';
 import { useAuth } from '~/composables/useAuth';
 import { useDisplay } from 'vuetify';
 import { navigateTo } from 'nuxt/app';
+import UserDetails from '~/components/UserDetails.vue'
 
 const router = useRouter();
 const { logout: doLogout } = useAuth();
