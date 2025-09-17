@@ -11,12 +11,12 @@
 
         <v-form ref="form" v-model="valid">
           <v-text-field v-model="email" label="Usuário:" variant="outlined" density="comfortable" class="mb-4"
-            :rules="emailRules" required />
+            :rules="emailRules" data-cy="email-input" required />
           <v-text-field v-model="password" label="Senha:" type="password" variant="outlined" density="comfortable"
-            class="mb-4" :rules="passwordRules" required />
+            class="mb-4" :rules="passwordRules" required  data-cy="password-input"/>
           <v-checkbox v-model="remember" label="Lembre-se de mim." hide-details class="mb-4" />
           <v-btn :disabled="!valid" block size="large" class="text-white" style="background-color: #1fcf54"
-            @click="login">
+            @click="login" data-cy="button-login">
             Entrar
           </v-btn>
         </v-form>
