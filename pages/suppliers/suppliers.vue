@@ -167,7 +167,7 @@ function clearFilters() {
 }
 
 function goToCreate() {
-  // placeholder for future create page
+    router.push('/suppliers/create');
 }
 
 function editSupplier(id) {
