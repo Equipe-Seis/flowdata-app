@@ -50,9 +50,14 @@
         <v-data-table
           :headers="headers"
           :items="suppliers || []"
-          :items-per-page="5"
+          v-model:page="page"
+          v-model:items-per-page="limit"
+          :items-length="total"
+          :items-per-page-options="[5, 10, 25, 50, 100]"
           class="elevation-1"
           :loading="loading"
+          @update:page="onPageChange"
+          @update:items-per-page="onLimitChange"
         >
           <template #item="{ item }">
             <tr class="d-none d-md-table-row">
@@ -132,6 +137,9 @@ const headers = [
 
 const search = ref(route.query.search || '')
 const status = ref(route.query.status || '')
+const page = ref(Number(route.query.page || 1))
+const initialLimit = Number(route.query.limit || 10)
+const limit = ref(!Number.isFinite(initialLimit) || initialLimit < 1 ? 10 : initialLimit)
 
 onMounted(() => {
   applyFilters(true)
@@ -141,6 +149,8 @@ function applyFilters(initial = false) {
   const query = {
     search: search.value || undefined,
     status: status.value || undefined,
+    page: page.value || 1,
+    limit: limit.value || 10,
   }
   if (!initial) {
     router.push({ query })
@@ -151,8 +161,9 @@ function applyFilters(initial = false) {
 function clearFilters() {
   search.value = ''
   status.value = ''
+  page.value = 1
   router.push({ query: {} })
-  load({})
+  load({ page: 1, limit: limit.value })
 }
 
 function goToCreate() {
@@ -161,6 +172,17 @@ function goToCreate() {
 
 function editSupplier(id) {
   // placeholder for future edit page
+}
+
+function onPageChange(p) {
+  page.value = p
+  applyFilters()
+}
+
+function onLimitChange(l) {
+  limit.value = l < 1 ? 10 : l
+  page.value = 1
+  applyFilters()
 }
 </script>
 

@@ -4,7 +4,7 @@ import type { SupplierListResponse, SupplierQuery } from '~/models/supplier/Supp
 export async function fetchSuppliers(params: SupplierQuery = {}): Promise<SupplierListResponse> {
   const searchParams = new URLSearchParams()
   if (params.page) searchParams.set('page', String(params.page))
-  if (params.pageSize) searchParams.set('pageSize', String(params.pageSize))
+  if (params.limit) searchParams.set('limit', String(params.limit))
   if (params.search) searchParams.set('search', params.search)
   if (params.status) searchParams.set('status', params.status)
 

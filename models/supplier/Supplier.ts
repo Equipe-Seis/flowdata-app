@@ -14,7 +14,7 @@ export interface SupplierListResponse {
 
 export interface SupplierQuery {
   page?: number
-  pageSize?: number
+  limit?: number
   search?: string
   status?: string
 }
