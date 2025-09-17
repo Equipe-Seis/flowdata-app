@@ -28,7 +28,7 @@
       <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title @click="navigateTo('/dashboard')" class="font-weight-bold">FlowData</v-toolbar-title>
       <template v-slot:append>
-        <div class="d-flex align-center ga-3 px-2">
+        <div class="d-flex align-center ga-3 px-2" id="user-info">
           <p>Olá, Jane Doe</p>
           <v-btn icon="mdi-logout" color="accent" @click="logout"></v-btn>
         </div>
@@ -55,6 +55,7 @@ const { logout: doLogout } = useAuth();
 const { mobile } = useDisplay();
 
 const drawer = ref(false); 
+
 
 function toggleDrawer() {
   drawer.value = !drawer.value;

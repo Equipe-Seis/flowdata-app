@@ -17,7 +17,8 @@ const total = ref(0)
 
 onMounted(async () => {
   try {
-    const { data } = await useFetch('/api/fornecedores')
+    const config = useRuntimeConfig()
+    const { data } = await useFetch(`${config.public.apiBase}/fornecedores`)
     total.value = data.value?.length || 0
   } catch (err) {
     console.error('Erro ao buscar fornecedores:', err)

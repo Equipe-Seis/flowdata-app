@@ -57,7 +57,8 @@ onMounted(async () => {
   }
 
   try {
-    const dados = await $fetch(`/api/insumos/${id}`);
+    const config = useRuntimeConfig();
+    const dados = await $fetch(`${config.public.apiBase}/insumos/${id}`);
     if (!dados) {
       erro.value = 'Insumo não encontrado.';
       return;
@@ -77,7 +78,8 @@ const onSubmit = async () => {
   }
 
   try {
-    await $fetch(`/api/insumos/${insumo.id}`, {
+    const config = useRuntimeConfig();
+    await $fetch(`${config.public.apiBase}/insumos/${insumo.id}`, {
       method: 'PUT',
       body: { ...insumo },
     });

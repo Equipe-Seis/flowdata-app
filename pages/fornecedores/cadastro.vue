@@ -210,7 +210,8 @@ const consultarCnpj = async () => {
   }
 
   try {
-    const data = await $fetch(`/api/cnpj/${cnpjLimpo}`);
+    const config = useRuntimeConfig();
+    const data = await $fetch(`${config.public.apiBase}/cnpj/${cnpjLimpo}`);
 
     if (data.status === 'ERROR' || !data.nome) { 
       erro.value = data.message || 'CNPJ não encontrado ou erro na consulta.';
@@ -371,7 +372,8 @@ const onSubmit = async () => {
     fornecedorParaEnviar.telefone = fornecedorParaEnviar.telefone?.replace(/\D/g, '');
     
 
-    await $fetch('/api/fornecedores', {
+    const config = useRuntimeConfig();
+    await $fetch(`${config.public.apiBase}/fornecedores`, {
       method: 'POST',
       body: fornecedorParaEnviar,
     });

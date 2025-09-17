@@ -149,7 +149,8 @@ definePageMeta({
   middleware: "auth",
 });
 
-const { data: fornecedores } = await useFetch("/api/fornecedores", {
+const config = useRuntimeConfig();
+const { data: fornecedores } = await useFetch(`${config.public.apiBase}/fornecedores`, {
   default: () => [],
 });
 

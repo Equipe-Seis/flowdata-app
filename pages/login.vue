@@ -76,7 +76,7 @@ async function login() {
   const { valid: formIsValid } = await form.value.validate();
 
   if (formIsValid) {
-    const success = await tryLogin(email.value, password.value);
+    const success = await tryLogin(email.value, password.value, remember.value);
     if (success) {
       router.push("/dashboard");
     } else {

@@ -166,7 +166,8 @@ const consultarCnpj = async () => {
   }
 
   try {
-    const data = await $fetch(`/api/cnpj/${cnpjLimpo}`);
+    const config = useRuntimeConfig();
+    const data = await $fetch(`${config.public.apiBase}/cnpj/${cnpjLimpo}`);
 
     if (data.status === 'ERROR' || !data.nome) {
       erro.value = data.message || 'CNPJ não encontrado ou erro na consulta.';
@@ -289,13 +290,14 @@ onMounted(async () => {
   await carregarEstados();
 
   try {
+    const config = useRuntimeConfig();
     const fornecedorId = route.params.id;
     if (!fornecedorId) {
       erro.value = 'ID do fornecedor não encontrado na rota.';
       return;
     }
 
-    const data = await $fetch(`/api/fornecedores/${fornecedorId}`);
+    const data = await $fetch(`${config.public.apiBase}/fornecedores/${fornecedorId}`);
     
     Object.assign(fornecedor, data);
 
@@ -367,7 +369,8 @@ const onSubmit = async () => {
       }
     }
 
-    await $fetch(`/api/fornecedores/${fornecedor.id}`, {
+    const config = useRuntimeConfig();
+    await $fetch(`${config.public.apiBase}/fornecedores/${fornecedor.id}`, {
       method: 'PUT',
       body: fornecedorParaEnviar,
     });

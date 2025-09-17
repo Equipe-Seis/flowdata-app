@@ -142,7 +142,8 @@ definePageMeta({
   middleware: "auth",
 });
 
-const { data: insumos } = await useFetch("/api/insumos", {
+const config = useRuntimeConfig();
+const { data: insumos } = await useFetch(`${config.public.apiBase}/insumos`, {
   default: () => [],
 });
 

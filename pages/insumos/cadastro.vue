@@ -75,7 +75,8 @@ const onSubmit = async () => {
   }
 
   try {
-    await $fetch('/api/insumos', {
+    const config = useRuntimeConfig();
+    await $fetch(`${config.public.apiBase}/insumos`, {
       method: 'POST',
       body: { ...insumo },
     });
