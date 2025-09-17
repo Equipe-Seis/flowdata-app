@@ -1,5 +1,6 @@
 import { apiFetch } from '~/composables/useApi'
 import type { SupplierListResponse, SupplierQuery } from '~/models/supplier/Supplier'
+import type { SupplierDetail } from '~/models/supplier/SupplierDetail'
 import type { SupplierCreatePayload } from '~/models/supplier/SupplierCreate'
 
 export async function fetchSuppliers(params: SupplierQuery = {}): Promise<SupplierListResponse> {
@@ -19,6 +20,10 @@ export async function createSupplier(payload: SupplierCreatePayload) {
     method: 'POST',
     body: payload,
   })
+}
+
+export async function fetchSupplierById(id: number | string): Promise<SupplierDetail> {
+  return await apiFetch<SupplierDetail>(`/suppliers/${id}`)
 }
 
 

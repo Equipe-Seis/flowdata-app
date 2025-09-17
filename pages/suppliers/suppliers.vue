@@ -171,7 +171,7 @@ function goToCreate() {
 }
 
 function editSupplier(id) {
-  // placeholder for future edit page
+  router.push(`/suppliers/${id}`)
 }
 
 function onPageChange(p) {
