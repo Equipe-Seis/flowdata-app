@@ -40,3 +40,4 @@ export interface SupplierDetail {
   contacts: SupplierDetailContact[]
   addresses: SupplierDetailAddress[]
 }
+

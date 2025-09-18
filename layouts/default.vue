@@ -14,6 +14,8 @@
           title="Suppliers" color="primary" />
         <v-list-item to="/insumos/insumos" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant"
           title="Insumos" color="primary" />
+        <v-list-item to="/supplyitem/supplyitem" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant"
+          title="Supply Item" color="primary" />
         <v-list-item to="/estoque/movimentacao_estoque" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant-closed"
           title="Estoque" color="primary" />
         
