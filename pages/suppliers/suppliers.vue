@@ -126,8 +126,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useSuppliers } from '~/composables/useSuppliers'
-import { useSupplier } from '~/composables/useSupplier'
+import { useSuppliers } from '~/composables/supplier/useSuppliers'
+import { useSupplier } from '~/composables/supplier/useSupplier'
 
 const router = useRouter()
 const route = useRoute()

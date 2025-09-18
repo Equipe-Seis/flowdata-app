@@ -105,7 +105,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import SupplierContactsForm from '~/components/SupplierContactsForm.vue'
 import SupplierAddressesForm from '~/components/SupplierAddressesForm.vue'
-import { useSupplierEdit } from '~/composables/useSupplierEdit'
+import { useSupplierEdit } from '~/composables/supplier/useSupplierEdit'
 import { useCnpj } from '~/composables/useCnpj'
 import { useCep } from '~/composables/useCep'
 

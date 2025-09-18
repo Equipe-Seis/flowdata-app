@@ -71,7 +71,6 @@ async function onLookup(idx: number) {
     addr.district = data.bairro || addr.district
     addr.city = data.localidade || addr.city
     addr.state = data.uf || addr.state
-    // mantém postalCode como digitado
   }
 }
 

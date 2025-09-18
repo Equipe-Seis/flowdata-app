@@ -103,7 +103,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import SupplierContactsForm from '~/components/SupplierContactsForm.vue'
 import SupplierAddressesForm from '~/components/SupplierAddressesForm.vue'
-import { useSupplierCreate } from '~/composables/useSupplierCreate'
+import { useSupplierCreate } from '~/composables/supplier/useSupplierCreate'
 import { useCnpj } from '~/composables/useCnpj'
 import { useCep } from '~/composables/useCep'
 
@@ -147,7 +147,6 @@ async function onSubmit() {
   const { valid: isValid } = await form.value.validate()
   if (!isValid) return
 
-  // Defaults to avoid backend errors
   const todayIso = new Date().toISOString().slice(0, 10)
   if (payload.value?.person?.personType === 'legalentity') {
     if (!payload.value.person.birthDate) {
@@ -160,7 +159,6 @@ async function onSubmit() {
     }
   }
 
-  // Normalize birthDate to ISO (YYYY-MM-DD) when individual (input is DD/MM/YYYY)
   if (payload.value?.person?.personType === 'individual' && payload.value.person.birthDate) {
     const parts = String(payload.value.person.birthDate).split('/')
     if (parts.length === 3) {
@@ -169,7 +167,6 @@ async function onSubmit() {
     }
   }
 
-  // Normalize openingDate to ISO (YYYY-MM-DD) when legalentity (input is DD/MM/YYYY)
   if (payload.value?.person?.personType === 'legalentity' && payload.value.openingDate) {
     const parts = String(payload.value.openingDate).split('/')
     if (parts.length === 3) {
