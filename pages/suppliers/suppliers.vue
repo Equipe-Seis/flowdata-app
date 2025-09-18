@@ -71,13 +71,27 @@
                   {{ item.status }}
                 </v-chip>
               </td>
-              <td>
+              <td class="d-flex ga-2">
                 <v-btn
                   size="small"
                   color="primary"
+                  icon="mdi-eye"
+                  @click="viewSupplier(item.id)"
+                  title="View Supplier"
+                ></v-btn>
+                <v-btn
+                  size="small"
+                  color="secondary"
                   icon="mdi-file-document-edit-outline"
                   @click="editSupplier(item.id)"
                   title="Edit Supplier"
+                ></v-btn>
+                <v-btn
+                  size="small"
+                  color="error"
+                  icon="mdi-delete"
+                  @click="deleteSupplier(item.id)"
+                  title="Delete Supplier"
                 ></v-btn>
               </td>
             </tr>
@@ -113,6 +127,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useSuppliers } from '~/composables/useSuppliers'
+import { useSupplier } from '~/composables/useSupplier'
 
 const router = useRouter()
 const route = useRoute()
@@ -170,8 +185,18 @@ function goToCreate() {
     router.push('/suppliers/create');
 }
 
+function viewSupplier(id) {
+  router.push({ path: `/suppliers/${id}` })
+}
+
 function editSupplier(id) {
-  router.push(`/suppliers/${id}`)
+  router.push({ path: `/suppliers/${String(id)}/edit` })
+}
+async function deleteSupplier(id) {
+  if (!confirm('Excluir supplier?')) return
+  const { remove } = useSupplier()
+  const ok = await remove(String(id))
+  if (ok) applyFilters(true)
 }
 
 function onPageChange(p) {

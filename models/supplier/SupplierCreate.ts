@@ -34,6 +34,7 @@ export interface SupplierAddress {
 }
 
 export interface SupplierPerson {
+  id?: string | number
   name: string
   personType: PersonType | string
   documentNumber: string

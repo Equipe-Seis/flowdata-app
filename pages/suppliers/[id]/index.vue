@@ -4,6 +4,8 @@
     <div class="d-flex justify-end ga-2 mb-4">
       <v-btn variant="text" @click="goBack">Back</v-btn>
       <v-btn color="primary" @click="goToCreate">New Supplier</v-btn>
+      <v-btn color="secondary" @click="goToEdit">Edit</v-btn>
+      <v-btn color="error" @click="confirmDelete">Delete</v-btn>
     </div>
 
     <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert>
@@ -95,6 +97,17 @@ function goBack() {
 
 function goToCreate() {
   router.push('/suppliers/create')
+}
+
+function goToEdit() {
+  router.push({ name: 'suppliers-id-edit', params: { id: String(route.params.id) } })
+}
+
+async function confirmDelete() {
+  if (!confirm('Excluir este supplier?')) return
+  const { remove } = useSupplier()
+  const ok = await remove(String(route.params.id))
+  if (ok) router.push('/suppliers/suppliers')
 }
 </script>
 

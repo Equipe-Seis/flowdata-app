@@ -26,4 +26,17 @@ export async function fetchSupplierById(id: number | string): Promise<SupplierDe
   return await apiFetch<SupplierDetail>(`/suppliers/${id}`)
 }
 
+export async function updateSupplier(id: number | string, payload: SupplierCreatePayload) {
+  return await apiFetch(`/suppliers/${id}`, {
+    method: 'PUT',
+    body: payload,
+  })
+}
+
+export async function deleteSupplier(id: number | string) {
+  return await apiFetch(`/suppliers/${id}`, {
+    method: 'DELETE',
+  })
+}
+
 

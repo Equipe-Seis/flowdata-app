@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import type { SupplierDetail } from '~/models/supplier/SupplierDetail'
-import { fetchSupplierById } from '~/services/supplier/supplierService'
+import { fetchSupplierById, deleteSupplier } from '~/services/supplier/supplierService'
 
 export const useSupplier = () => {
   const supplier = ref<SupplierDetail | null>(null)
@@ -20,7 +20,21 @@ export const useSupplier = () => {
     }
   }
 
-  return { supplier, loading, error, load }
+  const remove = async (id: number | string) => {
+    loading.value = true
+    error.value = null
+    try {
+      await deleteSupplier(id)
+      return true
+    } catch (e: any) {
+      error.value = e?.message || 'Falha ao deletar supplier'
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { supplier, loading, error, load, remove }
 }
 
 
