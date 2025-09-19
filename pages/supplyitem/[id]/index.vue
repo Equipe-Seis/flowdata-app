@@ -1,0 +1,69 @@
+<template>
+  <v-container>
+    <h1 class="text-h4 mb-2">Supply Item Detail</h1>
+
+    <div class="d-flex justify-end ga-2 mb-4">
+      <v-btn variant="text" @click="goBack">Back</v-btn>
+      <v-btn color="primary" @click="goToCreate">New Supply</v-btn>
+      <!--<v-btn color="secondary" @click="goToEdit">Edit</v-btn>-->
+      <!--<v-btn color="error" @click="confirmDelete">Delete</v-btn>-->
+    </div>
+
+    <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert>
+    <v-skeleton-loader v-if="loading" type="article"></v-skeleton-loader>
+
+    <div v-else-if="item">
+      <v-card>
+        <v-card-title>Supply Details</v-card-title>
+        <v-card-text>
+          <div><strong>ID:</strong> {{ item.id }}</div>
+          <div><strong>Name:</strong> {{ item.name }}</div>
+          <div><strong>Code:</strong> {{ item.code }}</div>
+          <div><strong>Price:</strong> {{ item.price }}</div>
+          <div><strong>Description:</strong> {{ item.description }}</div>
+        </v-card-text>
+      </v-card>
+    </div>
+  </v-container>
+</template>
+
+<script setup>
+import { onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useSupplyItemView } from '~/composables/supplyitem/useSupplyItemView'
+
+definePageMeta({
+  layout: 'default',
+  middleware: 'auth',
+})
+
+const route = useRoute()
+const router = useRouter()
+
+const { item, loading, error, load, remove } = useSupplyItemView()
+
+onMounted(() => {
+  if (route.params.id) load(String(route.params.id))
+})
+
+function goBack() {
+  router.back()
+}
+
+function goToCreate() {
+  router.push('/supplyitem/create')
+}
+
+function goToEdit() {
+  router.push(`/supplyitem/${route.params.id}/edit`)
+}
+
+async function confirmDelete() {
+  //if (!confirm('Excluir este item?')) return
+  //const ok = await remove(String(route.params.id))
+  //if (ok) router.push('/supplyitem/supplyItem')
+}
+</script>
+
+<style scoped>
+</style>

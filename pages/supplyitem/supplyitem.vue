@@ -62,23 +62,16 @@
                   size="small"
                   color="primary"
                   icon="mdi-eye"
-                  @click="viewSupplier(item.id)"
-                  title="View Supplier"
+                  @click="viewSupplyitem(item.id)"
+                  title="View Supplyitem"
                 ></v-btn>
-                <v-btn
+                <!--<v-btn
                   size="small"
                   color="secondary"
                   icon="mdi-file-document-edit-outline"
-                  @click="editSupplier(item.id)"
-                  title="Edit Supplier"
-                ></v-btn>
-                <v-btn
-                  size="small"
-                  color="error"
-                  icon="mdi-delete"
-                  @click="deleteSupplier(item.id)"
-                  title="Delete Supplier"
-                ></v-btn>
+                  @click="editSupplyitem(item.id)"
+                  title="Edit Supplyitem"
+                ></v-btn>-->
               </td>
             </tr>
 
@@ -89,13 +82,13 @@
               <div><strong>Price:</strong> {{ item.price }}</div>
               <div><strong>Description:</strong> {{ item.description }}</div>
               <div class="mt-2">
-                <v-btn
+                <!--<v-btn
                   size="small"
                   color="primary"
                   icon="mdi-file-document-edit-outline"
-                  @click="editSupplier(item.id)"
-                  title="Edit Supply"
-                ></v-btn>
+                  @click="editSupplyitem(item.id)"
+                  title="Edit Supplyitem"
+                ></v-btn>-->
               </div>
             </div>
           </template>
@@ -170,19 +163,14 @@ function goToCreate() {
   router.push('/supplyitem/create')
 }
 
-function viewSupplier(id) {
-  //router.push({ path: `/suppliers/${id}` })
+function viewSupplyitem(id) {
+  router.push(`/supplyitem/${id}`)
 }
 
-function editSupplier(id) {
-  //router.push({ path: `/suppliers/${String(id)}/edit` })
+function editSupplyitem(id) {
+  router.push(`/supplyitem/${id}/edit`)
 }
-async function deleteSupplier(id) {
-  //if (!confirm('Excluir supplier?')) return
-  //const { remove } = useSupplier()
- // const ok = await remove(String(id))
-  //if (ok) applyFilters(true)
-}
+//async function deleteSupplyitem(id) {}
 
 function onPageChange(p) {
   page.value = p

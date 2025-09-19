@@ -30,15 +30,16 @@ export async function createSupplyItem(payload: SupplyItemCreatePayload) {
   })
 }
 
-//export async function fetchSupplierById(id: number | string): Promise<SupplierDetail> {
-  //return await apiFetch<SupplierDetail>(`/suppliers/${id}`)
-//}
+export async function fetchSupplyItemById(id: number | string): Promise<SupplyItem> {
+  return await apiFetch<SupplyItem>(`/supply/${id}`)
+}
 
-//export async function updateSupplier(id: number | string, payload: SupplierCreatePayload) {
-  //return await apiFetch(`/suppliers/${id}`, {
-    //method: 'PUT',
-    //body: payload,
-  //})
+export async function updateSupplyItem(id: number | string, payload: SupplyItemCreatePayload) {
+  return await apiFetch(`/supply/${id}`, {
+    method: 'PUT',
+    body: payload,
+  })
+}
 
 //export async function deleteSupplier(id: number | string) {
   //return await apiFetch(`/suppliers/${id}`, {
