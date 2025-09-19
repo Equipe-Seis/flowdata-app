@@ -4,12 +4,11 @@
       <v-col>
         <div class="mt-10">
           <h1 class="text-h4 mb-2">{{ t('supplier.page_title') }}</h1>
-          
         </div>
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
-          <v-btn color="primary" @click="goToCreate">{{$t('supplier.new')}} </v-btn>
+          <v-btn color="primary" @click="goToCreate">{{ t('supplier.new') }}</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -19,26 +18,16 @@
       <v-card-text>
         <v-form>
           <v-row>
-            <v-col cols="12" sm="8">
+            <v-col cols="12">
               <v-text-field
                 v-model="search"
                 hide-details
-                label="Search by name, email, document"
+                :label="t('supplier.search_placeholder')"
                 variant="outlined"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-select
-                v-model="status"
-                hide-details
-                clearable
-                label="Status"
-                :items="['active', 'inactive']"
-                variant="outlined"
-              ></v-select>
+              />
             </v-col>
           </v-row>
-          <div class="d-flex justify-start ga-4">
+          <div class="d-flex justify-end ga-4 mt-4">
             <v-btn color="primary" @click.prevent="applyFilters">{{ t('common.search') }}</v-btn>
             <v-btn class="me-2" @click.prevent="clearFilters">{{ t('common.clear') }}</v-btn>
           </div>
@@ -49,12 +38,13 @@
     <v-card class="mt-4">
       <v-card-text>
         <v-data-table
+          v-if="!mdAndDown"
           :key="locale"
           :headers="headers"
-          :items="suppliers || []"
+          :items="filteredSuppliers"
           v-model:page="page"
           v-model:items-per-page="limit"
-          :items-length="total"
+          :items-length="filteredSuppliers.length"
           :items-per-page-options="[5, 10, 25, 50, 100]"
           class="elevation-1"
           :loading="loading"
@@ -62,7 +52,7 @@
           @update:items-per-page="onLimitChange"
         >
           <template #item="{ item }">
-            <tr class="d-none d-md-table-row">
+            <tr>
               <td>{{ item.id }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.tradeName }}</td>
@@ -74,80 +64,68 @@
                 </v-chip>
               </td>
               <td class="d-flex ga-2">
-                <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-eye"
-                  @click="viewSupplier(item.id)"
-                  title="View Supplier"
-                ></v-btn>
-                <v-btn
-                  size="small"
-                  color="secondary"
-                  icon="mdi-file-document-edit-outline"
-                  @click="editSupplier(item.id)"
-                  title="Edit Supplier"
-                ></v-btn>
-                <v-btn
-                  size="small"
-                  color="error"
-                  icon="mdi-delete"
-                  @click="deleteSupplier(item.id)"
-                  title="Delete Supplier"
-                ></v-btn>
+                <v-btn size="small" color="primary" icon="mdi-eye" @click="viewSupplier(item.id)" />
+                <v-btn size="small" color="secondary" icon="mdi-file-document-edit-outline" @click="editSupplier(item.id)" />
+                <v-btn size="small" color="error" icon="mdi-delete" @click="deleteSupplier(item.id)" />
               </td>
             </tr>
-
-            <div class="d-md-none pa-2 my-2 border rounded">
-              <div><strong>{{ t('supplier.id') }}:</strong> {{ item.id }}</div>
-              <div><strong>{{ t('supplier.name') }}:</strong> {{ item.name }}</div>
-              <div><strong>{{ t('supplier.trade_name') }}:</strong> {{ item.tradeName }}</div>
-              <div><strong>{{ t('supplier.email') }}:</strong> {{ item.email }}</div>
-              <div><strong>{{ t('supplier.document') }}:</strong> {{ item.documentNumber }}</div>
-              <div><strong>{{ t('supplier.status') }}:</strong> {{ item.status }}</div>
-              <div class="mt-2">
-                <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-file-document-edit-outline"
-                  @click="editSupplier(item.id)"
-                  title="Edit Supplier"
-                ></v-btn>
-              </div>
-            </div>
           </template>
-
-          <template #no-data> No suppliers found. </template>
+          <template #no-data>
+            {{ t('supplier.no_results') }}
+          </template>
         </v-data-table>
+
+       
+        <div v-else>
+          <div
+            v-for="item in filteredSuppliers"
+            :key="item.id"
+            class="pa-2 my-2 border rounded"
+          >
+            <div><strong>{{ t('supplier.id') }}:</strong> {{ item.id }}</div>
+            <div><strong>{{ t('supplier.name') }}:</strong> {{ item.name }}</div>
+            <div><strong>{{ t('supplier.trade_name') }}:</strong> {{ item.tradeName }}</div>
+            <div><strong>{{ t('supplier.email') }}:</strong> {{ item.email }}</div>
+            <div><strong>{{ t('supplier.document') }}:</strong> {{ item.documentNumber }}</div>
+            <div><strong>{{ t('supplier.status') }}:</strong> {{ item.status }}</div>
+            <div class="mt-2 d-flex ga-2">
+              <v-btn size="small" color="primary" icon="mdi-eye" @click="viewSupplier(item.id)" />
+              <v-btn size="small" color="secondary" icon="mdi-file-document-edit-outline" @click="editSupplier(item.id)" />
+              <v-btn size="small" color="error" icon="mdi-delete" @click="deleteSupplier(item.id)" />
+            </div>
+          </div>
+        </div>
       </v-card-text>
     </v-card>
   </v-container>
-  
 </template>
 
 <script setup>
-import { ref, onMounted, computed, markRaw, watch } from 'vue'
+import { ref, computed, onMounted, watch, markRaw } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useSuppliers } from '~/composables/supplier/useSuppliers'
 import { useSupplier } from '~/composables/supplier/useSupplier'
 import { useI18n } from 'vue-i18n'
-
-const router = useRouter()
-const route = useRoute()
-
-
-const { t, locale } = useI18n()
+import { useDisplay } from 'vuetify'
 
 definePageMeta({
   layout: 'default',
   middleware: 'auth',
 })
 
-const { list, total, loading, error, load } = useSuppliers()
+const router = useRouter()
+const route = useRoute()
+const { t, locale } = useI18n()
+const { mdAndDown } = useDisplay() // 👈 true em mobile/tablet
+
+const { list, total, loading, load } = useSuppliers()
 const suppliers = list
 
-const headers = ref([])
+const search = ref('')
+const page = ref(1)
+const limit = ref(Number(route.query.limit || 10))
 
+const headers = ref([])
 watch(locale, () => {
   headers.value = markRaw([
     { title: t('supplier.id'), key: 'id' },
@@ -160,74 +138,64 @@ watch(locale, () => {
   ])
 }, { immediate: true })
 
-const search = ref(route.query.search || '')
-const status = ref(route.query.status || '')
-const page = ref(Number(route.query.page || 1))
-const initialLimit = Number(route.query.limit || 10)
-const limit = ref(!Number.isFinite(initialLimit) || initialLimit < 1 ? 10 : initialLimit)
+const filteredSuppliers = computed(() => {
+  const query = search.value.toLowerCase().trim()
+  if (!query) return suppliers.value || []
 
-onMounted(() => {
-  applyFilters(true)
+  return (suppliers.value || []).filter(item => {
+    return (
+      item.name?.toLowerCase().includes(query) ||
+      item.email?.toLowerCase().includes(query) ||
+      item.documentNumber?.toLowerCase().includes(query)
+    )
+  })
 })
 
-function applyFilters(initial = false) {
-  const query = {
-    search: search.value || undefined,
-    status: status.value || undefined,
-    page: page.value || 1,
-    limit: limit.value || 10,
-  }
-  if (!initial) {
-    router.push({ query })
-  }
-  load(query)
+onMounted(() => {
+  load({ page: 1, limit: limit.value })
+})
+
+
+function applyFilters() {
+  page.value = 1
 }
 
 function clearFilters() {
   search.value = ''
-  status.value = ''
   page.value = 1
-  router.push({ query: {} })
-  load({ page: 1, limit: limit.value })
-}
-
-function goToCreate() {
-    router.push('/suppliers/create');
-}
-
-function viewSupplier(id) {
-  router.push({ path: `/suppliers/${id}` })
-}
-
-function editSupplier(id) {
-  router.push({ path: `/suppliers/${String(id)}/edit` })
-}
-async function deleteSupplier(id) {
-  if (!confirm('Excluir supplier?')) return
-  const { remove } = useSupplier()
-  const ok = await remove(String(id))
-  if (ok) applyFilters(true)
 }
 
 function onPageChange(p) {
   page.value = p
-  applyFilters()
 }
 
 function onLimitChange(l) {
   limit.value = l < 1 ? 10 : l
   page.value = 1
-  applyFilters()
+}
+
+function goToCreate() {
+  router.push('/suppliers/create')
+}
+
+function viewSupplier(id) {
+  router.push(`/suppliers/${id}`)
+}
+
+function editSupplier(id) {
+  router.push(`/suppliers/${id}/edit`)
+}
+
+async function deleteSupplier(id) {
+  if (!confirm('Excluir supplier?')) return
+  const { remove } = useSupplier()
+  const ok = await remove(String(id))
+  if (ok) load({ page: 1, limit: limit.value })
 }
 </script>
 
 <style scoped>
-.v-data-table .d-md-none {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-.v-data-table .v-data-table__td {
-  vertical-align: middle;
+.border {
+  border: 1px solid #ccc;
 }
 </style>
-
-
