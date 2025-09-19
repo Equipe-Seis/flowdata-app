@@ -17,6 +17,8 @@
           title="Supply Item" color="primary" />
         <v-list-item to="/estoque/movimentacao_estoque" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant-closed"
           title="Estoque" color="primary" />
+          <v-list-item to="/users/users" link @click="closeDrawerOnMobile" prepend-icon="mdi-account-group"
+          title="Users" color="primary" />
         
       </v-list>
       <template v-slot:append>

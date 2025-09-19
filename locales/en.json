@@ -1,7 +1,8 @@
 {
-    "dashboard": {
+  
+  "dashboard": {
       "welcome": "Welcome to",
-    "logged_as": "You are logged in as: {role}",
+      "logged_as": "You are logged in as: {role}",
       "admin_panel": "Welcome to the admin panel.",
       "description": "This system allows full management of industrial supplies, from supplier and product registration to inventory control, purchases, receiving, movement, and quality analysis — aiming to optimize processes and support strategic decision-making. Our solution provides efficient control for your company's needs.",
       "quick_actions": "Quick Actions",
@@ -81,6 +82,18 @@
       "cnpj_invalid": "Invalid CNPJ. Must contain 14 digits.",
       "cnpj_only_legal": "CNPJ lookup is only available for legal entities.",
       "error_creating": "Error creating supplier"
+    },
+    "user":{
+      "page_title": "Users",
+      "new": "New User",
+      "filters": "Filters",
+      "search_placeholder": "Search by name or email",
+      "no_results": "No users found.",
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "actions": "Actions",
+      "confirm_delete": "Do you really want to delete this user?"
     }
   }
   

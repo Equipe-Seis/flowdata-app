@@ -82,6 +82,18 @@
       "cnpj_invalid": "CNPJ inválido. Deve conter 14 números.",
       "cnpj_only_legal": "Consulta de CNPJ disponível apenas para pessoa jurídica.",
       "error_creating": "Erro ao criar fornecedor"
+    },
+    "user":{
+        "page_title": "Usuários",
+        "new": "Novo Usuário",
+        "filters": "Filtros",
+        "search_placeholder": "Buscar por nome ou e-mail",
+        "no_results": "Nenhum usuário encontrado.",
+        "id": "ID",
+        "name": "Nome",
+        "email": "E-mail",
+        "actions": "Ações",
+        "confirm_delete": "Deseja realmente excluir este usuário?"
     }
   }
   
