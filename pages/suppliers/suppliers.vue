@@ -1,20 +1,21 @@
 <template>
-  <v-container>
+  <v-container :key="locale">
     <v-row>
       <v-col>
         <div class="mt-10">
-          <h1 class="text-h4 mb-4">Suppliers</h1>
+          <h1 class="text-h4 mb-2">{{ t('supplier.page_title') }}</h1>
+          
         </div>
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
-          <v-btn color="primary" @click="goToCreate"> New Supplier </v-btn>
+          <v-btn color="primary" @click="goToCreate">{{$t('supplier.new')}} </v-btn>
         </div>
       </v-col>
     </v-row>
 
     <v-card>
-      <v-card-title>Filters</v-card-title>
+      <v-card-title>{{ t('supplier.filters') }}</v-card-title>
       <v-card-text>
         <v-form>
           <v-row>
@@ -38,8 +39,8 @@
             </v-col>
           </v-row>
           <div class="d-flex justify-start ga-4">
-            <v-btn color="primary" @click.prevent="applyFilters">Search</v-btn>
-            <v-btn class="me-2" @click.prevent="clearFilters">Clear</v-btn>
+            <v-btn color="primary" @click.prevent="applyFilters">{{ t('common.search') }}</v-btn>
+            <v-btn class="me-2" @click.prevent="clearFilters">{{ t('common.clear') }}</v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -48,6 +49,7 @@
     <v-card class="mt-4">
       <v-card-text>
         <v-data-table
+          :key="locale"
           :headers="headers"
           :items="suppliers || []"
           v-model:page="page"
@@ -97,12 +99,12 @@
             </tr>
 
             <div class="d-md-none pa-2 my-2 border rounded">
-              <div><strong>ID:</strong> {{ item.id }}</div>
-              <div><strong>Name:</strong> {{ item.name }}</div>
-              <div><strong>Trade Name:</strong> {{ item.tradeName }}</div>
-              <div><strong>Email:</strong> {{ item.email }}</div>
-              <div><strong>Document:</strong> {{ item.documentNumber }}</div>
-              <div><strong>Status:</strong> {{ item.status }}</div>
+              <div><strong>{{ t('supplier.id') }}:</strong> {{ item.id }}</div>
+              <div><strong>{{ t('supplier.name') }}:</strong> {{ item.name }}</div>
+              <div><strong>{{ t('supplier.trade_name') }}:</strong> {{ item.tradeName }}</div>
+              <div><strong>{{ t('supplier.email') }}:</strong> {{ item.email }}</div>
+              <div><strong>{{ t('supplier.document') }}:</strong> {{ item.documentNumber }}</div>
+              <div><strong>{{ t('supplier.status') }}:</strong> {{ item.status }}</div>
               <div class="mt-2">
                 <v-btn
                   size="small"
@@ -124,13 +126,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, markRaw, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useSuppliers } from '~/composables/supplier/useSuppliers'
 import { useSupplier } from '~/composables/supplier/useSupplier'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const route = useRoute()
+
+
+const { t, locale } = useI18n()
 
 definePageMeta({
   layout: 'default',
@@ -140,15 +146,19 @@ definePageMeta({
 const { list, total, loading, error, load } = useSuppliers()
 const suppliers = list
 
-const headers = [
-  { title: 'ID', key: 'id' },
-  { title: 'Name', key: 'name' },
-  { title: 'Trade Name', key: 'tradeName' },
-  { title: 'Email', key: 'email' },
-  { title: 'Document', key: 'documentNumber' },
-  { title: 'Status', key: 'status' },
-  { title: 'Actions', key: 'actions', sortable: false },
-]
+const headers = ref([])
+
+watch(locale, () => {
+  headers.value = markRaw([
+    { title: t('supplier.id'), key: 'id' },
+    { title: t('supplier.name'), key: 'name' },
+    { title: t('supplier.trade_name'), key: 'tradeName' },
+    { title: t('supplier.email'), key: 'email' },
+    { title: t('supplier.document'), key: 'documentNumber' },
+    { title: t('supplier.status'), key: 'status' },
+    { title: t('supplier.actions'), key: 'actions', sortable: false },
+  ])
+}, { immediate: true })
 
 const search = ref(route.query.search || '')
 const status = ref(route.query.status || '')

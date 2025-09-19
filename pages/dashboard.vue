@@ -1,10 +1,9 @@
 <template>
   <v-container>
     <div class="mb-4">
-      <p>Idioma atual: {{ $i18n.locale }}</p>
       <p class="font-weight-black text-h4 text-accent">{{ $t('dashboard.welcome') }}</p>
       <p class="font-weight-black text-h2 text-secondary">FlowData</p>
-      <p class="font-weight-medium text-accent">{{ $t('dashboard.logged_as', { role: roleLabel }) }}</p>
+<!--<p class="font-weight-medium text-accent">{{ $t('dashboard.logged_as', { role: roleUserLabel }) }}</p>-->
     </div>
     <v-card>
       <v-card-title class="text-h5">{{ $t('dashboard.admin_panel') }}</v-card-title>
@@ -54,13 +53,14 @@ import InsumosContador from '~/components/InsumoContador.vue'
 import { computed } from 'vue'
 import { useAuth } from '~/composables/useAuth'
 
+
 definePageMeta({
   layout: 'default',
   middleware: 'auth'
 })
 
 const { user } = useAuth()
-const roleLabel = computed(() => 'Administrador do Sistema')
+
 </script>
 
 <style scoped>

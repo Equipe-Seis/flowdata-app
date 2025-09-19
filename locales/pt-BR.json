@@ -9,6 +9,29 @@
       "new_supply": "Novo Insumo",
       "manage_orders": "Gerenciar Pedidos",
       "total_suppliers":"Total de Fornecedores"
+    },
+    "supplier": {
+      "page_title": "Fornecedores",
+      "new": "Novo Fornecedor",
+      "filters": "Filtros",
+      "search_placeholder": "Buscar por nome, email, documento",
+      "id": "ID",
+      "name": "Nome",
+      "trade_name": "Nome Fantasia",
+      "email": "E-mail",
+      "document": "Documento",
+      "status": "Status",
+      "actions": "Ações",
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "view": "Visualizar",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "no_results": "Nenhum fornecedor encontrado."
+    },
+    "common": {
+      "search": "Buscar",
+      "clear": "Limpar"
     }
   }
   
