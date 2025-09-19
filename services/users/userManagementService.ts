@@ -11,3 +11,7 @@ export async function createUser(payload: CreateUserPayload): Promise<User> {
         body: payload,
     })
 }
+
+export async function fetchUserById(id: number | string): Promise<User> {
+    return await apiFetch<User>(`/users/${id}`)
+}

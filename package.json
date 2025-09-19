@@ -15,6 +15,7 @@
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/i18n": "^10.1.0",
     "axios": "^1.11.0",
+    "date-fns": "^4.1.0",
     "maska": "^3.2.0",
     "nuxt": "^3.12.3",
     "pnpm": "^10.15.1",
