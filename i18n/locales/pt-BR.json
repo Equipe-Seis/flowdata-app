@@ -1,0 +1,14 @@
+{
+  "dashboard": {
+    "welcome": "Bem-vindo(a) ao",
+    "logged_as": "Você está logado como: {role}",
+    "admin_panel": "Bem-vindo(a) ao painel administrativo.",
+    "description": "Este sistema permite a gestão completa de insumos industriais, desde o cadastro de fornecedores e produtos até o controle de estoque, compras, recebimento, movimentação e análises de qualidade, buscando otimizar os processos e auxiliar na tomada de decisões estratégicas. Nossa solução visa oferecer um controle eficiente para as necessidades da sua empresa.",
+    "quick_actions": "Ações Rápidas",
+    "new_supplier": "Novo Fornecedor",
+    "new_supply": "Novo Insumo",
+    "manage_orders": "Gerenciar Pedidos",
+    "total_suppliers":"Total de Fornecedores"
+  }
+}
+

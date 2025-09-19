@@ -5,7 +5,6 @@
         <v-list-item class="px-4 py-2" title="Menu" />
 
         <v-divider></v-divider>
-
         <v-list-item to="/dashboard" link @click="closeDrawerOnMobile" prepend-icon="mdi-view-dashboard"
           title="Dashboard" color="primary" />
         <v-list-item to="/fornecedores/fornecedores" link @click="closeDrawerOnMobile" prepend-icon="mdi-truck"
@@ -35,6 +34,17 @@
       <template v-slot:append>
         <div class="d-flex align-center ga-3 px-2" id="user-info">
           <UserDetails />
+          <v-select
+            v-model="localeValue"
+            :items="locales"
+            item-title="label"
+            item-value="code"
+            hide-details
+            variant="underlined"
+            density="compact"
+            style="max-width: 140px;"
+            class="text-caption"
+          />
           <v-btn icon="mdi-logout" color="accent" @click="logout"></v-btn>
         </div>
       </template>
@@ -49,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '~/composables/useAuth';
 import { useDisplay } from 'vuetify';
@@ -61,7 +71,25 @@ const { logout: doLogout } = useAuth();
 const { mobile } = useDisplay();
 
 const drawer = ref(false); 
+const { locale, setLocale } = useI18n();
+const localeValue = ref(locale.value);
 
+const locales = [
+  { code: 'pt-BR', label: '🇧🇷 Português' },
+  { code: 'en', label: '🇺🇸 English' }
+];
+
+watch(localeValue, async (newLocale) => {
+  if (typeof newLocale === 'string' && newLocale && newLocale !== locale.value) {
+    await setLocale(newLocale);
+  }
+});
+
+watch(locale, (newLocale) => {
+  if (newLocale !== localeValue.value) {
+    localeValue.value = newLocale;
+  }
+});
 
 function toggleDrawer() {
   drawer.value = !drawer.value;

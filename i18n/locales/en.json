@@ -1,0 +1,14 @@
+{
+  "dashboard": {
+    "welcome": "Welcome to",
+    "logged_as": "You are logged in as: {role}",
+    "admin_panel": "Welcome to the admin panel.",
+    "description": "This system allows full management of industrial supplies, from supplier and product registration to inventory control, purchases, receiving, movement, and quality analysis — aiming to optimize processes and support strategic decision-making. Our solution provides efficient control for your company's needs.",
+    "quick_actions": "Quick Actions",
+    "new_supplier": "New Supplier",
+    "new_supply": "New Supply",
+    "manage_orders": "Manage Orders",
+    "total_suppliers":"Total Suppliers"
+  }
+}
+

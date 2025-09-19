@@ -21,6 +21,7 @@ export default defineNuxtConfig({
   ],
 
   modules: [
+    "@nuxtjs/i18n",
     [
       "@nuxtjs/google-fonts",
       {
@@ -34,9 +35,36 @@ export default defineNuxtConfig({
     ],
   ],
 
+  i18n: {
+    langDir: 'locales/',
+    lazy: true,
+    defaultLocale: 'pt-BR',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      alwaysRedirect: false,
+      fallbackLocale: 'pt-BR',
+    },
+    locales: [
+      {
+        code: 'pt-BR',
+        file: 'pt-BR.json',
+        iso: 'pt-BR',
+        name: 'Português'
+      },
+      {
+        code: 'en',
+        file: 'en.json',
+        iso: 'en-US',
+        name: 'English'
+      }
+    ],
+    vueI18n: './i18n.config.ts'
+  },
+
   vite: {
     plugins: [
-      vuetify({ autoImport: true })  // ✅ maneira correta de adicionar o plugin
+      vuetify({ autoImport: true }) 
     ],
     vue: {
       template: {
@@ -44,7 +72,6 @@ export default defineNuxtConfig({
       },
     },
     define: {
-      // workarounds para crypto (em alguns casos)
       'crypto.hash': 'undefined',
     },
     resolve: {
