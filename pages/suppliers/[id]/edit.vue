@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <h1 class="text-h4 mb-4">Edit Supplier</h1>
+  <v-container :key="locale">
+    <h1 class="text-h4 mb-4">{{ t('supplier.edit') }}</h1>
 
     <v-alert v-if="erro" type="error" class="mb-5">{{ erro }}</v-alert>
     <v-skeleton-loader v-if="loading" type="article" class="mb-4"></v-skeleton-loader>
@@ -8,10 +8,23 @@
     <v-form v-if="payload" ref="form" @submit.prevent="onSubmit" v-model="valid" lazy-validation>
       <v-row>
         <v-col cols="12" sm="8">
-          <v-text-field v-model="payload.person.name" label="* Name" :rules="[v => !!v || 'Required']" required />
+          <v-text-field
+            v-model="payload.person.name"
+            :label="`* ${t('supplier.name')}`"
+            :rules="[v => !!v || t('validation.required')]"
+            required
+          />
         </v-col>
         <v-col cols="12" sm="4">
-          <v-select v-model="payload.person.personType" :items="['individual','legalentity']" label="* Person Type" :rules="[v => !!v || 'Required']" required />
+          <v-select
+            v-model="payload.person.personType"
+            :items="personTypeItems"
+            item-title="text"
+            item-value="value"
+            :label="`* ${t('supplier.person_type')}`"
+            :rules="[v => !!v || t('validation.required')]"
+            required
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -38,7 +51,13 @@
           </v-text-field>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-text-field v-model="payload.person.email" label="* Email" type="email" :rules="emailRules" required />
+          <v-text-field
+            v-model="payload.person.email"
+            :label="`* ${t('supplier.email')}`"
+            type="email"
+            :rules="emailRules"
+            required
+          />
         </v-col>
       </v-row>
 
@@ -47,7 +66,7 @@
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="payload.person.birthDate"
-              label="* Birth date"
+              :label="`* ${t('supplier.birth_date')}`"
               :rules="birth_date_rule"
               v-mask="'##/##/####'"
               required
@@ -59,12 +78,17 @@
       <template v-if="payload.person.personType === 'legalentity'">
         <v-row>
           <v-col cols="12" sm="6">
-            <v-text-field v-model="payload.tradeName" label="* Trade Name" :rules="[v => !!v || 'Required']" required />
+            <v-text-field
+              v-model="payload.tradeName"
+              :label="`* ${t('supplier.trade_name')}`"
+              :rules="[v => !!v || t('validation.required')]"
+              required
+            />
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="payload.openingDate"
-              label="* Opening Date"
+              :label="`* ${t('supplier.opening_date')}`"
               v-mask="'##/##/####'"
               :rules="opening_date_rule"
               required
@@ -73,47 +97,49 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="4">
-            <v-text-field v-model="payload.type" label="Type" />
+            <v-text-field v-model="payload.type" :label="t('supplier.type')" />
           </v-col>
           <v-col cols="12" sm="4">
-            <v-text-field v-model="payload.size" label="Size" />
+            <v-text-field v-model="payload.size" :label="t('supplier.size')" />
           </v-col>
           <v-col cols="12" sm="4">
-            <v-text-field v-model="payload.legalNature" label="Legal Nature" />
+            <v-text-field v-model="payload.legalNature" :label="t('supplier.legal_nature')" />
           </v-col>
         </v-row>
       </template>
 
-      <h2 class="text-h6 mt-6">Contacts</h2>
+      <h2 class="text-h6 mt-6">{{ t('supplier.contacts') }}</h2>
       <v-divider class="mb-4"></v-divider>
       <SupplierContactsForm v-model="payload.contacts" />
 
-      <h2 class="text-h6 mt-6">Addresses</h2>
+      <h2 class="text-h6 mt-6">{{ t('supplier.addresses') }}</h2>
       <v-divider class="mb-4"></v-divider>
       <SupplierAddressesForm v-model="payload.addresses" />
 
       <div class="d-flex justify-end ga-4">
-        <v-btn class="me-2" @click="router.back()">Cancel</v-btn>
-        <v-btn type="submit" color="primary" :disabled="!valid" :loading="loading">Save</v-btn>
+        <v-btn class="me-2" @click="router.back()">{{ t('supplier.cancel') }}</v-btn>
+        <v-btn type="submit" color="primary" :disabled="!valid" :loading="loading">{{ t('supplier.edit') }}</v-btn>
       </div>
     </v-form>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, ref as vueRef, watch, markRaw } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import SupplierContactsForm from '~/components/supplier/SupplierContactsForm.vue'
 import SupplierAddressesForm from '~/components/supplier/SupplierAddressesForm.vue'
 import { useSupplierEdit } from '~/composables/supplier/useSupplierEdit'
 import { useCnpj } from '~/composables/useCnpj'
 import { useCep } from '~/composables/useCep'
+import { useI18n } from 'vue-i18n'
 
 definePageMeta({
   layout: 'default',
   middleware: 'auth',
 })
 
+const { t, locale } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const form = ref<any>(null)
@@ -125,17 +151,25 @@ const { lookup: lookupCnpj } = useCnpj()
 const { lookup: lookupCep } = useCep()
 
 const emailRules = [
-  (v: string) => (!v ? 'E-mail is required' : true),
-  (v: string) => (!/.+@.+\..+/.test(v) ? 'E-mail is invalid' : true),
+  (v: string) => (!!v || t('validation.email_required')),
+  (v: string) => (/.+@.+\..+/.test(v) || t('validation.email_invalid')),
 ]
 const birth_date_rule = [
-  (v: string) => (!!v ? true : 'Birth date is required'),
-  (v: string) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) ? true : 'Formato inválido (DD/MM/AAAA)')
+  (v: string) => (!!v || t('validation.birth_date_required')),
+  (v: string) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) || t('validation.birth_date_invalid')),
 ]
 const opening_date_rule = [
-  (v: string) => (!!v ? true : 'Opening date is required'),
-  (v: string) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) ? true : 'Formato inválido (DD/MM/AAAA)')
+  (v: string) => (!!v || t('validation.opening_date_required')),
+  (v: string) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) || t('validation.opening_date_invalid')),
 ]
+
+const personTypeItems = ref<{ text: string; value: string }[]>([])
+watch(locale, () => {
+  personTypeItems.value = markRaw([
+    { text: t('supplier.person_type_individual'), value: 'individual' },
+    { text: t('supplier.person_type_legalentity'), value: 'legalentity' },
+  ])
+}, { immediate: true })
 const documentMask = computed(() => (payload.value?.person?.personType === 'legalentity' ? '##.###.###/####-##' : '###.###.###-##'))
 const carregandoCnpj = ref(false)
 const canLookupCnpj = computed(() => {
@@ -188,12 +222,12 @@ async function onSubmit() {
 
 async function onLookupCnpj() {
   if (payload.value?.person?.personType !== 'legalentity') {
-    erro.value = 'Consulta de CNPJ disponível apenas para legalentity.'
+    erro.value = t('messages.cnpj_only_legal')
     return
   }
   const clean = String(payload.value?.person?.documentNumber || '').replace(/\D/g, '')
   if (!/^\d{14}$/.test(clean)) {
-    erro.value = 'CNPJ inválido. Deve conter 14 números.'
+    erro.value = t('messages.cnpj_invalid')
     return
   }
   carregandoCnpj.value = true

@@ -27,11 +27,61 @@
       "view": "Visualizar",
       "edit": "Editar",
       "delete": "Excluir",
-      "no_results": "Nenhum fornecedor encontrado."
+      "no_results": "Nenhum fornecedor encontrado.",
+      "create_title": "Criar Fornecedor", 
+      "person_type": "Tipo de Pessoa",
+      "birth_date": "Data de Nascimento",
+      "opening_date": "Data de Abertura",
+      "type": "Tipo",
+      "size": "Tamanho",
+      "legal_nature": "Natureza Jurídica",
+      "contacts": "Contatos",
+      "addresses": "Endereços",
+      "cancel": "Cancelar",
+      "create": "Criar",
+      "lookup_cnpj": "Consultar CNPJ",
+      "detail_title": "Detalhes do Fornecedor",
+      "no_contacts": "Nenhum contato encontrado.",
+      "no_addresses": "Nenhum endereço encontrado.",
+      "primary": "Principal",
+      "person_section": "Pessoa",
+      "company_section": "Empresa",
+      "street": "Rua",
+      "district": "Bairro",
+      "city": "Cidade",
+      "state": "Estado",
+      "postal_code": "CEP",
+      "link_type": "Tipo de Link",
+      "value": "Valor",
+      "note": "Nota",
+      "add_address": "Adicionar Endereço",
+      "add_contact": "Adicionar Contato",
+      "phone": "Telefone",
+      "mobile": "Celular",
+      "whatsapp": "Whatsapp",
+      "customer": "Cliente",
+      "supplier": "Fornecedor",
+      "person": "Pessoa"
+
     },
     "common": {
       "search": "Buscar",
-      "clear": "Limpar"
+      "clear": "Limpar",
+      "back": "Voltar"
+    },
+    "validation": {
+      "required": "Campo obrigatório",
+      "email_required": "E-mail é obrigatório",
+      "email_invalid": "E-mail inválido",
+      "birth_date_required": "Data de nascimento é obrigatória",
+      "birth_date_invalid": "Formato inválido (DD/MM/AAAA)",
+      "opening_date_required": "Data de abertura é obrigatória",
+      "opening_date_invalid": "Formato inválido (DD/MM/AAAA)"
+    },
+    "messages": {
+      "cnpj_invalid": "CNPJ inválido. Deve conter 14 números.",
+      "cnpj_only_legal": "Consulta de CNPJ disponível apenas para pessoa jurídica.",
+      "error_creating": "Erro ao criar fornecedor"
     }
   }
   

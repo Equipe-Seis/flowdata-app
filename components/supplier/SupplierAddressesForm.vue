@@ -1,45 +1,96 @@
 <template>
-  <div>
+  <div :key="locale">
     <v-row v-for="(a, idx) in model" :key="idx" class="mb-2">
       <v-col cols="12" sm="6">
-        <v-text-field v-model="a.street" label="* Street" variant="outlined" hide-details  :rules="[v => !!v || 'Street is required']" require></v-text-field>
+        <v-text-field
+          v-model="a.street"
+          :label="`* ${t('supplier.street')}`"
+          variant="outlined"
+          hide-details
+          :rules="[requiredRule]"
+          required
+        ></v-text-field>
       </v-col>
+
       <v-col cols="12" sm="6">
-        <v-text-field v-model="a.district" label="*  District" variant="outlined" hide-details 
-        :rules="[v => !!v || 'District is required']"
-            required></v-text-field>
+        <v-text-field
+          v-model="a.district"
+          :label="`* ${t('supplier.district')}`"
+          variant="outlined"
+          hide-details
+          :rules="[requiredRule]"
+          required
+        ></v-text-field>
       </v-col>
+
       <v-col cols="12" sm="4">
-        <v-text-field v-model="a.city" label="* City" variant="outlined" hide-details  :rules="[v => !!v || 'City is required']"></v-text-field>
+        <v-text-field
+          v-model="a.city"
+          :label="`* ${t('supplier.city')}`"
+          variant="outlined"
+          hide-details
+          :rules="[requiredRule]"
+          required
+        ></v-text-field>
       </v-col>
+
       <v-col cols="12" sm="2">
-        <v-text-field v-model="a.state" label="*  State" variant="outlined" hide-details :rules="[v => !!v || 'State is required']"></v-text-field>
+        <v-text-field
+          v-model="a.state"
+          :label="`* ${t('supplier.state')}`"
+          variant="outlined"
+          hide-details
+          :rules="[requiredRule]"
+          required
+        ></v-text-field>
       </v-col>
+
       <v-col cols="12" sm="4">
         <v-text-field
           v-model="a.postalCode"
-          label="* Postal Code"
+          :label="`* ${t('supplier.postal_code')}`"
           variant="outlined"
           hide-details
           append-inner-icon="mdi-magnify"
           @click:append-inner="onLookup(idx)"
         ></v-text-field>
       </v-col>
-      <!--<v-col cols="12" sm="2">
-        <v-select :items="linkTypes" v-model="a.linkType" label="Link Type" variant="outlined" hide-details></v-select>
+
+      <!--
+      <v-col cols="12" sm="2">
+        <v-select
+          :items="linkTypes"
+          v-model="a.linkType"
+          :label="t('supplier.link_type')"
+          variant="outlined"
+          hide-details
+        ></v-select>
       </v-col>
       <v-col cols="12">
-        <v-btn color="error" variant="text" @click="remove(idx)">Remove</v-btn>
-      </v-col>-->
+        <v-btn color="error" variant="text" @click="remove(idx)">
+          {{ t('common.remove') }}
+        </v-btn>
+      </v-col>
+      -->
     </v-row>
-    <!--<v-btn color="primary" variant="text" @click="add">Add address</v-btn>-->
+
+    <!--
+    <v-btn color="primary" variant="text" @click="add">
+      {{ t('supplier.add_address') }}
+    </v-btn>
+    -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import type { SupplierAddress } from '~/models/supplier/SupplierCreate'
-import { useCep } from '~/composables/useCep'
+import type { SupplierAddress } from '../../models/supplier/SupplierCreate'
+import { useCep } from '../../composables/useCep'
+import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify'
+
+const { t, locale } = useI18n()
+const { mdAndDown } = useDisplay()
 
 const props = defineProps<{
   modelValue: SupplierAddress[]
@@ -53,6 +104,8 @@ const model = computed({
 
 const linkTypes = ['customer', 'supplier', 'person']
 const { lookup } = useCep()
+
+const requiredRule = (v: unknown) => !!v || t('validation.required')
 
 function add() {
   model.value = [...model.value, { street: '', district: '', city: '', state: '', postalCode: '', linkType: 'supplier' } as any]

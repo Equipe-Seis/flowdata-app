@@ -1,24 +1,39 @@
 <template>
-  <v-container>
-    <h1 class="text-h4 mb-4">Create Supplier</h1>
+  <v-container :key="locale">
+    <h1 class="text-h4 mb-4">{{ t('supplier.create_title') }}</h1>
+    
 
     <v-alert v-if="erro" type="error" class="mb-5">{{ erro }}</v-alert>
 
     <v-form ref="form" @submit.prevent="onSubmit" v-model="valid" lazy-validation>
       <v-row>
         <v-col cols="12" sm="8">
-          <v-text-field v-model="payload.person.name" label="* Name" :rules="[v => !!v || 'Required']" required />
+          <v-text-field
+            v-model="payload.person.name"
+            :label="`* ${t('supplier.name')}`"
+            :rules="[v => !!v || t('validation.required')]"
+            required
+          />
         </v-col>
         <v-col cols="12" sm="4">
-          <v-select v-model="payload.person.personType" :items="['individual','legalentity']" label="* Person Type" :rules="[v => !!v || 'Required']" required />
+          <v-select
+            v-model="payload.person.personType"
+            :items="personTypeItems"
+            item-title="text"
+            item-value="value"
+            :label="`* ${t('supplier.person_type')}`"
+            :rules="[v => !!v || t('validation.required')]"
+            required
+          />
         </v-col>
       </v-row>
+
       <v-row>
         <v-col cols="12" sm="6">
           <v-text-field
             v-model="payload.person.documentNumber"
-            label="* Document"
-            :rules="[v => !!v || 'Required']"
+            :label="`* ${t('supplier.document')}`"
+            :rules="[v => !!v || t('validation.required')]"
             required
             v-mask="documentMask"
           >
@@ -29,15 +44,22 @@
                 @click="onLookupCnpj"
                 :loading="carregandoCnpj"
                 color="primary"
-                aria-label="Consultar CNPJ"
+                :aria-label="t('supplier.lookup_cnpj')"
               >
                 <v-icon>mdi-magnify</v-icon>
               </v-btn>
             </template>
           </v-text-field>
         </v-col>
+
         <v-col cols="12" sm="6">
-          <v-text-field v-model="payload.person.email" label="* Email" type="email" :rules="emailRules" required />
+          <v-text-field
+            v-model="payload.person.email"
+            :label="`* ${t('supplier.email')}`"
+            type="email"
+            :rules="emailRules"
+            required
+          />
         </v-col>
       </v-row>
 
@@ -46,7 +68,7 @@
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="payload.person.birthDate"
-              label="* Birth date"
+              :label="`* ${t('supplier.birth_date')}`"
               :rules="birth_date_rule"
               v-mask="'##/##/####'"
             />
@@ -57,55 +79,84 @@
       <template v-if="payload.person.personType === 'legalentity'">
         <v-row>
           <v-col cols="12" sm="6">
-            <v-text-field v-model="payload.tradeName" label="* Trade Name" :rules="[v => !!v || 'Required']" required />
+            <v-text-field
+              v-model="payload.tradeName"
+              :label="`* ${t('supplier.trade_name')}`"
+              :rules="[v => !!v || t('validation.required')]"
+              required
+            />
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="payload.openingDate"
-              label="* Opening Date"
+              :label="`* ${t('supplier.opening_date')}`"
               v-mask="'##/##/####'"
               :rules="opening_date_rule"
               required
             />
           </v-col>
         </v-row>
+
         <v-row>
           <v-col cols="12" sm="4">
-            <v-text-field v-model="payload.type" label="* Type" :rules="[v => !!v || 'Required']" required  />
+            <v-text-field
+              v-model="payload.type"
+              :label="`* ${t('supplier.type')}`"
+              :rules="[v => !!v || t('validation.required')]"
+              required
+            />
           </v-col>
           <v-col cols="12" sm="4">
-            <v-text-field v-model="payload.size" label="* Size" :rules="[v => !!v || 'Required']" required />
+            <v-text-field
+              v-model="payload.size"
+              :label="`* ${t('supplier.size')}`"
+              :rules="[v => !!v || t('validation.required')]"
+              required
+            />
           </v-col>
           <v-col cols="12" sm="4">
-            <v-text-field v-model="payload.legalNature" label="*Legal Nature" :rules="[v => !!v || 'Required']" required />
+            <v-text-field
+              v-model="payload.legalNature"
+              :label="`* ${t('supplier.legal_nature')}`"
+              :rules="[v => !!v || t('validation.required')]"
+              required
+            />
           </v-col>
         </v-row>
       </template>
 
-      <h2 class="text-h6 mt-6">Contacts</h2>
+      <h2 class="text-h6 mt-6">{{ t('supplier.contacts') }}</h2>
       <v-divider class="mb-4"></v-divider>
       <SupplierContactsForm v-model="payload.contacts" />
 
-      <h2 class="text-h6 mt-6">Addresses</h2>
+      <h2 class="text-h6 mt-6">{{ t('supplier.addresses') }}</h2>
       <v-divider class="mb-4"></v-divider>
       <SupplierAddressesForm v-model="payload.addresses" />
 
       <div class="d-flex justify-end ga-4">
-        <v-btn class="me-2" @click="router.back()">Cancel</v-btn>
-        <v-btn type="submit" color="primary" :disabled="!valid" :loading="loading">Create</v-btn>
+        <v-btn class="me-2" @click="router.back()">{{ t('supplier.cancel') }}</v-btn>
+        <v-btn type="submit" color="primary" :disabled="!valid" :loading="loading">
+          {{ t('supplier.create') }}
+        </v-btn>
       </div>
     </v-form>
   </v-container>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import SupplierContactsForm from '~/components/supplier/SupplierContactsForm.vue'
 import SupplierAddressesForm from '~/components/supplier/SupplierAddressesForm.vue'
 import { useSupplierCreate } from '~/composables/supplier/useSupplierCreate'
 import { useCnpj } from '~/composables/useCnpj'
 import { useCep } from '~/composables/useCep'
+import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify'
+
+const { t, locale } = useI18n()
+
+
 
 definePageMeta({
   layout: 'default',
@@ -117,37 +168,58 @@ const form = ref(null)
 const valid = ref(false)
 const erro = ref('')
 
+const { mdAndDown } = useDisplay()
+const personTypeItems = ref([])
+watch(locale, () => {
+  personTypeItems.value = markRaw([
+  { text: t('supplier.person_type_individual'), value: 'individual' },
+  { text: t('supplier.person_type_legalentity'), value: 'legalentity' },
+  ])
+}, { immediate: true })
 const { payload, loading, error, submit } = useSupplierCreate()
 const { lookup: lookupCnpj } = useCnpj()
 const { lookup: lookupCep } = useCep()
 const carregandoCnpj = ref(false)
+
+
+
 const canLookupCnpj = computed(() => {
   const personType = payload.value?.person?.personType
   if (personType !== 'legalentity') return false
   const clean = String(payload.value?.person?.documentNumber || '').replace(/\D/g, '')
   return /^\d{14}$/.test(clean)
 })
-const documentMask = computed(() => (payload.value?.person?.personType === 'legalentity' ? '##.###.###/####-##' : '###.###.###-##'))
+
+
+const documentMask = computed(() =>
+  payload.value?.person?.personType === 'legalentity' ? '##.###.###/####-##' : '###.###.###-##'
+)
+
 
 const emailRules = [
-  (v) => (!v ? 'E-mail is required' : true),
-  (v) => (!/.+@.+\..+/.test(v) ? 'E-mail is invalid' : true),
+  (v) => (!!v || t('validation.email_required')),
+  (v) => (/.+@.+\..+/.test(v) || t('validation.email_invalid')),
 ]
+
+
 const birth_date_rule = [
-  (v) => (!!v ? true : 'Birth date is required'),
-  (v) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) ? true : 'Formato inválido (DD/MM/AAAA)')
+  (v) => (!!v || t('validation.birth_date_required')),
+  (v) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) || t('validation.birth_date_invalid')),
 ]
+
 const opening_date_rule = [
-  (v) => (!!v ? true : 'Opening date is required'),
-  (v) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) ? true : 'Formato inválido (DD/MM/AAAA)')
+  (v) => (!!v || t('validation.opening_date_required')),
+  (v) => (/^\d{2}\/\d{2}\/\d{4}$/.test(v) || t('validation.opening_date_invalid')),
 ]
 
 async function onSubmit() {
   erro.value = ''
-  const { valid: isValid } = await form.value.validate()
+  const isValid = await form.value.validate()
   if (!isValid) return
 
   const todayIso = new Date().toISOString().slice(0, 10)
+
+
   if (payload.value?.person?.personType === 'legalentity') {
     if (!payload.value.person.birthDate) {
       payload.value.person.birthDate = todayIso
@@ -158,6 +230,7 @@ async function onSubmit() {
       payload.value.openingDate = todayIso
     }
   }
+
 
   if (payload.value?.person?.personType === 'individual' && payload.value.person.birthDate) {
     const parts = String(payload.value.person.birthDate).split('/')
@@ -179,33 +252,45 @@ async function onSubmit() {
   if (ok) {
     router.push('/suppliers/suppliers')
   } else {
-    erro.value = error.value || 'Error creating supplier'
+   
+    erro.value = error.value || t('messages.error_creating')
   }
 }
 
 async function onLookupCnpj() {
   if (payload.value?.person?.personType !== 'legalentity') {
-    erro.value = 'Consulta de CNPJ disponível apenas para legalentity.'
+    erro.value = t('messages.cnpj_only_legal')
     return
   }
   const clean = String(payload.value?.person?.documentNumber || '').replace(/\D/g, '')
   if (!/^\d{14}$/.test(clean)) {
-    erro.value = 'CNPJ inválido. Deve conter 14 números.'
+    erro.value = t('messages.cnpj_invalid')
     return
   }
+
   carregandoCnpj.value = true
   erro.value = ''
   try {
     const data = await lookupCnpj(clean)
     if (!data) return
     if (!payload.value) return
+
+ 
     payload.value.person.name = data.nome || payload.value.person.name
     payload.value.tradeName = data.fantasia || payload.value.tradeName
     payload.value.person.email = data.email || payload.value.person.email
+
     if (data.cep) {
       const onlyDigits = String(data.cep).replace(/\D/g, '')
       if (payload.value.addresses.length === 0) {
-        payload.value.addresses.push({ street: '', district: '', city: '', state: '', postalCode: '', linkType: 'supplier' })
+        payload.value.addresses.push({
+          street: '',
+          district: '',
+          city: '',
+          state: '',
+          postalCode: '',
+          linkType: 'supplier',
+        })
       }
       payload.value.addresses[0].postalCode = onlyDigits
       const cepData = await lookupCep(onlyDigits)
@@ -222,7 +307,5 @@ async function onLookupCnpj() {
 }
 </script>
 
-<style scoped>
-</style>
-
+<style scoped></style>
 

@@ -27,11 +27,60 @@
       "view": "View",
       "edit": "Edit",
       "delete": "Delete",
-      "no_results": "No suppliers found."
+      "no_results": "No suppliers found.",
+      "create_title": "Create Supplier",
+      "person_type": "Person Type",
+      "birth_date": "Birth Date",
+      "opening_date": "Opening Date",
+      "type": "Type",
+      "size": "Size",
+      "legal_nature": "Legal Nature",
+      "contacts": "Contacts",
+      "addresses": "Addresses",
+      "cancel": "Cancel",
+      "create": "Create",
+      "lookup_cnpj": "Lookup CNPJ",
+      "detail_title": "Supplier Details",
+      "no_addresses": "No addresses found.",
+      "no_contacts": "No contacts found.",
+      "primary": "Primary",
+      "person_section": "Person",
+      "company_section": "Company",
+      "street": "Street",
+      "district": "District",
+      "city": "City",
+      "state": "State",
+      "postal_code": "Postal Code",
+      "link_type": "Link Type",
+      "value": "Value",
+      "note": "Note",
+      "add_address": "Add Address",
+      "add_contact": "Add Contact",
+      "phone": "Phone",
+      "mobile": "Mobile",
+      "whatsapp": "Whatsapp",
+      "customer": "Customer",
+      "supplier": "Supplier",
+      "person": "Person"
     },
     "common": {
       "search": "Search",
-      "clear": "Clear"
+      "clear": "Clear",
+      "back": "Back"
+    },
+    "validation": {
+      "required": "Required field",
+      "email_required": "E-mail is required",
+      "email_invalid": "Invalid e-mail",
+      "birth_date_required": "Birth date is required",
+      "birth_date_invalid": "Invalid format (DD/MM/YYYY)",
+      "opening_date_required": "Opening date is required",
+      "opening_date_invalid": "Invalid format (DD/MM/YYYY)"
+    },
+    "messages": {
+      "cnpj_invalid": "Invalid CNPJ. Must contain 14 digits.",
+      "cnpj_only_legal": "CNPJ lookup is only available for legal entities.",
+      "error_creating": "Error creating supplier"
     }
   }
   

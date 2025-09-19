@@ -116,7 +116,7 @@ definePageMeta({
 const router = useRouter()
 const route = useRoute()
 const { t, locale } = useI18n()
-const { mdAndDown } = useDisplay() // 👈 true em mobile/tablet
+const { mdAndDown } = useDisplay() 
 
 const { list, total, loading, load } = useSuppliers()
 const suppliers = list

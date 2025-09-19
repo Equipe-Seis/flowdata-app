@@ -1,39 +1,70 @@
 {
   "dashboard": {
-    "welcome": "Welcome to",
-    "logged_as": "You are logged in as: {role}",
-    "admin_panel": "Welcome to the admin panel.",
-    "description": "This system allows full management of industrial supplies, from supplier and product registration to inventory control, purchases, receiving, movement, and quality analysis — aiming to optimize processes and support strategic decision-making. Our solution provides efficient control for your company's needs.",
-    "quick_actions": "Quick Actions",
-    "new_supplier": "New Supplier",
-    "new_supply": "New Supply",
-    "manage_orders": "Manage Orders",
-    "total_suppliers":"Total Suppliers"
+    "welcome": "Bem-vindo(a) ao",
+    "logged_as": "Você está logado como: {role}",
+    "admin_panel": "Bem-vindo(a) ao painel administrativo.",
+    "description": "Este sistema permite a gestão completa de insumos industriais, desde o cadastro de fornecedores e produtos até o controle de estoque, compras, recebimento, movimentação e análises de qualidade, buscando otimizar os processos e auxiliar na tomada de decisões estratégicas. Nossa solução visa oferecer um controle eficiente para as necessidades da sua empresa.",
+    "quick_actions": "Ações Rápidas",
+    "new_supplier": "Novo Fornecedor",
+    "new_supply": "Novo Insumo",
+    "manage_orders": "Gerenciar Pedidos",
+    "total_suppliers": "Total de Fornecedores"
   },
   "supplier": {
-    "page_title": "Suppliers",
-    "new": "New Supplier",
-    "filters": "Filters",
-    "search_placeholder": "Search by name, email, document",
+    "page_title": "Fornecedores",
+    "new": "Novo Fornecedor",
+    "filters": "Filtros",
+    "search_placeholder": "Buscar por nome, email, documento",
     "id": "ID",
-    "name": "Name",
-    "trade_name": "Trade Name",
-    "email": "Email",
-    "document": "Document",
+    "name": "Nome",
+    "trade_name": "Nome Fantasia",
+    "email": "E-mail",
+    "document": "Documento",
     "status": "Status",
-    "actions": "Actions",
-    "active": "Active",
-    "inactive": "Inactive",
-    "view": "View",
-    "edit": "Edit",
-    "delete": "Delete",
-    "no_results": "No suppliers found."
+    "actions": "Ações",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "view": "Visualizar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "no_results": "Nenhum fornecedor encontrado.",
+    "create_title": "Criar Fornecedor",
+    "detail_title": "Detalhes do Fornecedor",         
+    "person_type": "Tipo de Pessoa",
+    "person_type_individual": "Pessoa Física",
+    "person_type_legalentity": "Pessoa Jurídica",
+    "birth_date": "Data de Nascimento",
+    "opening_date": "Data de Abertura",
+    "type": "Tipo",
+    "size": "Tamanho",
+    "legal_nature": "Natureza Jurídica",
+    "contacts": "Contatos",
+    "addresses": "Endereços",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "person_section": "Pessoa",                  
+    "company_section": "Empresa",                     
+    "primary": "Principal"                             
   },
   "common": {
-    "search": "Search",
-    "clear": "Clear"
+    "search": "Buscar",
+    "clear": "Limpar",
+    "back": "Voltar",                                  
+    "edit": "Editar",                                 
+    "delete": "Excluir"                               
+  },
+  "validation": {
+    "required": "Campo obrigatório",
+    "email_required": "E-mail é obrigatório",
+    "email_invalid": "E-mail inválido",
+    "birth_date_required": "Data de nascimento é obrigatória",
+    "birth_date_invalid": "Formato inválido (DD/MM/AAAA)",
+    "opening_date_required": "Data de abertura é obrigatória",
+    "opening_date_invalid": "Formato inválido (DD/MM/AAAA)"
+  },
+  "messages": {
+    "cnpj_invalid": "CNPJ inválido. Deve conter 14 números.",
+    "cnpj_only_legal": "Consulta de CNPJ disponível apenas para pessoa jurídica.",
+    "error_creating": "Erro ao criar fornecedor"
   }
 }
-
-
-

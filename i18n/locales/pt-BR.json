@@ -8,7 +8,7 @@
     "new_supplier": "Novo Fornecedor",
     "new_supply": "Novo Insumo",
     "manage_orders": "Gerenciar Pedidos",
-    "total_suppliers":"Total de Fornecedores"
+    "total_suppliers": "Total de Fornecedores"
   },
   "supplier": {
     "page_title": "Fornecedores",
@@ -27,13 +27,45 @@
     "view": "Visualizar",
     "edit": "Editar",
     "delete": "Excluir",
-    "no_results": "Nenhum fornecedor encontrado."
+    "no_results": "Nenhum fornecedor encontrado.",
+    "create_title": "Criar Fornecedor",
+    "detail_title": "Detalhes do Fornecedor",       
+    "person_type": "Tipo de Pessoa",
+    "person_type_individual": "Pessoa Física",
+    "person_type_legalentity": "Pessoa Jurídica",
+    "birth_date": "Data de Nascimento",
+    "opening_date": "Data de Abertura",
+    "type": "Tipo",
+    "size": "Tamanho",
+    "legal_nature": "Natureza Jurídica",
+    "contacts": "Contatos",
+    "addresses": "Endereços",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "person_section": "Pessoa",                       
+    "company_section": "Empresa",                     
+    "primary": "Principal"                            
   },
   "common": {
     "search": "Buscar",
-    "clear": "Limpar"
+    "clear": "Limpar",
+    "back": "Voltar",                                  
+    "edit": "Editar",                                 
+    "delete": "Excluir"                                
+  },
+  "validation": {
+    "required": "Campo obrigatório",
+    "email_required": "E-mail é obrigatório",
+    "email_invalid": "E-mail inválido",
+    "birth_date_required": "Data de nascimento é obrigatória",
+    "birth_date_invalid": "Formato inválido (DD/MM/AAAA)",
+    "opening_date_required": "Data de abertura é obrigatória",
+    "opening_date_invalid": "Formato inválido (DD/MM/AAAA)"
+  },
+  "messages": {
+    "cnpj_invalid": "CNPJ inválido. Deve conter 14 números.",
+    "cnpj_only_legal": "Consulta de CNPJ disponível apenas para pessoa jurídica.",
+    "error_creating": "Erro ao criar fornecedor"
   }
 }
-
-
 
