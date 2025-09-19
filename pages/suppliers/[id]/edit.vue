@@ -103,8 +103,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import SupplierContactsForm from '~/components/SupplierContactsForm.vue'
-import SupplierAddressesForm from '~/components/SupplierAddressesForm.vue'
+import SupplierContactsForm from '~/components/supplier/SupplierContactsForm.vue'
+import SupplierAddressesForm from '~/components/supplier/SupplierAddressesForm.vue'
 import { useSupplierEdit } from '~/composables/supplier/useSupplierEdit'
 import { useCnpj } from '~/composables/useCnpj'
 import { useCep } from '~/composables/useCep'
