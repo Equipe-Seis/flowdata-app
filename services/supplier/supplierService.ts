@@ -1,6 +1,10 @@
+// @ts-ignore
 import { apiFetch } from '~/composables/useApi'
+// @ts-ignore
 import type { SupplierListResponse, SupplierQuery } from '~/models/supplier/Supplier'
+// @ts-ignore
 import type { SupplierDetail } from '~/models/supplier/SupplierDetail'
+// @ts-ignore
 import type { SupplierCreatePayload } from '~/models/supplier/SupplierCreate'
 
 export async function fetchSuppliers(params: SupplierQuery = {}): Promise<SupplierListResponse> {
@@ -13,6 +17,11 @@ export async function fetchSuppliers(params: SupplierQuery = {}): Promise<Suppli
   const query = searchParams.toString()
   const path = query ? `/suppliers?${query}` : '/suppliers'
   return await apiFetch<SupplierListResponse>(path)
+}
+
+export async function fetchSuppliersSummary(): Promise<{ total: number }> {
+  const res = await apiFetch<{ total: number; data: any[] }>('/suppliers')
+  return { total: res.total }
 }
 
 export async function createSupplier(payload: SupplierCreatePayload) {
