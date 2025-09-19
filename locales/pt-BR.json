@@ -76,7 +76,9 @@
       "birth_date_required": "Data de nascimento é obrigatória",
       "birth_date_invalid": "Formato inválido (DD/MM/AAAA)",
       "opening_date_required": "Data de abertura é obrigatória",
-      "opening_date_invalid": "Formato inválido (DD/MM/AAAA)"
+      "opening_date_invalid": "Formato inválido (DD/MM/AAAA)",
+      "invalid_email": "E-mail inválido.",
+      "min_length": "Mínimo de {min} caracteres."
     },
     "messages": {
       "cnpj_invalid": "CNPJ inválido. Deve conter 14 números.",
@@ -84,16 +86,22 @@
       "error_creating": "Erro ao criar fornecedor"
     },
     "user":{
-        "page_title": "Usuários",
-        "new": "Novo Usuário",
-        "filters": "Filtros",
-        "search_placeholder": "Buscar por nome ou e-mail",
-        "no_results": "Nenhum usuário encontrado.",
-        "id": "ID",
-        "name": "Nome",
-        "email": "E-mail",
-        "actions": "Ações",
-        "confirm_delete": "Deseja realmente excluir este usuário?"
+      "page_title": "Usuários",
+      "create_title": "Criar Usuário",
+      "new": "Novo Usuário",
+      "filters": "Filtros",
+      "search_placeholder": "Buscar por nome ou e-mail",
+      "no_results": "Nenhum usuário encontrado.",
+      "id": "ID",
+      "name": "Nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "profile": "Perfil",
+      "document": "Documento",
+      "birth_date": "Data de Nascimento",
+      "status": "Status",
+      "actions": "Ações",
+      "confirm_delete": "Deseja realmente excluir este usuário?"
     }
   }
   

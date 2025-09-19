@@ -76,7 +76,9 @@
       "birth_date_required": "Birth date is required",
       "birth_date_invalid": "Invalid format (DD/MM/YYYY)",
       "opening_date_required": "Opening date is required",
-      "opening_date_invalid": "Invalid format (DD/MM/YYYY)"
+      "opening_date_invalid": "Invalid format (DD/MM/YYYY)",
+      "invalid_email": "Invalid email address.",
+  "min_length": "Minimum of {min} characters."
     },
     "messages": {
       "cnpj_invalid": "Invalid CNPJ. Must contain 14 digits.",
@@ -85,6 +87,7 @@
     },
     "user":{
       "page_title": "Users",
+      "create_title": "Create User",
       "new": "New User",
       "filters": "Filters",
       "search_placeholder": "Search by name or email",
@@ -92,6 +95,11 @@
       "id": "ID",
       "name": "Name",
       "email": "Email",
+      "password": "Password",
+      "profile": "Profile",
+      "document": "Document",
+      "birth_date": "Birth Date",
+      "status": "Status",
       "actions": "Actions",
       "confirm_delete": "Do you really want to delete this user?"
     }
