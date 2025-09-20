@@ -76,10 +76,10 @@
     },
     "supply": {
       "create_title": "Create Supply Item",
-      "name": "* Name",
-      "code": "* Code",
-      "price": "* Price",
-      "description": "* Description",
+      "name": "Name",
+      "code": "Code",
+      "price": "Price",
+      "description": "Description",
       "supplies_title": "Supplies",
       "new_supply": "New Supply",
       "filters": "Filters",
@@ -103,7 +103,10 @@
       "inactive": "Inactive",
       "save": "Save",
       "delete_confirmation": "Are you sure you want to delete this item?",
-      "view": "View"
+      "view": "View",
+      "logout": "Logout",
+      "actions": "Actions",
+      "no_data": "No data found"
 
     },
     "validation": {

@@ -18,7 +18,7 @@
       <v-card-text>
         <v-form>
           <v-row>
-            <v-col cols="12" sm="8">
+            <v-col cols="12" sm="12">
               <v-text-field
                 v-model="search"
                 hide-details
@@ -27,7 +27,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <div class="d-flex justify-start ga-4">
+          <div class="d-flex justify-end ga-4 mt-4">
             <v-btn color="primary" @click.prevent="applyFilters">{{ $t('common.search') }}</v-btn>
             <v-btn class="me-2" @click.prevent="clearFilters">{{ $t('common.clear') }}</v-btn>
           </div>

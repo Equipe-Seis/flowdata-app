@@ -103,7 +103,10 @@
     "inactive": "Inativo",
     "save": "Salvar",
     "delete_confirmation": "Deseja realmente excluir este item?",
-    "view": "Visualizar"
+    "view": "Visualizar",
+    "logout": "Sair",
+    "actions": "Ações",
+    "no_data": "Nenhum dado encontrado"
   },
   "validation": {
     "required": "Campo obrigatório",
