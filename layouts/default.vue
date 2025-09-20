@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :key="locale">
     <v-navigation-drawer v-model="drawer" app temporary width="256">
       <v-list nav dense>
         <v-list-item class="px-4 py-2" title="Menu" />
@@ -54,6 +54,7 @@
 
     <v-main>
       <v-container class="pa-4">
+        <!--<v-chip size="small" color="secondary" variant="flat">Locale: {{ locale }}</v-chip>-->
         <slot />
       </v-container>
     </v-main>
@@ -66,6 +67,7 @@ import { useRouter } from 'vue-router';
 import { useAuth } from '~/composables/useAuth';
 import { useDisplay } from 'vuetify';
 import { navigateTo } from 'nuxt/app';
+import { useI18n } from 'vue-i18n';
 import UserDetails from '~/components/UserDetails.vue'
 
 const router = useRouter();

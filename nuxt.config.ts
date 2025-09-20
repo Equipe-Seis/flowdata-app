@@ -1,6 +1,5 @@
-// nuxt.config.ts
-import { defineNuxtConfig } from "nuxt/config"
-import vuetify, { transformAssetUrls } from "vite-plugin-vuetify"
+import { defineNuxtConfig } from "nuxt/config";
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   ssr: false,
@@ -8,17 +7,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   devServer: {
-    port: 3001
+    port: 3001,
   },
 
   build: {
     transpile: ["vuetify"],
   },
 
-  css: [
-    "vuetify/styles",           // necessário para Vuetify
-    "~/assets/main.css"
-  ],
+  css: ["vuetify/styles", "~/assets/main.css"],
 
   modules: [
     "@nuxtjs/i18n",
@@ -36,36 +32,31 @@ export default defineNuxtConfig({
   ],
 
   i18n: {
-    langDir: 'locales/',
-    lazy: true,
+    langDir: 'locales', // pasta onde estão os arquivos JSON
     defaultLocale: 'pt-BR',
+    strategy: 'no_prefix', // ou 'prefix_except_default' se quiser /en/ na URL
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       alwaysRedirect: false,
-      fallbackLocale: 'pt-BR',
+      fallbackLocale: 'pt-BR'
     },
     locales: [
       {
         code: 'pt-BR',
         file: 'pt-BR.json',
-        iso: 'pt-BR',
         name: 'Português'
       },
       {
         code: 'en',
         file: 'en.json',
-        iso: 'en-US',
         name: 'English'
       }
-    ],
-    vueI18n: './i18n.config.ts'
+    ]
   },
 
   vite: {
-    plugins: [
-      vuetify({ autoImport: true }) 
-    ],
+    plugins: [vuetify({ autoImport: true })],
     vue: {
       template: {
         transformAssetUrls,
@@ -76,14 +67,14 @@ export default defineNuxtConfig({
     },
     resolve: {
       alias: {
-        crypto: 'crypto-browserify'
-      }
-    }
+        crypto: 'crypto-browserify',
+      },
+    },
   },
 
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE_URL || 'http://localhost:3000'
-    }
-  }
-})
+      apiBase: process.env.API_BASE_URL || 'http://localhost:3000',
+    },
+  },
+});

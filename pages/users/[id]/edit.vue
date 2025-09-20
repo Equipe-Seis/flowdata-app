@@ -65,7 +65,7 @@
   v-model="form.profiles"
   :label="t('user.profile')"
   :items="profileItems"
-  :item-title="(item) => t(`profile.${item.name}`)"
+  :item-title="(item) => t(item.name)"
   item-value="id"
   :rules="[rules.required]"
 />
@@ -111,7 +111,7 @@
   const { payload: form, load, submit, loading, error } = useUserEdit()
   const { list: profileList, load: loadProfiles } = useProfiles()
   
-    import { markRaw, watch, Ref } from 'vue'
+    import { markRaw, watch} from 'vue'
 
     type StatusItem = { text: string; value: string }
 

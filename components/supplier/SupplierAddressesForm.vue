@@ -4,86 +4,63 @@
       <v-col cols="12" sm="6">
         <v-text-field
           v-model="a.street"
-          :label="`* ${t('supplier.street')}`"
+          :label="streetLabel"
           variant="outlined"
           hide-details
           :rules="[requiredRule]"
           required
-        ></v-text-field>
+        />
       </v-col>
 
       <v-col cols="12" sm="6">
         <v-text-field
           v-model="a.district"
-          :label="`* ${t('supplier.district')}`"
+          :label="districtLabel"
           variant="outlined"
           hide-details
           :rules="[requiredRule]"
           required
-        ></v-text-field>
+        />
       </v-col>
 
       <v-col cols="12" sm="4">
         <v-text-field
           v-model="a.city"
-          :label="`* ${t('supplier.city')}`"
+          :label="cityLabel"
           variant="outlined"
           hide-details
           :rules="[requiredRule]"
           required
-        ></v-text-field>
+        />
       </v-col>
 
       <v-col cols="12" sm="2">
         <v-text-field
           v-model="a.state"
-          :label="`* ${t('supplier.state')}`"
+          :label="stateLabel"
           variant="outlined"
           hide-details
           :rules="[requiredRule]"
           required
-        ></v-text-field>
+        />
       </v-col>
 
       <v-col cols="12" sm="4">
         <v-text-field
           v-model="a.postalCode"
-          :label="`* ${t('supplier.postal_code')}`"
+          :label="postalCodeLabel"
           variant="outlined"
           hide-details
           append-inner-icon="mdi-magnify"
           @click:append-inner="onLookup(idx)"
-        ></v-text-field>
+        />
       </v-col>
-
-      <!--
-      <v-col cols="12" sm="2">
-        <v-select
-          :items="linkTypes"
-          v-model="a.linkType"
-          :label="t('supplier.link_type')"
-          variant="outlined"
-          hide-details
-        ></v-select>
-      </v-col>
-      <v-col cols="12">
-        <v-btn color="error" variant="text" @click="remove(idx)">
-          {{ t('common.remove') }}
-        </v-btn>
-      </v-col>
-      -->
     </v-row>
-
-    <!--
-    <v-btn color="primary" variant="text" @click="add">
-      {{ t('supplier.add_address') }}
-    </v-btn>
-    -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import type { SupplierAddress } from '../../models/supplier/SupplierCreate'
 import { useCep } from '../../composables/useCep'
 import { useI18n } from 'vue-i18n'
@@ -91,6 +68,11 @@ import { useDisplay } from 'vuetify'
 
 const { t, locale } = useI18n()
 const { mdAndDown } = useDisplay()
+
+// 👇 Debug opcional: loga quando o idioma muda
+watch(locale, (newLocale) => {
+  console.log('[SupplierAddressesForm] Idioma mudou para:', newLocale)
+})
 
 const props = defineProps<{
   modelValue: SupplierAddress[]
@@ -105,11 +87,27 @@ const model = computed({
 const linkTypes = ['customer', 'supplier', 'person']
 const { lookup } = useCep()
 
+// ✅ Labels traduzidos reativos
+const streetLabel = computed(() => `* ${t('supplier.street')}`)
+const districtLabel = computed(() => `* ${t('supplier.district')}`)
+const cityLabel = computed(() => `* ${t('supplier.city')}`)
+const stateLabel = computed(() => `* ${t('supplier.state')}`)
+const postalCodeLabel = computed(() => `* ${t('supplier.postal_code')}`)
+
+// ✅ Validação traduzida reativa
 const requiredRule = (v: unknown) => !!v || t('validation.required')
 
 function add() {
-  model.value = [...model.value, { street: '', district: '', city: '', state: '', postalCode: '', linkType: 'supplier' } as any]
+  model.value = [...model.value, {
+    street: '',
+    district: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    linkType: 'supplier'
+  } as SupplierAddress]
 }
+
 function remove(idx: number) {
   const copy = [...model.value]
   copy.splice(idx, 1)
@@ -136,5 +134,3 @@ onMounted(() => {
 
 <style scoped>
 </style>
-
-
