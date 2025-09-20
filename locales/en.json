@@ -101,7 +101,9 @@
       "birth_date": "Birth Date",
       "status": "Status",
       "actions": "Actions",
-      "confirm_delete": "Do you really want to delete this user?"
+      "confirm_delete": "Do you really want to delete this user?",
+      "edit_title": "Edit User"
+
     }
   }
   

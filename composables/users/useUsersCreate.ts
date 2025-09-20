@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { createUser as createUserService } from '~/services/users/userManagementService'
-import type { CreateUserPayload, User } from '~/models/user/User'
-
+import type {  User } from '~/models/user/User'
+import type { CreateUserPayload } from '~/models/users/UsersCreate'
 export function useUser() {
   const loading = ref(false)
   const error = ref<Error | null>(null)

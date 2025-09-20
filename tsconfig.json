@@ -1,13 +1,18 @@
 {
-  "extends": "nuxt/tsconfig.json",
+  "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "module": "ESNext",
     "target": "ES2019",
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"]
+    },
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["@types/node"]
+    "types": ["@types/node", "nuxt", "vite/client"]
   }
 }

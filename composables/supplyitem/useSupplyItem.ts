@@ -1,4 +1,4 @@
-//composables\supplyitem\useSupplyItem.ts
+
 import { useState } from 'nuxt/app'
 import { ref } from 'vue'
 import type { SupplyItem, SupplyItemListResponse, SupplyItemQuery } from '~/models/supplyitem/SupplyItem'

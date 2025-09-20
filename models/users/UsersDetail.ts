@@ -33,3 +33,8 @@ export interface Person {
     userProfiles: UserProfile[]
   }
   
+  export interface Profile {
+    id: number
+    name: string
+    description: string
+  }
