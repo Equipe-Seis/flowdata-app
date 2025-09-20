@@ -2,29 +2,27 @@
   <v-app :key="locale">
     <v-navigation-drawer v-model="drawer" app temporary width="256">
       <v-list nav dense>
-        <v-list-item class="px-4 py-2" title="Menu" />
+        <v-list-item class="px-4 py-2" :title="$t('menu.menu')" />
 
         <v-divider></v-divider>
         <v-list-item to="/dashboard" link @click="closeDrawerOnMobile" prepend-icon="mdi-view-dashboard"
-          title="Dashboard" color="primary" />
-        <v-list-item to="/fornecedores/fornecedores" link @click="closeDrawerOnMobile" prepend-icon="mdi-truck"
-          title="Fornecedores" color="primary" />
-        <v-list-item to="/suppliers/suppliers" link @click="closeDrawerOnMobile" prepend-icon="mdi-account-group"
-          title="Suppliers" color="primary" />
-        <v-list-item to="/insumos/insumos" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant"
-          title="Insumos" color="primary" />
+          :title="$t('menu.dashboard')" color="primary" />
+        
+        <v-list-item to="/suppliers/suppliers" link @click="closeDrawerOnMobile" prepend-icon="mdi-truck"
+          :title="$t('menu.suppliers')" color="primary" />
+       
         <v-list-item to="/supplyitem/supplyitem" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant"
-          title="Supply Item" color="primary" />
+          :title="$t('menu.supply_item')" color="primary" />
         <v-list-item to="/estoque/movimentacao_estoque" link @click="closeDrawerOnMobile" prepend-icon="mdi-package-variant-closed"
-          title="Estoque" color="primary" />
-          <v-list-item to="/users/users" link @click="closeDrawerOnMobile" prepend-icon="mdi-account-group"
-          title="Users" color="primary" />
+          :title="$t('menu.estoque')" color="primary" />
+        <v-list-item to="/users/users" link @click="closeDrawerOnMobile" prepend-icon="mdi-account-group"
+          :title="$t('menu.users')" color="primary" />
         
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
           <v-btn @click="logout" prepend-icon="mdi-logout" variant="outlined" block color="primary">
-            Sair
+            {{ $t('menu.logout') }}
           </v-btn>
         </div>
       </template>
@@ -47,7 +45,7 @@
             style="max-width: 140px;"
             class="text-caption"
           />
-          <v-btn icon="mdi-logout" color="accent" @click="logout"></v-btn>
+          <v-btn icon="mdi-logout" color="accent" @click="logout">{{ $t('menu.logout') }}</v-btn>
         </div>
       </template>
     </v-app-bar>

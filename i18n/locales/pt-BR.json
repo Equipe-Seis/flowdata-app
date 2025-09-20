@@ -1,4 +1,13 @@
 {
+  "menu": {
+    "menu": "Menu",
+    "dashboard": "Dashboard",
+    "suppliers": "Fornecedores",
+    "supply_item": "Insumo",
+    "estoque": "Estoque",
+    "users": "Usuários",
+    "logout": "Sair"
+  },
   "dashboard": {
     "welcome": "Bem-vindo(a) ao",
     "logged_as": "Você está logado como: {role}",
@@ -66,6 +75,21 @@
     "person_type_legalentity": "Pessoa Jurídica"
 
   },
+  "supply": {
+    "create_title": "Criar Insumo",
+    "name": "* Nome",
+    "code": "* Código",
+    "price": "* Preço",
+    "description": "* Descrição",
+    "supplies_title": "Insumos",
+    "new_supply": "Novo Insumo",
+    "filters": "Filtros",
+    "search_placeholder": "Buscar por nome, código",
+    "id": "ID",
+    "supply_item_detail": "Detalhes do Insumo",
+    "supply_details": "Detalhes do Insumo",
+    "edit_supply_item": "Editar Insumo"
+  },
   "common": {
     "search": "Buscar",
     "clear": "Limpar",
@@ -77,7 +101,9 @@
     "submit": "Submit",
     "active": "Ativo",
     "inactive": "Inativo",
-    "save": "Salvar"
+    "save": "Salvar",
+    "delete_confirmation": "Deseja realmente excluir este item?",
+    "view": "Visualizar"
   },
   "validation": {
     "required": "Campo obrigatório",
@@ -88,12 +114,14 @@
     "opening_date_required": "Data de abertura é obrigatória",
     "opening_date_invalid": "Formato inválido (DD/MM/AAAA)",
     "invalid_email": "E-mail inválido.",
-    "min_length": "Mínimo de {min} caracteres."
+    "min_length": "Mínimo de {min} caracteres.",
+    "gte_0": "Deve ser >= 0"
   },
   "messages": {
     "cnpj_invalid": "CNPJ inválido. Deve conter 14 números.",
     "cnpj_only_legal": "Consulta de CNPJ disponível apenas para pessoa jurídica.",
-    "error_creating": "Erro ao criar fornecedor"
+    "error_creating": "Erro ao criar fornecedor",
+    "error_updating": "Erro ao atualizar insumo"
   },
   "user":{
     "page_title": "Usuários",
@@ -112,7 +140,10 @@
     "status": "Status",
     "actions": "Ações",
     "confirm_delete": "Deseja realmente excluir este usuário?",
-    "edit_title": "Editar Usuário"
+    "edit_title": "Editar Usuário",
+    "view_title": "Visualizar Usuário"
+   
+
 
   },
   "admin": "Administrador",

@@ -3,18 +3,18 @@
     <v-row>
       <v-col>
         <div class="mt-10">
-          <h1 class="text-h4 mb-4">Supplies</h1>
+          <h1 class="text-h4 mb-4">{{ $t('supply.supplies_title') }}</h1>
         </div>
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
-          <v-btn color="primary" @click="goToCreate"> New Suppy </v-btn>
+          <v-btn color="primary" @click="goToCreate">{{ $t('supply.new_supply') }}</v-btn>
         </div>
       </v-col>
     </v-row>
 
     <v-card>
-      <v-card-title>Filters</v-card-title>
+      <v-card-title>{{ $t('supply.filters') }}</v-card-title>
       <v-card-text>
         <v-form>
           <v-row>
@@ -22,14 +22,14 @@
               <v-text-field
                 v-model="search"
                 hide-details
-                label="Search by name,code"
+                :label="$t('supply.search_placeholder')"
                 variant="outlined"
               ></v-text-field>
             </v-col>
           </v-row>
           <div class="d-flex justify-start ga-4">
-            <v-btn color="primary" @click.prevent="applyFilters">Search</v-btn>
-            <v-btn class="me-2" @click.prevent="clearFilters">Clear</v-btn>
+            <v-btn color="primary" @click.prevent="applyFilters">{{ $t('common.search') }}</v-btn>
+            <v-btn class="me-2" @click.prevent="clearFilters">{{ $t('common.clear') }}</v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -39,7 +39,7 @@
       <v-card-text>
         <v-data-table
           :headers="headers"
-          :items="supplyitem  || []"
+          :items="supplyitem || []"
           v-model:page="page"
           v-model:items-per-page="limit"
           :items-length="total"
@@ -63,42 +63,41 @@
                   color="primary"
                   icon="mdi-eye"
                   @click="viewSupplyitem(item.id)"
-                  title="View Supplyitem"
+                  :title="$t('common.view')"
                 ></v-btn>
                 <!--<v-btn
                   size="small"
                   color="secondary"
                   icon="mdi-file-document-edit-outline"
                   @click="editSupplyitem(item.id)"
-                  title="Edit Supplyitem"
+                  :title="$t('common.edit')"
                 ></v-btn>-->
               </td>
             </tr>
 
             <div class="d-md-none pa-2 my-2 border rounded">
-              <div><strong>ID:</strong> {{ item.id }}</div>
-              <div><strong>Name:</strong> {{ item.name }}</div>
-              <div><strong>Code:</strong> {{ item.code }}</div>
-              <div><strong>Price:</strong> {{ item.price }}</div>
-              <div><strong>Description:</strong> {{ item.description }}</div>
+              <div><strong>{{ $t('supply.id') }}:</strong> {{ item.id }}</div>
+              <div><strong>{{ $t('supply.name') }}:</strong> {{ item.name }}</div>
+              <div><strong>{{ $t('supply.code') }}:</strong> {{ item.code }}</div>
+              <div><strong>{{ $t('supply.price') }}:</strong> {{ item.price }}</div>
+              <div><strong>{{ $t('supply.description') }}:</strong> {{ item.description }}</div>
               <div class="mt-2">
                 <!--<v-btn
                   size="small"
                   color="primary"
                   icon="mdi-file-document-edit-outline"
                   @click="editSupplyitem(item.id)"
-                  title="Edit Supplyitem"
+                  :title="$t('common.edit')"
                 ></v-btn>-->
               </div>
             </div>
           </template>
 
-          <template #no-data> No supplies found. </template>
+          <template #no-data>{{ $t('common.no_data') }}</template>
         </v-data-table>
       </v-card-text>
     </v-card>
   </v-container>
-  
 </template>
 
 <script setup>
@@ -116,16 +115,15 @@ definePageMeta({
 
 const { list, total, loading, error, load } = useSupplyItem()
 
-// Corrigido: computed para transformar ref em valor simples
 const supplyitem = computed(() => list.value || [])
 
 const headers = [
-  { title: 'ID', key: 'id' },
-  { title: 'Name', key: 'name' },
-  { title: 'Code', key: 'code' },
-  { title: 'Price', key: 'price' },
-  { title: 'Description', key: 'description' },
-  { title: 'Actions', key: 'actions', sortable: false }
+  { title: $t('supply.id'), key: 'id' },
+  { title: $t('supply.name'), key: 'name' },
+  { title: $t('supply.code'), key: 'code' },
+  { title: $t('supply.price'), key: 'price' },
+  { title: $t('supply.description'), key: 'description' },
+  { title: $t('common.actions'), key: 'actions', sortable: false }
 ]
 
 const search = ref(route.query.search || '')
@@ -135,7 +133,6 @@ const limit = ref(Number(route.query.limit || 10))
 
 onMounted(() => {
   applyFilters(true)
-  console.log('supplyitem depois do carregamento:', supplyitem.value)
 })
 
 function applyFilters(initial = false) {
@@ -170,7 +167,6 @@ function viewSupplyitem(id) {
 function editSupplyitem(id) {
   router.push(`/supplyitem/${id}/edit`)
 }
-//async function deleteSupplyitem(id) {}
 
 function onPageChange(p) {
   page.value = p
@@ -192,5 +188,3 @@ function onLimitChange(l) {
   vertical-align: middle;
 }
 </style>
-
-

@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <h1 class="text-h4 mb-2">Supply Item Detail</h1>
+    <h1 class="text-h4 mb-2">{{ $t('supply.supply_item_detail') }}</h1>
 
     <div class="d-flex justify-end ga-2 mb-4">
-      <v-btn variant="text" @click="goBack">Back</v-btn>
-      <v-btn color="primary" @click="goToCreate">New Supply</v-btn>
-      <!--<v-btn color="secondary" @click="goToEdit">Edit</v-btn>-->
-      <!--<v-btn color="error" @click="confirmDelete">Delete</v-btn>-->
+      <v-btn variant="text" @click="goBack">{{ $t('common.back') }}</v-btn>
+      <v-btn color="primary" @click="goToCreate">{{ $t('supply.new_supply') }}</v-btn>
+      <!--<v-btn color="secondary" @click="goToEdit">{{ $t('common.edit') }}</v-btn>-->
+      <!--<v-btn color="error" @click="confirmDelete">{{ $t('common.delete') }}</v-btn>-->
     </div>
 
     <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert>
@@ -14,13 +14,13 @@
 
     <div v-else-if="item">
       <v-card>
-        <v-card-title>Supply Details</v-card-title>
+        <v-card-title>{{ $t('supply.supply_details') }}</v-card-title>
         <v-card-text>
-          <div><strong>ID:</strong> {{ item.id }}</div>
-          <div><strong>Name:</strong> {{ item.name }}</div>
-          <div><strong>Code:</strong> {{ item.code }}</div>
-          <div><strong>Price:</strong> {{ item.price }}</div>
-          <div><strong>Description:</strong> {{ item.description }}</div>
+          <div><strong>{{ $t('supply.id') }}:</strong> {{ item.id }}</div>
+          <div><strong>{{ $t('supply.name') }}:</strong> {{ item.name }}</div>
+          <div><strong>{{ $t('supply.code') }}:</strong> {{ item.code }}</div>
+          <div><strong>{{ $t('supply.price') }}:</strong> {{ item.price }}</div>
+          <div><strong>{{ $t('supply.description') }}:</strong> {{ item.description }}</div>
         </v-card-text>
       </v-card>
     </div>
@@ -59,7 +59,7 @@ function goToEdit() {
 }
 
 async function confirmDelete() {
-  //if (!confirm('Excluir este item?')) return
+  //if (!confirm($t('common.delete_confirmation'))) return
   //const ok = await remove(String(route.params.id))
   //if (ok) router.push('/supplyitem/supplyItem')
 }
