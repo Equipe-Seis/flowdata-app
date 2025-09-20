@@ -67,7 +67,14 @@
     "common": {
       "search": "Buscar",
       "clear": "Limpar",
-      "back": "Voltar"
+      "back": "Voltar",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "cancel": "Cancelar",
+      "create": "Criar",
+      "submit": "Submit",
+      "active": "Ativo",
+      "inactive": "Inativo"
     },
     "validation": {
       "required": "Campo obrigatório",
@@ -104,6 +111,11 @@
       "confirm_delete": "Deseja realmente excluir este usuário?",
       "edit_title": "Editar Usuário"
 
-    }
+    },
+    "admin": "Administrador",
+    "supply_supervisor": "Supervisor de Estoque",
+    "supply_stock_keeper": "Gerente de Estoque",
+    "production_planner": "Planejador de Produção",
+    "buyer": "Comprador"
   }
   

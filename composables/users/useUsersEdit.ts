@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import type { UpdateUserPayload } from '~/models/users/UsersCreate'
-import type { User as UserModel } from '~/models/users/Users'
+import type { User as UserDetail, UserProfile } from '~/models/users/UsersDetail'
 import { updateUser, fetchUserById } from '~/services/users/userManagementService'
 
 export const useUserEdit = () => {
@@ -23,18 +23,18 @@ export const useUserEdit = () => {
   const load = async (id: number | string) => {
     loading.value = true
     try {
-      const user: UserModel = await fetchUserById(id)
+      const user = (await fetchUserById(id)) as UserDetail
 
       payload.value = {
         id: user.id,
-        personId: user.person.id,
+        personId: Number(user.person?.id ?? 0),
         name: user.person.name,
         email: user.person.email,
-        birthDate: user.person.birthDate.slice(0, 10),
+        birthDate: user.person?.birthDate ? user.person.birthDate.slice(0, 10) : '',
         documentNumber: user.person.documentNumber,
         status: user.person.status,
         personType: user.person.personType,
-        profiles: user.userProfiles.map(p => p.id)
+        profiles: (user.userProfiles || []).map((p: UserProfile) => p.id)
       }
     } catch (e: any) {
       error.value = e.message || 'Erro ao carregar usuário'
@@ -47,7 +47,7 @@ export const useUserEdit = () => {
     loading.value = true
     error.value = null
     try {
-      await updateUser(id, payload.value)
+      await updateUser(Number(id), payload.value)
       return true
     } catch (e: any) {
       error.value = e.message || 'Erro ao atualizar usuário'

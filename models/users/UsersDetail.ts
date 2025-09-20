@@ -1,9 +1,9 @@
 export interface Person {
-    id?: number
+    id: number
     name: string
     personType: 'individual' | 'company'
     documentNumber: string
-    birthDate: string
+    birthDate: string | null
     status: 'active' | 'inactive'
     email: string
   }

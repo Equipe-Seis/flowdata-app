@@ -46,7 +46,7 @@
               v-model="selectedProfile"
               :items="profileOptions"
               item-value="id"
-              item-title="name"
+              :item-title="(item) => t(`profile.${item.name}`, item.name)"
               :label="t('user.profile')"
               :rules="[rules.required]"
               variant="outlined"

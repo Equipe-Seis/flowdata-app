@@ -54,19 +54,21 @@
                   v-model="form.status"
                   :label="t('user.status')"
                   :items="statuses"
+                  item-value="value"
+                  item-title="text"
                   :rules="[rules.required]"
                 />
               </v-col>
   
               <v-col cols="12" md="6">
                 <v-select
-                  v-model="form.profiles"
-                  :label="t('user.profile')"
-                  :items="profileItems"
-                  item-title="name"
-                  item-value="id"
-                  :rules="[rules.required]"
-                />
+  v-model="form.profiles"
+  :label="t('user.profile')"
+  :items="profileItems"
+  :item-title="(item) => t(`profile.${item.name}`)"
+  item-value="id"
+  :rules="[rules.required]"
+/>
               </v-col>
             </v-row>
   
@@ -109,7 +111,18 @@
   const { payload: form, load, submit, loading, error } = useUserEdit()
   const { list: profileList, load: loadProfiles } = useProfiles()
   
-  const statuses = ['active', 'inactive']
+    import { markRaw, watch, Ref } from 'vue'
+
+    type StatusItem = { text: string; value: string }
+
+    const statuses = ref<StatusItem[]>([])
+
+    watch(locale, () => {
+      statuses.value = markRaw([
+        { text: t('common.active'), value: 'individual' },
+        { text: t('common.inactive'), value: 'inactive' }
+      ])
+    }, { immediate: true })
   
   const profileItems = computed(() => profileList.value || [])
   

@@ -111,7 +111,7 @@
   const route = useRoute()
   
   
-  const { users, total, loading, page, limit, loadUsers } = useUsers()
+  const { users, total, loading, page, limit, loadUsers} = useUsers()
   
   const search = ref('')
   
@@ -178,14 +178,17 @@
     router.push(`/users/${id}/edit`)
   }
   
-  function deleteUser(id: number) {
-    if (confirm(t('user.confirm_delete'))) {
-      //console.log('Excluir usuário', id)
-      
+  async function deleteUser(id: number) {
+    if (!confirm(t('user.confirm_delete'))) return
+
+    const { remove } = useUsers()
+    const success = await remove(id)
+
+    if (success) {
+      loadUsers()
     }
   }
   </script>
-  
   <style scoped>
   .border {
     border: 1px solid #ccc;

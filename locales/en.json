@@ -67,7 +67,15 @@
     "common": {
       "search": "Search",
       "clear": "Clear",
-      "back": "Back"
+      "back": "Back",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "create": "Create",
+      "submit": "Submit",
+      "active": "Active",
+      "inactive": "Inactive"
+
     },
     "validation": {
       "required": "Required field",
@@ -104,6 +112,11 @@
       "confirm_delete": "Do you really want to delete this user?",
       "edit_title": "Edit User"
 
-    }
+    },
+    "admin": "Administrator",
+    "supply_supervisor": "Supply Supervisor",
+    "supply_stock_keeper": "Supply Stock Keeper",
+    "production_planner": "Production Planner",
+    "buyer": "Buyer"
   }
   
