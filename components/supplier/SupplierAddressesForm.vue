@@ -51,16 +51,26 @@
           :label="postalCodeLabel"
           variant="outlined"
           hide-details
-          append-inner-icon="mdi-magnify"
-          @click:append-inner="onLookup(idx)"
-        />
+          v-mask="'#####-###'"
+        >
+          <template #append-inner>
+            <v-btn
+              icon
+              @click="onLookup(idx)"
+              color="primary"
+              :aria-label=postalCodeLabel
+            >
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+        </v-text-field>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
+import { computed, watch } from 'vue'
 import type { SupplierAddress } from '../../models/supplier/SupplierCreate'
 import { useCep } from '../../composables/useCep'
 import { useI18n } from 'vue-i18n'
@@ -69,7 +79,6 @@ import { useDisplay } from 'vuetify'
 const { t, locale } = useI18n()
 const { mdAndDown } = useDisplay()
 
-// 👇 Debug opcional: loga quando o idioma muda
 watch(locale, (newLocale) => {
   console.log('[SupplierAddressesForm] Idioma mudou para:', newLocale)
 })
@@ -87,14 +96,12 @@ const model = computed({
 const linkTypes = ['customer', 'supplier', 'person']
 const { lookup } = useCep()
 
-// ✅ Labels traduzidos reativos
 const streetLabel = computed(() => `* ${t('supplier.street')}`)
 const districtLabel = computed(() => `* ${t('supplier.district')}`)
 const cityLabel = computed(() => `* ${t('supplier.city')}`)
 const stateLabel = computed(() => `* ${t('supplier.state')}`)
 const postalCodeLabel = computed(() => `* ${t('supplier.postal_code')}`)
 
-// ✅ Validação traduzida reativa
 const requiredRule = (v: unknown) => !!v || t('validation.required')
 
 function add() {

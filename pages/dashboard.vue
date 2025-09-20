@@ -1,7 +1,7 @@
 <template>
   <v-container :key="locale">
     <div class="mb-4">
-      <div>{{ $t('supplier.postal_code') }}</div>
+      
       <p class="font-weight-black text-h4 text-accent">{{ $t('dashboard.welcome') }}</p>
       <p class="font-weight-black text-h2 text-secondary">FlowData</p>
 <!--<p class="font-weight-medium text-accent">{{ t('dashboard.logged_as', { role: roleUserLabel }) }}</p>-->

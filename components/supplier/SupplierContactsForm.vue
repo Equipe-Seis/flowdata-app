@@ -65,7 +65,6 @@ watch(locale, () => {
   contactTypes.value = markRaw([
     { text: t('supplier.phone'), value: 'phone' },
     { text: t('supplier.mobile'), value: 'mobile' },
-    { text: t('supplier.email'), value: 'email' },
     { text: t('supplier.whatsapp'), value: 'whatsapp' },
   ])
 }, { immediate: true })
