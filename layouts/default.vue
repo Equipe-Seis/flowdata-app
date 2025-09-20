@@ -21,8 +21,8 @@
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
-          <v-btn @click="logout" prepend-icon="mdi-logout" variant="outlined" block color="primary">
-            {{ $t('menu.logout') }}
+          <v-btn @click="logout" prepend-icon="mdi-logout" variant="outlined" block color="primary" >
+            
           </v-btn>
         </div>
       </template>
@@ -45,7 +45,7 @@
             style="max-width: 140px;"
             class="text-caption"
           />
-          <v-btn icon="mdi-logout" color="accent" @click="logout">{{ $t('menu.logout') }}</v-btn>
+          <v-btn icon="mdi-logout" color="accent" @click="logout"></v-btn>
         </div>
       </template>
     </v-app-bar>
@@ -77,8 +77,8 @@ const { locale, setLocale } = useI18n();
 const localeValue = ref(locale.value);
 
 const locales = [
-  { code: 'pt-BR', label: '🇧🇷 Português' },
-  { code: 'en', label: '🇺🇸 English' }
+  { code: 'pt-BR', label: '🇧🇷 ' },
+  { code: 'en', label: '🇺🇸' }
 ];
 
 watch(localeValue, async (newLocale) => {
