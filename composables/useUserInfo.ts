@@ -6,7 +6,6 @@ const user = ref<UserMe | null>(null)
 const loaded = ref(false)
 
 export function useUserInfo() {
-  // Só busca uma vez
   if (!loaded.value) {
     onMounted(async () => {
       try {

@@ -37,19 +37,16 @@
 
     <v-card class="mt-4">
       <v-card-text>
-        <v-data-table
+        <v-data-table-server
           v-if="!mdAndDown"
           :key="locale"
           :headers="headers"
           :items="filteredSuppliers"
-          v-model:page="page"
-          v-model:items-per-page="limit"
-          :items-length="filteredSuppliers.length"
-          :items-per-page-options="[5, 10, 25, 50, 100]"
-          class="elevation-1"
+          :items-length="total"
           :loading="loading"
-          @update:page="onPageChange"
-          @update:items-per-page="onLimitChange"
+          :items-per-page-options="[5, 10, 25, 50, 100]"
+          @update:options="loadSuppliers"
+          class="elevation-1"
         >
           <template #item="{ item }">
             <tr>
@@ -73,9 +70,8 @@
           <template #no-data>
             {{ t('supplier.no_results') }}
           </template>
-        </v-data-table>
+        </v-data-table-server>
 
-       
         <div v-else>
           <div
             v-for="item in filteredSuppliers"
@@ -94,6 +90,12 @@
               <v-btn size="small" color="error" icon="mdi-delete" @click="deleteSupplier(item.id)" />
             </div>
           </div>
+          <v-pagination
+            v-model="page"
+            :length="Math.ceil(total / limit)"
+            :total-visible="5"
+            @update:modelValue="loadSuppliers"
+          />
         </div>
       </v-card-text>
     </v-card>
@@ -121,9 +123,9 @@ const { mdAndDown } = useDisplay()
 const { list, total, loading, load } = useSuppliers()
 const suppliers = list
 
-const search = ref('')
-const page = ref(1)
+const page = ref(Number(route.query.page || 1))
 const limit = ref(Number(route.query.limit || 10))
+const search = ref(route.query.search || '')
 
 const headers = ref([])
 watch(locale, () => {
@@ -141,7 +143,6 @@ watch(locale, () => {
 const filteredSuppliers = computed(() => {
   const query = search.value.toLowerCase().trim()
   if (!query) return suppliers.value || []
-
   return (suppliers.value || []).filter(item => {
     return (
       item.name?.toLowerCase().includes(query) ||
@@ -152,26 +153,31 @@ const filteredSuppliers = computed(() => {
 })
 
 onMounted(() => {
-  load({ page: 1, limit: limit.value })
+  loadSuppliers()
 })
-
 
 function applyFilters() {
   page.value = 1
+  loadSuppliers()
 }
 
 function clearFilters() {
   search.value = ''
   page.value = 1
+  loadSuppliers()
 }
 
-function onPageChange(p) {
-  page.value = p
-}
 
-function onLimitChange(l) {
-  limit.value = l < 1 ? 10 : l
-  page.value = 1
+
+async function loadSuppliers(options = {}) {
+  const query = {
+    page: options.page || page.value,
+    limit: options.itemsPerPage || limit.value,
+    search: search.value
+  }
+  await load(query)
+
+  router.replace({ query })
 }
 
 function goToCreate() {
@@ -190,7 +196,7 @@ async function deleteSupplier(id) {
   if (!confirm('Excluir supplier?')) return
   const { remove } = useSupplier()
   const ok = await remove(String(id))
-  if (ok) load({ page: 1, limit: limit.value })
+  if (ok) loadSuppliers()
 }
 </script>
 

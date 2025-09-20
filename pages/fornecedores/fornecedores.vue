@@ -85,7 +85,7 @@
       <v-card-text>
         <v-data-table
           :headers="headers"
-          :items="fornecedoresFormatados"
+          :items="filteredFornecedores"
           :items-per-page="5"
           class="elevation-1"
         >
@@ -190,6 +190,17 @@ const fornecedoresFormatados = computed(() => {
       documentoIdentificacao: documento,
       telefone: telefoneFormatado,
     };
+  });
+});
+
+const filteredFornecedores = computed(() => {
+  return fornecedoresFormatados.value.filter((forn) => {
+    const matchesNome = !nomeFornecedor.value || forn.nome.toLowerCase().includes(nomeFornecedor.value.toLowerCase());
+    const matchesCnpj = !cnpj.value || forn.cnpj?.includes(cnpj.value);
+    const matchesCodigo = !codigoFornecedor.value || forn.id.toString().includes(codigoFornecedor.value);
+    const matchesTipo = tipoFornecedor.value.length === 0 || tipoFornecedor.value.includes(forn.tipoPessoa);
+    const matchesStatus = statusFornecedor.value.length === 0 || statusFornecedor.value.includes(forn.status);
+    return matchesNome && matchesCnpj && matchesCodigo && matchesTipo && matchesStatus;
   });
 });
 
