@@ -13,10 +13,10 @@ export async function fetchSupplyItem(params: SupplyItemQuery = {}): Promise<Sup
   const query = searchParams.toString()
   const path = query ? `/supply?${query}` : '/supply'
 
-  // Faz a requisição esperando um array puro
+ 
   const response = await apiFetch<SupplyItem[]>(path)
 
-  // Retorna no formato esperado pelo composable
+
   return {
     data: response,
     total: response.length

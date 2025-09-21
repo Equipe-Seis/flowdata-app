@@ -7,6 +7,7 @@ export const useSupplierEdit = () => {
   const loading = ref(false)
   const error = ref<string | null>(null)
   const payload = ref<SupplierCreatePayload | null>(null)
+  const errorList = ref<string[] | null>(null)
 
   const load = async (id: number | string) => {
     loading.value = true
@@ -59,18 +60,22 @@ export const useSupplierEdit = () => {
     if (!payload.value) return false
     loading.value = true
     error.value = null
+    errorList.value = null
     try {
       await updateSupplier(id, payload.value)
       return true
     } catch (e: any) {
       error.value = e?.message || 'Falha ao atualizar supplier'
+      if (Array.isArray(e?.messages)) {
+        errorList.value = e.messages
+      }
       return false
     } finally {
       loading.value = false
     }
   }
 
-  return { payload, loading, error, load, submit }
+  return { payload, loading, error, errorList,load, submit }
 }
 
 
