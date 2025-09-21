@@ -1,4 +1,4 @@
-// composables/useUsers.ts
+
 import { ref } from 'vue'
 import { fetchUsers } from '~/services/users/userManagementService'
 import type { User } from '~/models/users/Users'
@@ -19,7 +19,7 @@ export const useUsers = () => {
       users.value = response.data
       total.value = response.total
     } catch (error) {
-      //console.error('Erro ao carregar usuários:', error)
+      
     } finally {
       loading.value = false
     }

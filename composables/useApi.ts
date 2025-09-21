@@ -33,7 +33,7 @@ export const useApiFetch = async <T>(path: string, opts: any = {}): Promise<T> =
     }*/
     if (err?.status === 401) {
       logout()
-      router.push('/login') // ajuste a rota conforme sua app
+      router.push('/login') 
     }
     
     throw err
