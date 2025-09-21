@@ -12,22 +12,65 @@
         </div>
       </v-col>
     </v-row>
-
     <v-card>
       <v-card-title>{{ t('supplier.filters') }}</v-card-title>
       <v-card-text>
         <v-form>
           <v-row>
-            <v-col cols="12">
+            <v-col cols="12" sm="8">
               <v-text-field
-                v-model="search"
+                v-model="nomeFornecedor"
                 hide-details
-                :label="t('supplier.search_placeholder')"
+                :label="`${t('supplier.name')}`"
                 variant="outlined"
-              />
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" sm="4">
+              <v-select
+                v-model="tipoFornecedor"
+                hide-details
+                clearable
+                :label="`${t('supplier.person_type')}`"
+                :items=personTypeItems
+                multiple
+                variant="outlined"
+              ></v-select>
             </v-col>
           </v-row>
-          <div class="d-flex justify-end ga-4 mt-4">
+
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="cnpj"
+                hide-details
+                :label="`${t('supplier.document')}`"
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="codigoFornecedor"
+                hide-details
+                :label="`${t('supplier.id')}`"
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" sm="4">
+              <v-select
+                v-model="statusFornecedor"
+                clearable
+                :label="` ${t('supplier.status')}`"
+                :items=statusItems
+                multiple
+                variant="outlined"
+              ></v-select>
+            </v-col>
+          </v-row>
+
+          <div class="d-flex justify-start ga-4">
             <v-btn color="primary" @click.prevent="applyFilters">{{ t('common.search') }}</v-btn>
             <v-btn class="me-2" @click.prevent="clearFilters">{{ t('common.clear') }}</v-btn>
           </div>
@@ -127,6 +170,21 @@ const page = ref(Number(route.query.page || 1))
 const limit = ref(Number(route.query.limit || 10))
 const search = ref(route.query.search || '')
 
+const nomeFornecedor = ref('')
+const cnpj = ref('')
+const codigoFornecedor = ref('')
+const tipoFornecedor = ref([])
+const statusFornecedor = ref([])
+const statusItems = ['active', 'inactive']
+
+const personTypeItems = ref([])
+watch(locale, () => {
+  personTypeItems.value = markRaw([
+  { text: t('supplier.person_type_individual'), value: 'individual' },
+  { text: t('supplier.person_type_legalentity'), value: 'legalentity' },
+  ])
+}, { immediate: true })
+
 const headers = ref([])
 watch(locale, () => {
   headers.value = markRaw([
@@ -141,16 +199,27 @@ watch(locale, () => {
 }, { immediate: true })
 
 const filteredSuppliers = computed(() => {
-  const query = search.value.toLowerCase().trim()
-  if (!query) return suppliers.value || []
-  return (suppliers.value || []).filter(item => {
-    return (
-      item.name?.toLowerCase().includes(query) ||
-      item.email?.toLowerCase().includes(query) ||
-      item.documentNumber?.toLowerCase().includes(query)
-    )
+  const nome = (nomeFornecedor.value || '').toLowerCase().trim()
+  const doc = (cnpj.value || '').toLowerCase().trim()
+  const codigo = (codigoFornecedor.value || '').trim()
+  const tipos = Array.isArray(tipoFornecedor.value) ? tipoFornecedor.value : []
+  const statuses = Array.isArray(statusFornecedor.value) ? statusFornecedor.value : []
+
+  if (!nome && !doc && !codigo && tipos.length === 0 && statuses.length === 0) {
+    return suppliers.value || []
+  }
+
+  return (suppliers.value || []).filter((item) => {
+    const matchNome = !nome || item.name?.toLowerCase().includes(nome) || item.tradeName?.toLowerCase().includes(nome)
+    const matchDoc = !doc || item.documentNumber?.toLowerCase().includes(doc)
+    const matchCodigo = !codigo || String(item.id).includes(codigo)
+    const itemType = (item.personType || item.type || '').toString()
+    const matchTipo = tipos.length === 0 || tipos.includes(itemType)
+    const matchStatus = statuses.length === 0 || statuses.includes(item.status)
+    return matchNome && matchDoc && matchCodigo && matchTipo && matchStatus
   })
 })
+
 
 onMounted(() => {
   loadSuppliers()
@@ -164,6 +233,11 @@ function applyFilters() {
 function clearFilters() {
   search.value = ''
   page.value = 1
+  nomeFornecedor.value = ''
+  cnpj.value = ''
+  codigoFornecedor.value = ''
+  tipoFornecedor.value = []
+  statusFornecedor.value = []
   loadSuppliers()
 }
 
