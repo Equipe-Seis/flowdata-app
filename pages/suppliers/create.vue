@@ -275,10 +275,13 @@ async function onLookupCnpj() {
     if (!data) return
     if (!payload.value) return
 
- 
     payload.value.person.name = data.nome || payload.value.person.name
-    payload.value.tradeName = data.fantasia || payload.value.tradeName
     payload.value.person.email = data.email || payload.value.person.email
+    payload.value.tradeName = data.fantasia || payload.value.tradeName
+    payload.value.openingDate = data.abertura || payload.value.openingDate
+    payload.value.type = data.tipo || payload.value.type
+    payload.value.size = data.porte || payload.value.size
+    payload.value.legalNature = data.natureza_juridica || payload.value.legalNature
 
     if (data.cep) {
       const onlyDigits = String(data.cep).replace(/\D/g, '')
@@ -292,13 +295,33 @@ async function onLookupCnpj() {
           linkType: 'supplier',
         })
       }
-      payload.value.addresses[0].postalCode = onlyDigits
+      const addr = payload.value.addresses[0]
+      addr.postalCode = onlyDigits
+      addr.street = `${data.logradouro}, ${data.numero}`.trim() || addr.street
+      addr.district = data.bairro || addr.district
+      addr.city = data.municipio || addr.city
+      addr.state = data.uf || addr.state
+
+      // Lookup CEP for additional details if needed, but since we have most from CNPJ, optional
       const cepData = await lookupCep(onlyDigits)
       if (cepData) {
-        payload.value.addresses[0].street = cepData.logradouro || payload.value.addresses[0].street
-        payload.value.addresses[0].district = cepData.bairro || payload.value.addresses[0].district
-        payload.value.addresses[0].city = cepData.localidade || payload.value.addresses[0].city
-        payload.value.addresses[0].state = cepData.uf || payload.value.addresses[0].state
+        addr.street = cepData.logradouro ? `${cepData.logradouro}, ${data.numero}`.trim() : addr.street
+        addr.district = cepData.bairro || addr.district
+        addr.city = cepData.localidade || addr.city
+        addr.state = cepData.uf || addr.state
+      }
+    }
+
+    if (data.telefone) {
+      if (payload.value.contacts.length === 0 || !payload.value.contacts.some(c => c.type === 'phone')) {
+        payload.value.contacts.push({
+          type: 'phone',
+          value: data.telefone,
+          linkType: 'supplier'
+        })
+      } else {
+        const phoneContact = payload.value.contacts.find(c => c.type === 'phone')
+        if (phoneContact) phoneContact.value = data.telefone
       }
     }
   } finally {

@@ -22,18 +22,11 @@ export interface ReceitaWsResponse {
 }
 
 export async function fetchCnpj(cnpjClean: string): Promise<ReceitaWsResponse> {
-  const clean = cnpjClean.replace(/\D/g, '')
-  if (!/^\d{14}$/.test(clean)) {
-    throw new Error('CNPJ inválido. Deve conter 14 números.')
+  const url = `/cnpj/${cnpjClean}`;
+  try {
+    return await apiFetch<ReceitaWsResponse>(url, { method: 'GET' });
+  } catch (error) {
+    console.error('Erro ao buscar dados do CNPJ:', error);
+    throw error;
   }
-
-  // Chama sua API proxy no backend (ajuste essa rota conforme seu backend)
-  const url = `/api/cnpj/${clean}`
-
-  const data = await $fetch<ReceitaWsResponse>(url)
-
-  if (data.status === 'ERROR') {
-    throw new Error(data.message || 'Erro na consulta do CNPJ')
-  }
-  return data
 }
