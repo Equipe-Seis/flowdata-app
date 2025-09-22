@@ -71,11 +71,11 @@
             </v-col>
           </v-row>
 
-          <div class="d-flex justify-start ga-4">
-            <v-btn color="primary" @click.prevent="applyFilters">
+          <div class="d-flex justify-start ga-4 mt-4">
+            <v-btn size="small" color="primary" @click.prevent="applyFilters">
               Pesquisar
             </v-btn>
-            <v-btn class="me-2" @click.prevent="clearFilters"> Limpar </v-btn>
+            <v-btn size="small" class="me-2" @click.prevent="clearFilters"> Limpar </v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -97,14 +97,17 @@
               <td>{{ item.documentoIdentificacao }}</td>
               <td>{{ item.telefone }}</td>
               <td>
-                <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-file-document-edit-outline"
-                  @click="editarFornecedor(item.id)"
-                  title="Editar Fornecedor"
-                >
-                </v-btn>
+                <div class="d-flex justify-center gap-2">
+                  <v-btn
+                    size="small"
+                    density="comfortable"
+                    color="primary"
+                    icon="mdi-file-document-edit-outline"
+                    @click="editarFornecedor(item.id)"
+                    title="Editar Fornecedor"
+                  >
+                  </v-btn>
+                </div>
               </td>
             </tr>
 
@@ -116,9 +119,10 @@
                 <strong>CNPJ/CPF:</strong> {{ item.documentoIdentificacao }}
               </div>
               <div><strong>Telefone:</strong> {{ item.telefone }}</div>
-              <div class="mt-2">
+              <div class="mt-2 d-flex justify-center gap-2">
                 <v-btn
                   size="small"
+                  density="comfortable"
                   color="primary"
                   icon="mdi-file-document-edit-outline"
                   @click="editarFornecedor(item.id)"
@@ -210,7 +214,7 @@ const headers = [
   { title: "Tipo Pessoa", key: "tipoPessoa" },
   { title: "CNPJ / CPF", key: "documentoIdentificacao" },
   { title: "Telefone", key: "telefone" },
-  { title: "Ações", key: "actions", sortable: false },
+  { title: "Ações", key: "actions", sortable: false, align: 'center' },
 ];
 
 function goToCadastro() {
@@ -276,5 +280,11 @@ function clearFilters() {
 }
 .v-data-table .v-data-table__td {
   vertical-align: middle;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.border {
+  border: 1px solid #ccc;
 }
 </style>

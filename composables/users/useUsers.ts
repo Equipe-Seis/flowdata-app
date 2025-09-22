@@ -1,4 +1,3 @@
-
 import { ref } from 'vue'
 import { fetchUsers } from '~/services/users/userManagementService'
 import type { User } from '~/models/users/Users'
@@ -12,10 +11,10 @@ export const useUsers = () => {
   const loading = ref(false)
   const error = ref<string | null>(null)
 
-  const loadUsers = async () => {
+  const loadUsers = async (search?: string) => {
     loading.value = true
     try {
-      const response = await fetchUsers(page.value, limit.value)
+      const response = await fetchUsers(page.value, limit.value, search)
       users.value = response.data
       total.value = response.total
     } catch (error) {
@@ -49,4 +48,3 @@ export const useUsers = () => {
     remove
   }
 }
-

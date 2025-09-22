@@ -14,65 +14,34 @@
     </v-row>
 
     <v-card>
-      <v-card-title>Filtros</v-card-title>
+      <v-card-title class="font-weight-bold">Filtros</v-card-title>
       <v-card-text>
-        <v-form>
+        <v-form @submit.prevent="applyFilters">
           <v-row>
             <v-col cols="12" sm="8">
               <v-text-field
+                v-model="search"
                 hide-details
-                label="Nome"
+                label="Buscar por Nome ou Código"
                 variant="outlined"
-              ></v-text-field>
+                autofocus
+              />
             </v-col>
-
             <v-col cols="12" sm="4">
               <v-select
+                v-model="statusInsumo"
                 hide-details
-                clearable
-                label="Tipo de Insumo"
-                :items="['', '', '']"
-                multiple
-                variant="outlined"
-              ></v-select>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col cols="12" sm="4">
-              <v-select
-                clearable
-                label="Fornecedor"
-                :items="['Forcedor 1', 'Fornecedor 2']"
-                multiple
-                variant="outlined"
-              ></v-select>
-            </v-col>
-
-            <v-col cols="12" sm="4">
-              <v-text-field
-                hide-details
-                label="Código"
-                variant="outlined"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" sm="4">
-              <v-select
                 clearable
                 label="Status"
-                :items="['Ativo', 'Inativo']"
+                :items="['active', 'inactive']"
                 multiple
                 variant="outlined"
-              ></v-select>
+              />
             </v-col>
           </v-row>
-
-          <div class="d-flex justify-start ga-4">
-            <v-btn color="primary" @click.prevent="applyFilters">
-              Pesquisar
-            </v-btn>
-            <v-btn class="me-2" @click.prevent="clearFilters"> Limpar </v-btn>
+          <div class="d-flex justify-end ga-4 mt-4">
+            <v-btn type="submit" color="primary">Pesquisar</v-btn>
+            <v-btn variant="outlined" @click.prevent="clearFilters">Limpar</v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -83,45 +52,27 @@
         <v-data-table
           :headers="headers"
           :items="insumos || []"
+          :loading="pending"
           :items-per-page="5"
           class="elevation-1"
         >
           <template #item="{ item }">
             <tr class="d-none d-md-table-row">
               <td>{{ item.id }}</td>
-              <td>{{ item.nome }}</td>
-              <td>{{ item.codigo }}</td>
-              <td>{{ item.descricao }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.code }}</td>
+              <td>{{ item.price }}</td>
+              <td>{{ item.description }}</td>
               <td>
-                <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-file-document-edit-outline"
-                  @click="editarInsumos(item.id)"
-                  title="Editar Insumo"
-                >
-                </v-btn>
+                <div class="d-flex justify-center gap-2">
+                  <v-btn size="small" icon="mdi-eye" color="primary" @click="viewInsumo(item.id)" />
+                  <v-btn size="small" icon="mdi-file-document-edit-outline" color="secondary" @click="editarInsumos(item.id)" />
+                  <v-btn size="small" icon="mdi-delete" color="error" @click="deleteInsumo(item.id)" />
+                </div>
               </td>
             </tr>
-
-            <div class="d-md-none pa-2 my-2 border rounded">
-              <div><strong>ID:</strong> {{ item.id }}</div>
-              <div><strong>Nome:</strong> {{ item.nome }}</div>
-              <div><strong>Código:</strong> {{ item.codigo }}</div>
-              <div><strong>Descrição:</strong> {{ item.descricao }}</div>
-              <div class="mt-2">
-                <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-file-document-edit-outline"
-                  @click="editarInsumos(item.id)"
-                  title="Editar Insumo"
-                >
-                </v-btn>
-              </div>
-            </div>
+           
           </template>
-
           <template #no-data> Nenhum insumo encontrado. </template>
         </v-data-table>
       </v-card-text>
@@ -131,8 +82,7 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { ref, onMounted } from "vue";
-
+import { ref, watch } from "vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -143,90 +93,55 @@ definePageMeta({
 });
 
 const config = useRuntimeConfig();
-const { data: insumos } = await useFetch(`${config.public.apiBase}/insumos`, {
-  default: () => [],
-});
+
+const search = ref('');
+const statusInsumo = ref([]);
+
+const { data: insumos, pending } = await useAsyncData(
+  'fetch-insumos',
+  () => $fetch(`${config.public.apiBase}/supply`, { params: route.query }),
+  { watch: [() => route.query], default: () => [] }
+);
 
 const headers = [
   { title: "ID", key: "id" },
-  { title: "Nome", key: "nome" },
-  { title: "Código", key: "codigo" },
-  { title: "Descrição", key: "descricao" },
-  { title: "Ações", key: "actions", sortable: false },
+  { title: "Nome", key: "name" },
+  { title: "Código", key: "code" },
+  { title: "Preço", key: "price" },
+  { title: "Descrição", key: "description" },
+  { title: "Ações", key: "actions", sortable: false, align: 'center' },
 ];
 
-function goToCadastro() {
-  router.push("/insumos/cadastro");
+function updateLocalFiltersFromRoute(query) {
+  search.value = query.search || "";
+  const getQueryArray = (key) => query[key] ? (Array.isArray(query[key]) ? query[key] : [query[key]]) : [];
+  statusInsumo.value = getQueryArray('statusInsumo');
 }
 
-function editarInsumos(id) {
-  router.push(`/insumos/${id}`);
-}
-
-const nomeInsumo = ref("");
-const codigoInsumo = ref("");
-const tipoInsumo = ref([]);
-const fornecedor = ref([]);
-const statusInsumo = ref([]);
-
-onMounted(() => {
-  nomeInsumo.value = route.query.nomeInsumo || "";
-  codigoInsumo.value = route.query.codigoInsumo || "";
-  tipoInsumo.value = route.query.tipoInsumo
-    ? Array.isArray(route.query.tipoInsumo)
-      ? route.query.tipoInsumo
-      : [route.query.tipoInsumo]
-    : [];
-  fornecedor.value = route.query.fornecedor
-    ? Array.isArray(route.query.fornecedor)
-      ? route.query.fornecedor
-      : [route.query.fornecedor]
-    : [];
-  statusInsumo.value = route.query.statusInsumo
-    ? Array.isArray(route.query.statusInsumo)
-      ? route.query.statusInsumo
-      : [route.query.statusInsumo]
-    : [];
-});
+watch(() => route.query, (newQuery) => {
+  updateLocalFiltersFromRoute(newQuery);
+}, { immediate: true });
 
 function applyFilters() {
-  router.push({
-    query: {
-      nomeInsumo: nomeInsumo.value || undefined,
-      codigoInsumo: codigoInsumo.value || undefined,
-      tipoInsumo: tipoInsumo.value.length ? tipoInsumo.value : undefined,
-      fornecedor: fornecedor.value.length ? fornecedor.value : undefined,
-      statusInsumo: statusInsumo.value.length ? statusInsumo.value : undefined,
-    },
-  });
+  const query = {
+    search: search.value || undefined,
+    statusInsumo: statusInsumo.value.length ? statusInsumo.value : undefined,
+  };
+  router.push({ query });
 }
 
 function clearFilters() {
-  nomeInsumo.value = "";
-  codigoInsumo.value = "";
-  tipoInsumo.value = "";
-  fornecedor.value = [];
+  search.value = "";
   statusInsumo.value = [];
-
   router.push({ query: {} });
 }
+
+function goToCadastro() { router.push("/insumos/cadastro"); }
+function editarInsumos(id) { router.push(`/insumos/${id}`); }
+function viewInsumo(id) { router.push(`/insumos/view/${id}`); }
+function deleteInsumo(id) { console.log("Excluir insumo", id); }
 </script>
 
 <style scoped>
-.v-card-text .d-md-none + .d-md-none {
-  margin-top: 8px;
-}
-
-.v-data-table .d-md-none {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-.v-data-table .v-data-table__td {
-  vertical-align: middle;
-}
-
-@media (max-width: 959px) {
-  .v-data-table > .v-data-table__wrapper > table > thead {
-    display: none;
-  }
-}
+.gap-2 { gap: 0.5rem; }
 </style>
