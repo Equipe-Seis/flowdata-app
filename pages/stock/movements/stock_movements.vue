@@ -153,11 +153,11 @@ const headers = [
 ];
 
 function goToRegistration() {
-  router.push("/estoque/cadastro");
+  router.push("/stock/movements/create");
 }
 
 function editInventoryMovement(id) {
-  router.push(`/estoque/${id}`);
+  router.push(`/stock/movements/${id}`);
 }
 
 const numeroPedido = ref("");

@@ -1,7 +1,7 @@
 
 import { ref } from 'vue'
-import type { SupplierDetail } from '../models/supplier/SupplierDetail'
-import { fetchSupplierById, deleteSupplier } from '../services/supplier/supplierService'
+import type { SupplierDetail } from '~/models/supplier/SupplierDetail'
+import { fetchSupplierById, deleteSupplier } from '~/services/supplier/supplierService'
 
 export const useSupplier = () => {
   const supplier = ref<SupplierDetail | null>(null)

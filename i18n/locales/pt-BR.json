@@ -3,10 +3,12 @@
     "menu": "Menu",
     "dashboard": "Dashboard",
     "suppliers": "Fornecedores",
-    "supply_item": "Insumo",
+    "supply_item": "Insumos",
     "estoque": "Estoque",
     "users": "Usuários",
-    "logout": "Sair"
+    "logout": "Sair",
+    "stock_movements":"Movimentação de Estoque",
+    "checking_supply":"Recebimento de Insumos"
   },
   "dashboard": {
     "welcome": "Bem-vindo(a) ao",

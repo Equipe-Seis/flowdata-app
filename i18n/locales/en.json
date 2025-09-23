@@ -6,7 +6,9 @@
     "supply_item": "Supply Item",
     "estoque": "Stock",
     "users": "Users",
-    "logout": "Logout"
+    "logout": "Logout",
+    "stock_movements":"Stock Movement",
+    "checking_supply":"Supply Receiving"
   },
   "dashboard": {
       "welcome": "Welcome to",
