@@ -121,7 +121,8 @@
       "opening_date_invalid": "Invalid format (DD/MM/YYYY)",
       "invalid_email": "Invalid email address.",
       "min_length": "Minimum of {min} characters.",
-      "gte_0": "Must be >= 0"
+      "gte_0": "Must be >= 0",
+      "invalid_birth_date": "Invalid birth date format (DD/MM/YYYY)"
     },
     "messages": {
       "cnpj_invalid": "Invalid CNPJ. Must contain 14 digits.",

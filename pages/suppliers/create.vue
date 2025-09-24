@@ -3,7 +3,16 @@
     <h1 class="text-h4 mb-4">{{ t('supplier.create_title') }}</h1>
     
 
-    <v-alert v-if="erro" type="error" class="mb-5">{{ erro }}</v-alert>
+    <v-alert v-if="erro || erros && erros.length" type="error" class="mb-5">
+      <template v-if="erros && erros.length">
+        <ul class="ma-0 pa-0" style="list-style: inside;">
+          <li v-for="(m, i) in erros" :key="i">{{ m }}</li>
+        </ul>
+      </template>
+      <template v-else>
+        {{ erro }}
+      </template>
+    </v-alert>
 
     <v-form ref="form" @submit.prevent="onSubmit" v-model="valid" lazy-validation>
       <v-row>
@@ -167,7 +176,7 @@ const router = useRouter()
 const form = ref(null)
 const valid = ref(false)
 const erro = ref('')
-
+const erros = computed(() => errorList?.value || [])
 const { mdAndDown } = useDisplay()
 const personTypeItems = ref([])
 watch(locale, () => {
@@ -176,7 +185,7 @@ watch(locale, () => {
   { text: t('supplier.person_type_legalentity'), value: 'legalentity' },
   ])
 }, { immediate: true })
-const { payload, loading, error, submit } = useSupplierCreate()
+const { payload, loading, error, errorList, submit } = useSupplierCreate()
 const { lookup: lookupCnpj } = useCnpj()
 const { lookup: lookupCep } = useCep()
 const carregandoCnpj = ref(false)
@@ -252,7 +261,6 @@ async function onSubmit() {
   if (ok) {
     router.push('/suppliers/suppliers')
   } else {
-   
     erro.value = error.value || t('messages.error_creating')
   }
 }

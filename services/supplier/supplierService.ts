@@ -25,10 +25,25 @@ export async function fetchSuppliersSummary(): Promise<{ total: number }> {
 }
 
 export async function createSupplier(payload: SupplierCreatePayload) {
-  return await apiFetch('/suppliers', {
-    method: 'POST',
-    body: payload,
-  })
+  try {
+    return await apiFetch('/suppliers', {
+      method: 'POST',
+      body: payload,
+    })
+  } catch (error: any) {
+    const rawMessage =
+      error?.response?.data?.message ||
+      error?.response?._data?.message ||
+      error?.response?.message ||
+      error?.data?.message ||
+      error?.message
+
+    const messagesArray = Array.isArray(rawMessage) ? rawMessage : undefined
+    const normalizedMessage = messagesArray ? messagesArray.join(', ') : rawMessage
+    const err = new Error(normalizedMessage || 'Falha ao criar supplier') as any
+    if (messagesArray) err.messages = messagesArray
+    throw err
+  }
 }
 
 export async function fetchSupplierById(id: number | string): Promise<SupplierDetail> {
@@ -36,10 +51,27 @@ export async function fetchSupplierById(id: number | string): Promise<SupplierDe
 }
 
 export async function updateSupplier(id: number | string, payload: SupplierCreatePayload) {
-  return await apiFetch(`/suppliers/${id}`, {
-    method: 'PUT',
-    body: payload,
-  })
+  
+
+  try {
+    return await apiFetch(`/suppliers/${id}`, {
+      method: 'PUT',
+      body: payload,
+    })
+  } catch (error: any) {
+    const rawMessage =
+      error?.response?.data?.message ||
+      error?.response?._data?.message ||
+      error?.response?.message ||
+      error?.data?.message ||
+      error?.message
+
+    const messagesArray = Array.isArray(rawMessage) ? rawMessage : undefined
+    const normalizedMessage = messagesArray ? messagesArray.join(', ') : rawMessage
+    const err = new Error(normalizedMessage || 'Falha ao criar supplier') as any
+    if (messagesArray) err.messages = messagesArray
+    throw err
+  }
 }
 
 export async function deleteSupplier(id: number | string) {

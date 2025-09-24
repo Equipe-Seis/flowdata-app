@@ -120,7 +120,8 @@
     "opening_date_invalid": "Formato inválido (DD/MM/AAAA)",
     "invalid_email": "E-mail inválido.",
     "min_length": "Mínimo de {min} caracteres.",
-    "gte_0": "Deve ser >= 0"
+    "gte_0": "Deve ser >= 0",
+    "invalid_birth_date": "Formato inválido (DD/MM/AAAA)"
   },
   "messages": {
     "cnpj_invalid": "CNPJ inválido. Deve conter 14 números.",

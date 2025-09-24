@@ -2,7 +2,16 @@
   <v-container :key="locale">
     <h1 class="text-h4 mb-4">{{ t('supplier.edit') }}</h1>
 
-    <v-alert v-if="erro" type="error" class="mb-5">{{ erro }}</v-alert>
+    <v-alert v-if="erro || erros && erros.length" type="error" class="mb-5">
+      <template v-if="erros && erros.length">
+        <ul class="ma-0 pa-0" style="list-style: inside;">
+          <li v-for="(m, i) in erros" :key="i">{{ m }}</li>
+        </ul>
+      </template>
+      <template v-else>
+        {{ erro }}
+      </template>
+    </v-alert>
     <v-skeleton-loader v-if="loading" type="article" class="mb-4"></v-skeleton-loader>
 
     <v-form v-if="payload" ref="form" @submit.prevent="onSubmit" v-model="valid" lazy-validation>
@@ -146,7 +155,7 @@ const form = ref<any>(null)
 const valid = ref(false)
 const erro = ref('')
 
-const { payload, loading, error, load, submit } = useSupplierEdit()
+const { payload, loading, error, errorList,load, submit } = useSupplierEdit()
 const { lookup: lookupCnpj } = useCnpj()
 const { lookup: lookupCep } = useCep()
 
