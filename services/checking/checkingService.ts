@@ -6,9 +6,9 @@ import type {
 
 //TODO: verificar se está correto
 
-export async function fetchCheckings(
+export const fetchCheckings = async (
   params: CheckingQuery = {}
-): Promise<CheckingListResponse> {
+): Promise<CheckingListResponse[]> => {
   const searchParams = new URLSearchParams();
   if (params.page) searchParams.set("page", String(params.page));
   if (params.limit) searchParams.set("limit", String(params.limit));
@@ -17,16 +17,25 @@ export async function fetchCheckings(
 
   const query = searchParams.toString();
   const path = query ? `/checkings?${query}` : "/checkings";
-  return await apiFetch<CheckingListResponse>(path);
-}
+  return await apiFetch<CheckingListResponse[]>(path);
+};
 
-export async function fetchCheckingsSummary(): Promise<{ total: number }> {
+export const fetchCheckingsSummary = async (): Promise<{ total: number }> => {
   const res = await apiFetch<{ total: number; data: any[] }>("/checkings");
   return { total: res.total };
-}
+};
 
-export async function fetchCheckingById(
+export const fetchCheckingById = async (
   id: number | string
-): Promise<Checking> {
+): Promise<Checking> => {
   return await apiFetch<Checking>(`/checkings/${id}`);
-}
+};
+
+export const createChecking = async () => {
+  return await apiFetch<Checking>(`/checkings`, {
+    method: "POST",
+    body: {
+      receiptDate: new Date(),
+    },
+  });
+};

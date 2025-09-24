@@ -1,23 +1,26 @@
+import { useRuntimeConfig } from "nuxt/app";
+import { useAuth } from "./useAuth";
 
+export const useApiFetch = async <T>(
+  path: string,
+  opts: any = {}
+): Promise<T> => {
+  const config = useRuntimeConfig();
+  const { getAuthHeader, tryRefresh, logout } = useAuth();
+  const router = useRouter();
 
-import { useRuntimeConfig } from 'nuxt/app'
-import { useAuth } from './useAuth'
-
-export const useApiFetch = async <T>(path: string, opts: any = {}): Promise<T> => {
-  const config = useRuntimeConfig()
-  const { getAuthHeader, tryRefresh,logout } = useAuth()
-  const router = useRouter()
-
-  const url = path.startsWith('http') ? path : `${config.public.apiBase}${path.startsWith('/') ? '' : '/'}${path}`
+  const url = path.startsWith("http")
+    ? path
+    : `${config.public.apiBase}${path.startsWith("/") ? "" : "/"}${path}`;
 
   try {
     return await $fetch<T>(url, {
       ...opts,
       headers: {
         ...getAuthHeader(),
-        ...(opts.headers || {})
-      }
-    })
+        ...(opts.headers || {}),
+      },
+    });
   } catch (err: any) {
     /*if (err?.status === 401) {
       const refreshed = await tryRefresh()
@@ -32,15 +35,12 @@ export const useApiFetch = async <T>(path: string, opts: any = {}): Promise<T> =
       }
     }*/
     if (err?.status === 401) {
-      logout()
-      router.push('/login') 
+      logout();
+      router.push("/login");
     }
-    
-    throw err
+
+    throw err;
   }
-}
+};
 
-export const apiFetch = useApiFetch
-
-
-
+export const apiFetch = useApiFetch;

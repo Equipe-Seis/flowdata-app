@@ -2,7 +2,7 @@ import type { SupplyItem } from "../supplyitem/SupplyItem";
 
 type CheckingStatus = "draft" | "received" | "cancelled";
 
-export interface CheckingItem {
+export interface CheckingLine {
   id: number;
   supplyItemId: SupplyItem;
   receivedQty: number;
@@ -11,10 +11,10 @@ export interface CheckingItem {
 
 export interface Checking {
   id: number;
-  receiptDate: Date; //TODO: conferir se é este mesmo o tipo
+  receiptDate: Date;
   status: string;
   createdAt: Date;
-  items: CheckingItem[];
+  lines: CheckingLine[];
   checkingStatus: CheckingStatus;
 }
 

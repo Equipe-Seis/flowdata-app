@@ -1,10 +1,9 @@
 <template>
-  <v-container>
+  <v-container v-if="created">
     <v-row>
       <v-col>
         <div class="mt-10">
-          <h1 class="text-h4 mb-4">Recebimento 123345</h1>
-          <!--TODO: trocar aqui pelo valor gerado em back-->
+          <h1 class="text-h4 mb-4">Recebimento {{ created.id }}</h1>
         </div>
       </v-col>
     </v-row>
@@ -13,11 +12,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="10">
-            <v-text-field
-              hide-details
-              label="Digite o código do produto..."
-              variant="outlined"
-            />
+            <v-text-field hide-details label="Digite o código do produto..." variant="outlined" />
           </v-col>
           <v-col cols="12" sm="2">
             <v-btn color="primary" size="x-large" @click="dialog = true">
@@ -31,21 +26,12 @@
     <v-card class="mt-4">
       <v-card-title>Recebido</v-card-title>
       <v-card-text>
-        <v-data-table
-          :items="items"
-          :items-per-page="25"
-          class="elevation-1"
-        >
+        <v-data-table :items="items" :items-per-page="25" class="elevation-1">
           <template>
             <tr class="d-none d-md-table-row">
               <td></td>
               <td>
-                <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-trash-can-outline"
-                  title="Remover Item"
-                >
+                <v-btn size="small" color="primary" icon="mdi-trash-can-outline" title="Remover Item">
                 </v-btn>
               </td>
             </tr>
@@ -56,11 +42,12 @@
       </v-card-text>
     </v-card>
   </v-container>
-
+  <v-container v-else>
+    Nada por aqui 😥
+  </v-container>
   <v-dialog v-model="dialog" max-width="500">
     <v-card>
-      <v-card-title>Laranja Umbigo - Item 266363</v-card-title
-      ><!--TODO: recuperar item pelo GET-->
+      <v-card-title>Laranja Umbigo - Item 266363</v-card-title><!--TODO: recuperar item pelo GET-->
       <v-card-text>
         <v-row>
           <v-col>
@@ -79,12 +66,7 @@
         <v-row>
           <v-col cols="12" sm="6">
             <h4>Quantidade Recebida:</h4>
-            <v-text-field
-              hide-details
-              variant="outlined"
-              density="compact"
-              suffix="Kg"
-            ></v-text-field>
+            <v-text-field hide-details variant="outlined" density="compact" suffix="Kg"></v-text-field>
             <!--TODO: trocar suffix de acordo com o tipo de medida-->
           </v-col>
         </v-row>
@@ -101,6 +83,9 @@
 
 <script setup>
 import { ref } from "vue";
+import { useCheckingCreate } from "~/composables/checking/useCheckingCreate";
 
 const dialog = ref(false);
+
+const { created } = useCheckingCreate();
 </script>

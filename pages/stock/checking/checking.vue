@@ -8,7 +8,7 @@
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
-          <v-btn color="primary" @click="goToRegistration">
+          <v-btn color="primary" @click="goToRegistration" :disabled="loading">
             Novo Registro
           </v-btn>
         </div>
@@ -21,59 +21,30 @@
         <v-form>
           <v-row>
             <v-col cols="12" sm="8">
-              <v-text-field
-                v-model="numeroRecebimento"
-                hide-details
-                label="Número do Recebimento"
-                variant="outlined"
-              ></v-text-field>
+              <v-text-field v-model="numeroRecebimento" hide-details label="Número do Recebimento"
+                variant="outlined"></v-text-field>
             </v-col>
 
             <v-col cols="12" sm="4">
-              <v-text-field
-                v-model="dataRecebimento"
-                hide-details
-                clearable
-                type="date"
-                label="Data do Recebimento"
-                variant="outlined"
-              ></v-text-field>
+              <v-text-field v-model="dataRecebimento" hide-details clearable type="date" label="Data do Recebimento"
+                variant="outlined"></v-text-field>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12" sm="4">
-              <v-select
-                v-model="fornecedor"
-                hide-details
-                clearable
-                label="Fornecedor"
-                :items="['', '', '', '']"
-                multiple
-                variant="outlined"
-              ></v-select>
+              <v-select v-model="fornecedor" hide-details clearable label="Fornecedor" :items="['', '', '', '']"
+                multiple variant="outlined"></v-select>
             </v-col>
 
             <v-col cols="12" sm="4">
-              <v-select
-                v-model="estoque"
-                clearable
-                label="Estoque"
-                :items="['', '', '']"
-                multiple
-                variant="outlined"
-              ></v-select>
+              <v-select v-model="estoque" clearable label="Estoque" :items="['', '', '']" multiple
+                variant="outlined"></v-select>
             </v-col>
 
             <v-col cols="12" sm="4">
-              <v-select
-                v-model="statusPedido"
-                clearable
-                label="Status"
-                :items="['Aguardando', 'Conferindo', 'Finalizado']"
-                multiple
-                variant="outlined"
-              ></v-select>
+              <v-select v-model="statusPedido" clearable label="Status"
+                :items="['Aguardando', 'Conferindo', 'Finalizado']" multiple variant="outlined"></v-select>
             </v-col>
           </v-row>
 
@@ -87,21 +58,12 @@
 
     <v-card class="mt-4">
       <v-card-text>
-        <v-data-table
-          :items="recebimentos"
-          :items-per-page="5"
-          class="elevation-1"
-        >
+        <v-data-table :items="checkings" :items-per-page="5" class="elevation-1">
           <template #recebimento="">
             <tr class="d-none d-md-table-row">
               <td></td>
               <td>
-                <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-trash-can-outline"
-                  title="Remover Item"
-                >
+                <v-btn size="small" color="primary" icon="mdi-trash-can-outline" title="Remover Item">
                 </v-btn>
               </td>
             </tr>
@@ -118,23 +80,20 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { ref, onMounted } from "vue";
-
-const router = useRouter();
-const route = useRoute();
+import { ref } from "vue";
+import { useChecking } from "~/composables/checking/useChecking";
+import { useCheckingCreate } from "~/composables/checking/useCheckingCreate";
 
 definePageMeta({
   layout: "default",
   middleware: "auth",
 });
 
-function editDelivery(id) {
-  router.push(`stock/checking/${id}`);
-}
+const router = useRouter();
+const route = useRoute();
 
-function goToRegistration() {
-  router.push("/stock/checking/create");
-}
+const { load, checkings } = useChecking();
+const { create, loading } = useCheckingCreate()
 
 const numeroRecebimento = ref("");
 const dataRecebimento = ref(new Date());
@@ -142,25 +101,14 @@ const fornecedor = ref([]);
 const estoque = ref([]);
 const statusPedido = ref([]);
 
-onMounted(() => {
-  numeroRecebimento.value = route.query.numeroRecebimento || "";
-  //  dataRecebimento.value = new Date(route.query.dataRecebimento || "");
-  fornecedor.value = route.query.fornecedor
-    ? Array.isArray(route.query.fornecedor)
-      ? route.query.fornecedor
-      : [route.query.fornecedor]
-    : [];
-  estoque.value = route.query.estoque
-    ? Array.isArray(route.query.estoque)
-      ? route.query.estoque
-      : [route.query.estoque]
-    : [];
-  statusPedido.value = route.query.statusPedido
-    ? Array.isArray(route.query.statusPedido)
-      ? route.query.statusPedido
-      : [route.query.statusPedido]
-    : [];
-});
+function editDelivery(id) {
+  router.push(`stock/checking/${id}`);
+}
+
+async function goToRegistration() {
+  await create();
+  router.push("/stock/checking/create");
+}
 
 function applyFilters() {
   router.push({
@@ -183,6 +131,31 @@ function clearFilters() {
 
   router.push({ query: {} });
 }
+
+async function build() {
+  numeroRecebimento.value = route.query.numeroRecebimento || "";
+  //  dataRecebimento.value = new Date(route.query.dataRecebimento || "");
+  fornecedor.value = route.query.fornecedor
+    ? Array.isArray(route.query.fornecedor)
+      ? route.query.fornecedor
+      : [route.query.fornecedor]
+    : [];
+  estoque.value = route.query.estoque
+    ? Array.isArray(route.query.estoque)
+      ? route.query.estoque
+      : [route.query.estoque]
+    : [];
+  statusPedido.value = route.query.statusPedido
+    ? Array.isArray(route.query.statusPedido)
+      ? route.query.statusPedido
+      : [route.query.statusPedido]
+    : [];
+
+  await load();
+}
+
+build()
+
 </script>
 
 <style></style>
