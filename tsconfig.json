@@ -1,5 +1,3 @@
-//tsconfig.json
-
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
@@ -15,6 +13,6 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["@types/node", "nuxt", "vite/client"]
+    "types": ["@types/node", "nuxt"]
   }
 }

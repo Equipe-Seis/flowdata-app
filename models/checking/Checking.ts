@@ -4,9 +4,10 @@ type CheckingStatus = "draft" | "received" | "cancelled";
 
 export interface CheckingLine {
   id: number;
-  supplyItemId: SupplyItem;
+  item: SupplyItem;
   receivedQty: number;
   unitOfMeasure: string;
+  supplyItemId: number;
 }
 
 export interface Checking {
@@ -16,6 +17,10 @@ export interface Checking {
   createdAt: Date;
   lines: CheckingLine[];
   checkingStatus: CheckingStatus;
+  formattedReceiptDate: string;
+  formattedCreatedAt: string;
+  lineCount: number;
+  statusDescription: string;
 }
 
 export interface CheckingListResponse {

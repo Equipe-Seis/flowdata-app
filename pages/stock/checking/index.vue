@@ -58,17 +58,14 @@
 
     <v-card class="mt-4">
       <v-card-text>
-        <v-data-table :items="checkings" :items-per-page="5" class="elevation-1">
-          <template #recebimento="">
-            <tr class="d-none d-md-table-row">
-              <td></td>
-              <td>
-                <v-btn size="small" color="primary" icon="mdi-trash-can-outline" title="Remover Item">
-                </v-btn>
-              </td>
-            </tr>
+        <v-data-table :items="checkings" :items-per-page="5" class="elevation-1" :headers="headers">
+          <template #item.actions="{item}">
+            <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0"
+              @click="editDelivery(item.id)">
+            </v-btn>
+            <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0">
+            </v-btn>
           </template>
-
           <template #no-data>
             Nenhum recebimento encontrado.
           </template>
@@ -89,6 +86,14 @@ definePageMeta({
   middleware: "auth",
 });
 
+const headers = ref([
+  { title: '#', key: 'id', align: 'start' },
+  { title: 'Status', key: 'statusDescription', align: 'start' },
+  { title: 'Data Recebimento', key: 'formattedReceiptDate', align: 'start' },
+  { title: 'Qtd. Linhas', key: 'lineCount', align: '' },
+  { title: 'Ações', key: 'actions', align: 'center', sortable: false },
+])
+
 const router = useRouter();
 const route = useRoute();
 
@@ -102,7 +107,7 @@ const estoque = ref([]);
 const statusPedido = ref([]);
 
 function editDelivery(id) {
-  router.push(`stock/checking/${id}`);
+  router.push(`checking/${id}`);
 }
 
 async function goToRegistration() {
