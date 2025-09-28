@@ -27,7 +27,7 @@
     <v-card class="mt-4">
       <v-card-title>Recebido</v-card-title>
       <v-card-text>
-        <v-data-table :items="checking.lines" :headers="headers" :items-per-page="25" class="elevation-1">
+        <v-data-table :items="checking.lines ?? []" :headers="headers" :items-per-page="25" class="elevation-1">
           <template #item.receivedQty="{item}">
             {{ item.receivedQty }} {{ item.unitOfMeasure }}
           </template>

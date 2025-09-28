@@ -1,14 +1,8 @@
-import type {
-  Checking,
-  CheckingListResponse,
-  CheckingQuery,
-} from "~/models/checking/Checking";
-
-//TODO: verificar se está correto
+import type { Checking, CheckingQuery } from "~/models/checking/Checking";
 
 export const fetchCheckings = async (
   params: CheckingQuery = {}
-): Promise<CheckingListResponse[]> => {
+): Promise<Checking[] | null> => {
   const searchParams = new URLSearchParams();
   if (params.page) searchParams.set("page", String(params.page));
   if (params.limit) searchParams.set("limit", String(params.limit));
@@ -17,7 +11,7 @@ export const fetchCheckings = async (
 
   const query = searchParams.toString();
   const path = query ? `/checkings?${query}` : "/checkings";
-  return await apiFetch<CheckingListResponse[]>(path);
+  return await apiFetch<Checking[] | null>(path);
 };
 
 export const fetchCheckingsSummary = async (): Promise<{ total: number }> => {
@@ -37,5 +31,11 @@ export const createChecking = async () => {
     body: {
       receiptDate: new Date(),
     },
+  });
+};
+
+export const deteleteChecking = async (id: number | string) => {
+  return await apiFetch<number>(`/checkings/${id}`, {
+    method: "DELETE",
   });
 };

@@ -8,7 +8,7 @@
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
-          <v-btn color="primary" @click="goToRegistration" :disabled="loading">
+          <v-btn color="primary" @click="createChecking" :disabled="loading">
             Novo Registro
           </v-btn>
         </div>
@@ -58,12 +58,12 @@
 
     <v-card class="mt-4">
       <v-card-text>
-        <v-data-table :items="checkings" :items-per-page="5" class="elevation-1" :headers="headers">
-          <template #item.actions="{item}">
-            <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0"
-              @click="editDelivery(item.id)">
+        <v-data-table :items="checkings ?? []" :items-per-page="5" class="elevation-1" :headers="headers">
+          <template #item.actions="{ item }">
+            <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0" @click="edit(item.id)">
             </v-btn>
-            <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0">
+            <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0"
+              @click="openDeleteDialog(item.id)">
             </v-btn>
           </template>
           <template #no-data>
@@ -72,54 +72,75 @@
         </v-data-table>
       </v-card-text>
     </v-card>
+    <v-dialog v-model="deleteDialog" max-width="400" persistent>
+      <v-card text="Tem certeza que deseja excluir este recebimento?" rounded="xl">
+        <template v-slot:prepend>
+          <v-icon icon="mdi-close-circle-outline" color="error"></v-icon>
+        </template>
+        <template v-slot:title>
+          <span class="text-error">Excluir</span>
+        </template>
+        <template v-slot:actions>
+          <v-btn @click="deleteDialog = false">
+            Cancelar
+          </v-btn>
+
+          <v-spacer></v-spacer>
+
+          <v-btn @click="removeChecking" color="error">
+            Excluir
+          </v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
+
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRouter, useRoute } from "vue-router";
 import { ref } from "vue";
 import { useChecking } from "~/composables/checking/useChecking";
 import { useCheckingCreate } from "~/composables/checking/useCheckingCreate";
+import { useCheckingEdit } from "~/composables/checking/useCheckingEdit";
 
 definePageMeta({
   layout: "default",
   middleware: "auth",
 });
 
-const headers = ref([
+const headers = [
   { title: '#', key: 'id', align: 'start' },
   { title: 'Status', key: 'statusDescription', align: 'start' },
   { title: 'Data Recebimento', key: 'formattedReceiptDate', align: 'start' },
-  { title: 'Qtd. Linhas', key: 'lineCount', align: '' },
+  { title: 'Qtd. Linhas', key: 'lineCount' },
   { title: 'Ações', key: 'actions', align: 'center', sortable: false },
-])
+]
 
 const router = useRouter();
 const route = useRoute();
 
 const { load, checkings } = useChecking();
-const { create, loading } = useCheckingCreate()
+const { create, loading, created } = useCheckingCreate()
+const { remove } = useCheckingEdit();
 
 const numeroRecebimento = ref("");
 const dataRecebimento = ref(new Date());
-const fornecedor = ref([]);
-const estoque = ref([]);
+const fornecedor = ref<string[]>([]);
+const estoque = ref<string[]>([]);
 const statusPedido = ref([]);
+const deleteDialog = ref(false);
+const toDeleteChecking = ref<number | null>();
 
-function editDelivery(id) {
+function edit(id: number) {
   router.push(`checking/${id}`);
-}
-
-async function goToRegistration() {
-  await create();
-  router.push("/stock/checking/create");
 }
 
 function applyFilters() {
   router.push({
     query: {
       numeroRecebimento: numeroRecebimento.value || undefined,
-      dataRecebimento: dataRecebimento.value || undefined,
+      dataRecebimento: dataRecebimento.value.toString() || undefined,
       fornecedor: fornecedor.value.length ? fornecedor.value : undefined,
       estoque: estoque.value.length ? estoque.value : undefined,
       statusPedido: statusPedido.value.length ? statusPedido.value : undefined,
@@ -128,8 +149,8 @@ function applyFilters() {
 }
 
 function clearFilters() {
-  numeroPedido.value = "";
-  dataRecebimento.value = "";
+  numeroRecebimento.value = "";
+  dataRecebimento.value = new Date();
   fornecedor.value = [];
   estoque.value = [];
   statusPedido.value = [];
@@ -137,12 +158,33 @@ function clearFilters() {
   router.push({ query: {} });
 }
 
+async function openDeleteDialog(id: number) {
+  deleteDialog.value = true;
+  toDeleteChecking.value = id;
+}
+
+async function removeChecking() {
+  if (toDeleteChecking.value) {
+    await remove(toDeleteChecking.value);
+    await build();
+  }
+  deleteDialog.value = false;
+}
+
+async function createChecking() {
+  await create();
+
+  if (created) {
+    router.push(`checking/${created.value?.id}`);
+  }
+}
+
 async function build() {
-  numeroRecebimento.value = route.query.numeroRecebimento || "";
+  numeroRecebimento.value = route.query.numeroRecebimento as string || "";
   //  dataRecebimento.value = new Date(route.query.dataRecebimento || "");
   fornecedor.value = route.query.fornecedor
     ? Array.isArray(route.query.fornecedor)
-      ? route.query.fornecedor
+      ? route.query.fornecedor as string[]
       : [route.query.fornecedor]
     : [];
   estoque.value = route.query.estoque
