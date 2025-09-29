@@ -6,6 +6,17 @@ export interface SupplyItem {
   description: string
 }
 
+export interface SupplyItemWithSupplier extends SupplyItem {
+  unitOfMeasure: string;
+  supplier: {
+    id: number;
+    createdAt: string;
+    tradeName: string;
+    type?: string;
+    legalNature: string;
+  };
+}
+
 export interface SupplyItemCreatePayload {
   name: string
   code: string

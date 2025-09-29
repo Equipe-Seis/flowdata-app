@@ -175,7 +175,7 @@ async function createChecking() {
   await create();
 
   if (created) {
-    router.push(`checking/${created.value?.id}`);
+    router.push(`/stock/checking/${created.value?.id}`);
   }
 }
 

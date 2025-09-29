@@ -25,6 +25,25 @@ export const fetchCheckingById = async (
   return await apiFetch<Checking>(`/checkings/${id}`);
 };
 
+export const addCheckingLine = async (data: any[]) => {
+  return await apiFetch<Checking>("/checkings/lines", {
+    method: "POST",
+    body: data,
+  });
+};
+
+export const deleteCheckingLine = async (
+  checkingId: number,
+  checkingLineId: number
+) => {
+  return await apiFetch<Checking>(
+    `/checkings/${checkingId}/lines/${checkingLineId}`,
+    {
+      method: "DELETE",
+    }
+  );
+};
+
 export const createChecking = async () => {
   return await apiFetch<Checking>(`/checkings`, {
     method: "POST",
