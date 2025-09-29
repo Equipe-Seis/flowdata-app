@@ -21,6 +21,9 @@
     "manage_orders": "Gerenciar Pedidos",
     "total_suppliers":"Total de Fornecedores"
   },
+  "stock":{
+    "empty": "Nenhum item encontrado."
+  },
   "supplier": {
     "page_title": "Fornecedores",
     "new": "Novo Fornecedor",
@@ -93,7 +96,7 @@
     "edit_supply_item": "Editar Insumo"
   },
   "common": {
-    "search": "Buscar",
+    "search": "Pesquisar",
     "clear": "Limpar",
     "back": "Voltar",
     "edit": "Editar",
@@ -108,7 +111,8 @@
     "view": "Visualizar",
     "logout": "Sair",
     "actions": "Ações",
-    "no_data": "Nenhum dado encontrado"
+    "no_data": "Nenhum dado encontrado",
+    "filters": "Filtros"
   },
   "validation": {
     "required": "Campo obrigatório",

@@ -105,11 +105,11 @@ const router = useRouter();
 const route = useRoute();
 
 const headers = [
-  { title: "#", key: "id", align: "start" },
-  { title: "Item", key: "item.name", align: "start" },
-  { title: "Código", key: "item.code", align: "start" },
-  { title: "Recebido", key: "receivedQty", align: "start" },
-  { title: "Ações", key: "actions", align: 'center', sortable: false },
+  { title: "#", key: "id"},
+  { title: "Item", key: "item.name"},
+  { title: "Código", key: "item.code"},
+  { title: "Recebido", key: "receivedQty"},
+  { title: "Ações", key: "actions", sortable: false },
 ];
 
 function goBack() {

@@ -21,8 +21,8 @@
           </template>
           <v-list-item to="/stock/checking" link @click="closeDrawerOnMobile" :title="$t('menu.checking_supply')"
             color="primary" />
-          <v-list-item to="/stock/movements/stock_movements" link @click="closeDrawerOnMobile"
-            :title="$t('menu.stock_movements')" color="primary" />
+          <v-list-item to="/stock/movements/stock" link @click="closeDrawerOnMobile"
+            :title="$t('menu.estoque')" color="primary" />
         </v-list-group>
 
         <v-list-item to="/users/users" link @click="closeDrawerOnMobile" prepend-icon="mdi-account-group"

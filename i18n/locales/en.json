@@ -76,6 +76,9 @@
       "person_type_individual": "Individual",
       "person_type_legalentity": "Legal Entity"
     },
+  "stock":{
+    "empty": "No items found."
+  },
     "supply": {
       "create_title": "Create Supply Item",
       "name": "Name",
@@ -108,7 +111,8 @@
       "view": "View",
       "logout": "Logout",
       "actions": "Actions",
-      "no_data": "No data found"
+      "no_data": "No data found",
+      "filters": "Filters"
 
     },
     "validation": {
@@ -150,9 +154,6 @@
       "confirm_delete": "Do you really want to delete this user?",
       "edit_title": "Edit User",
       "permissions_count": "{count} permissions"
-  
-
-
     },
     "admin": "Administrator",
     "supply_supervisor": "Supply Supervisor",
