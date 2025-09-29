@@ -110,11 +110,11 @@ definePageMeta({
 });
 
 const headers = [
-  { title: '#', key: 'id', align: 'start' },
-  { title: 'Status', key: 'statusDescription', align: 'start' },
-  { title: 'Data Recebimento', key: 'formattedReceiptDate', align: 'start' },
+  { title: '#', key: 'id'},
+  { title: 'Status', key: 'statusDescription'},
+  { title: 'Data Recebimento', key: 'formattedReceiptDate'},
   { title: 'Qtd. Linhas', key: 'lineCount' },
-  { title: 'Ações', key: 'actions', align: 'center', sortable: false },
+  { title: 'Ações', key: 'actions', sortable: false },
 ]
 
 const router = useRouter();
@@ -128,12 +128,12 @@ const numeroRecebimento = ref("");
 const dataRecebimento = ref(new Date());
 const fornecedor = ref<string[]>([]);
 const estoque = ref<string[]>([]);
-const statusPedido = ref([]);
+const statusPedido = ref<string[]>([]);
 const deleteDialog = ref(false);
 const toDeleteChecking = ref<number | null>();
 
 function edit(id: number) {
-  router.push(`checking/${id}`);
+  router.push(`/stock/checking/${id}`);
 }
 
 function applyFilters() {
@@ -189,12 +189,12 @@ async function build() {
     : [];
   estoque.value = route.query.estoque
     ? Array.isArray(route.query.estoque)
-      ? route.query.estoque
+      ? route.query.estoque as string[]
       : [route.query.estoque]
     : [];
   statusPedido.value = route.query.statusPedido
     ? Array.isArray(route.query.statusPedido)
-      ? route.query.statusPedido
+      ? route.query.statusPedido as string[]
       : [route.query.statusPedido]
     : [];
 
