@@ -15,7 +15,7 @@
           <v-row>
             <v-col cols="12" sm="12">
               <v-text-field
-                v-model="codigoItem"
+                v-model="itemCode"
                 hide-details
                 label="Código do Item"
                 variant="outlined"
@@ -36,18 +36,10 @@
       <v-card-text>
         <v-data-table
           :headers="headers"
-          :items="items"
+          :items="inventSum"
           :items-per-page="5"
           class="elevation-1"
         >
-          <template #item="">
-            <tr class="d-none d-md-table-row">
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </template>
-
           <template #no-data>
             {{$t('stock.empty')}}
           </template>
@@ -57,43 +49,52 @@
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRouter, useRoute } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
+import { useInventory } from "~/composables/inventory/useInventory";
+
+const headers = [
+  { title: "#", key: "id" },
+  { title: "Id Item", key: "supplyItem.id" },
+  { title: "Item", key: "supplyItem.name" },
+  { title: "Quantidade", key: "quantity" },
+  { title: "Medida", key: "unitOfMeasure" },
+  { title: "Última Atualização", key: "formattedUpdatedAt" },
+];
 
 const router = useRouter();
 const route = useRoute();
+const { inventSum, load } =  useInventory();
+
+const itemCode = ref("");
 
 definePageMeta({
   layout: "default",
   middleware: "auth",
 });
 
-const headers = [
-  { title: "Código Item", key: "id" },
-  { title: "Nome Item", key: "nomeItem" },
-  { title: "Última Atualização", key: "dataAtualizacao" },
-];
-
-const codigoItem = ref("");
-
-onMounted(() => {
-  codigoItem.value = route.query.codigoItem || "";
-});
-
 function applyFilters() {
   router.push({
     query: {
-      codigoItem: codigoItem.value || undefined,
+      codigoItem: itemCode.value || undefined,
     },
   });
 }
 
 function clearFilters() {
-  codigoItem.value = "";
+  itemCode.value = "";
 
   router.push({ query: {} });
 }
+
+async function build() {
+  itemCode.value = route.query.codigoItem || "";
+  load();
+}
+
+build()
+
 </script>
 
 <style></style>

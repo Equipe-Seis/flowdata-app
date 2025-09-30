@@ -8,8 +8,10 @@
         </div>
       </v-col>
       <v-col>
-        <div class="d-flex justify-end ga-4" @click="goBack">
-          <v-btn>Voltar</v-btn>
+        <div class="d-flex justify-end ga-4">
+          <v-btn @click="goBack">Voltar</v-btn>
+          <v-btn color="primary" :disabled="checking.lines.length == 0" @click="concludeDialog = true">Finalizar
+            Recebimento</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -40,8 +42,6 @@
           </template>
 
           <template #item.actions="{ item }">
-            <!-- <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0">
-            </v-btn> -->
             <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0" @click="deleteLine(item.id)">
             </v-btn>
           </template>
@@ -89,6 +89,59 @@
     <v-card title="Item não enctrado" v-else>
     </v-card>
   </v-dialog>
+
+  <!-- CONCLUDE DIALOG -->
+  <v-dialog v-model="concludeDialog" max-width="400" :persistent="loading">
+    <v-card rounded="xl">
+      <template v-slot:prepend>
+        <v-icon icon="mdi-check-circle-outline" color="primary"></v-icon>
+      </template>
+      <template v-slot:text>
+        <div class="text-center d-flex flex-column ga-2">
+          <div>Tem certeza que deseja concluir este recebimento?</div>
+          <div>Ao clicar em <span class="text-primary">Confirmar</span> este recebimento não podera mais ser
+            editado ou removido.
+          </div>
+        </div>
+      </template>
+      <template v-slot:title>
+        <span class="text-primary">Finalizar Recebimento?</span>
+      </template>
+      <template v-slot:actions>
+        <v-btn @click="concludeDialog = false" :disabled="loading">
+          Cancelar
+        </v-btn>
+
+        <v-spacer></v-spacer>
+
+        <v-btn color="primary" :loading="loading" @click="concludeChecking">
+          Confirmar
+        </v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="successDialog" max-width="400" persistent>
+    <v-card rounded="xl">
+      <template v-slot:text>
+        <div class="text-center d-flex flex-column ga-2 align-center">
+          <v-icon icon="mdi-check-circle-outline" color="primary" size="100"></v-icon>
+          <div>Recebimento concluido com sucesso!</div>
+          <div>Você será redirecionado para a tela de listagem.</div>
+        </div>
+      </template>
+      <template v-slot:title>
+        <div class="text-center d-flex flex-column ga-2 align-center">
+          <span class="text-primary">Recebimento concluído</span>
+        </div>
+      </template>
+      <template v-slot:actions>
+        <v-btn color="primary" block variant="flat" rounded="xl" @click="goBack">
+          OK
+        </v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -97,29 +150,31 @@ import { ref } from "vue";
 import { useCheckingEdit } from "~/composables/checking/useCheckingEdit";
 import { useUseCheckingLine } from "~/composables/checking/useCheckingLine";
 
+const headers = [
+  { title: "#", key: "id" },
+  { title: "Item", key: "item.name" },
+  { title: "Código", key: "item.code" },
+  { title: "Recebido", key: "receivedQty" },
+  { title: "Ações", key: "actions", sortable: false },
+];
+
 const itemDialog = ref(false);
+const concludeDialog = ref(false);
+const successDialog = ref(false);
 const itemCode = ref('');
 const receivedQty = ref(0);
 
 const router = useRouter();
 const route = useRoute();
 
-const headers = [
-  { title: "#", key: "id"},
-  { title: "Item", key: "item.name"},
-  { title: "Código", key: "item.code"},
-  { title: "Recebido", key: "receivedQty"},
-  { title: "Ações", key: "actions", sortable: false },
-];
-
-function goBack() {
-  router.push("/stock/checking/");
-}
-
 const id = Number(route.params.id as string);
 
-const { load, loading, checking, item, itemLoading, loadItem } = useCheckingEdit();
+const { load, loading, checking, item, itemLoading, loadItem, conclude } = useCheckingEdit();
 const { create, loading: loadingLine, remove } = useUseCheckingLine();
+
+const goBack = () => {
+  router.push("/stock/checking/");
+}
 
 const getItem = async () => {
   if (!itemCode.value) {
@@ -157,6 +212,13 @@ const createLine = async () => {
     build()
     itemDialog.value = false;
   })
+}
+
+const concludeChecking = async () => {
+  await conclude(() => {
+    concludeDialog.value = false;
+    successDialog.value = true;
+  });
 }
 
 const build = async () => {

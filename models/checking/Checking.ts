@@ -1,6 +1,6 @@
 import type { SupplyItem } from "../supplyitem/SupplyItem";
 
-type CheckingStatus = "draft" | "received" | "cancelled";
+export type CheckingStatus = "draft" | "received" | "cancelled";
 
 export interface CheckingLine {
   id: number;

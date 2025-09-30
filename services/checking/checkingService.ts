@@ -53,6 +53,12 @@ export const createChecking = async () => {
   });
 };
 
+export const concludeChecking = async (id: number) => {
+  return await apiFetch<Checking>(`/checkings/${id}/conclude`, {
+    method: "POST",
+  });
+};
+
 export const deteleteChecking = async (id: number | string) => {
   return await apiFetch<number>(`/checkings/${id}`, {
     method: "DELETE",

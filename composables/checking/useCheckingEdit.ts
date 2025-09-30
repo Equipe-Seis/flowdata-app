@@ -4,6 +4,7 @@ import type {
   SupplyItemWithSupplier,
 } from "~/models/supplyitem/SupplyItem";
 import {
+  concludeChecking,
   deteleteChecking,
   fetchCheckingById,
 } from "~/services/checking/checkingService";
@@ -57,6 +58,22 @@ export const useCheckingEdit = () => {
     }
   };
 
+  const conclude = async (onSuccess?: () => void) => {
+    if (!checking.value) return;
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await concludeChecking(checking.value?.id);
+      onSuccess && onSuccess();
+    } catch (e: any) {
+      error.value = e?.message || "Falha ao buscar os recebimentos";
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     loading,
     load,
@@ -66,5 +83,6 @@ export const useCheckingEdit = () => {
     itemError,
     item,
     loadItem,
+    conclude,
   };
 };

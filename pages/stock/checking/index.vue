@@ -60,11 +60,10 @@
       <v-card-text>
         <v-data-table :items="checkings ?? []" :items-per-page="5" class="elevation-1" :headers="headers">
           <template #item.actions="{ item }">
-            <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0" @click="edit(item.id)">
-            </v-btn>
+            <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0" @click="edit(item.id)"
+              :disabled="item.checkingStatus != 'draft'" />
             <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0"
-              @click="openDeleteDialog(item.id)">
-            </v-btn>
+              @click="openDeleteDialog(item.id)" :disabled="item.checkingStatus != 'draft'" />
           </template>
           <template #no-data>
             Nenhum recebimento encontrado.
@@ -72,27 +71,29 @@
         </v-data-table>
       </v-card-text>
     </v-card>
-    <v-dialog v-model="deleteDialog" max-width="400" persistent>
-      <v-card text="Tem certeza que deseja excluir este recebimento?" rounded="xl">
-        <template v-slot:prepend>
-          <v-icon icon="mdi-close-circle-outline" color="error"></v-icon>
-        </template>
-        <template v-slot:title>
-          <span class="text-error">Excluir</span>
-        </template>
-        <template v-slot:actions>
-          <v-btn @click="deleteDialog = false">
-            Cancelar
-          </v-btn>
 
-          <v-spacer></v-spacer>
+    < !--DELETE DIALOG-->
+      <v-dialog v-model="deleteDialog" max-width="400" persistent>
+        <v-card text="Tem certeza que deseja excluir este recebimento?" rounded="xl">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-close-circle-outline" color="error"></v-icon>
+          </template>
+          <template v-slot:title>
+            <span class="text-error">Excluir</span>
+          </template>
+          <template v-slot:actions>
+            <v-btn @click="deleteDialog = false">
+              Cancelar
+            </v-btn>
 
-          <v-btn @click="removeChecking" color="error">
-            Excluir
-          </v-btn>
-        </template>
-      </v-card>
-    </v-dialog>
+            <v-spacer></v-spacer>
+
+            <v-btn @click="removeChecking" color="error">
+              Excluir
+            </v-btn>
+          </template>
+        </v-card>
+      </v-dialog>
 
   </v-container>
 </template>
@@ -110,9 +111,9 @@ definePageMeta({
 });
 
 const headers = [
-  { title: '#', key: 'id'},
-  { title: 'Status', key: 'statusDescription'},
-  { title: 'Data Recebimento', key: 'formattedReceiptDate'},
+  { title: '#', key: 'id' },
+  { title: 'Status', key: 'statusDescription' },
+  { title: 'Data Recebimento', key: 'formattedReceiptDate' },
   { title: 'Qtd. Linhas', key: 'lineCount' },
   { title: 'Ações', key: 'actions', sortable: false },
 ]
@@ -181,7 +182,9 @@ async function createChecking() {
 
 async function build() {
   numeroRecebimento.value = route.query.numeroRecebimento as string || "";
-  //  dataRecebimento.value = new Date(route.query.dataRecebimento || "");
+  dataRecebimento.value = route.query.dataRecebimento
+    ? new Date(route.query.dataRecebimento as string)
+    : new Date();
   fornecedor.value = route.query.fornecedor
     ? Array.isArray(route.query.fornecedor)
       ? route.query.fornecedor as string[]
