@@ -60,10 +60,12 @@
       <v-card-text>
         <v-data-table :items="checkings ?? []" :items-per-page="5" class="elevation-1" :headers="headers">
           <template #item.actions="{ item }">
+            <v-btn color="blue" icon="mdi-eye-outline" variant="text" elevation="0" @click="visualize(item.id)"
+              :disabled="item.status == 'draft'" />
             <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0" @click="edit(item.id)"
-              :disabled="item.checkingStatus != 'draft'" />
+              :disabled="item.status != 'draft'" />
             <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0"
-              @click="openDeleteDialog(item.id)" :disabled="item.checkingStatus != 'draft'" />
+              @click="openDeleteDialog(item.id)" :disabled="item.status != 'draft'" />
           </template>
           <template #no-data>
             Nenhum recebimento encontrado.
@@ -72,7 +74,7 @@
       </v-card-text>
     </v-card>
 
-    < !--DELETE DIALOG-->
+    <!--DELETE DIALOG-->
       <v-dialog v-model="deleteDialog" max-width="400" persistent>
         <v-card text="Tem certeza que deseja excluir este recebimento?" rounded="xl">
           <template v-slot:prepend>
@@ -134,6 +136,10 @@ const deleteDialog = ref(false);
 const toDeleteChecking = ref<number | null>();
 
 function edit(id: number) {
+  router.push(`/stock/checking/${id}`);
+}
+
+function visualize(id: number) {
   router.push(`/stock/checking/${id}`);
 }
 

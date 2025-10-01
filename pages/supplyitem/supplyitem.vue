@@ -3,18 +3,20 @@
     <v-row>
       <v-col>
         <div class="mt-10">
-          <h1 class="text-h4 mb-4">{{ $t('supply.supplies_title') }}</h1>
+          <h1 class="text-h4 mb-4">{{ $t("supply.supplies_title") }}</h1>
         </div>
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
-          <v-btn color="primary" @click="goToCreate">{{ $t('supply.new_supply') }}</v-btn>
+          <v-btn color="primary" @click="goToCreate">{{
+            $t("supply.new_supply")
+          }}</v-btn>
         </div>
       </v-col>
     </v-row>
 
     <v-card>
-      <v-card-title>{{ $t('supply.filters') }}</v-card-title>
+      <v-card-title>{{ $t("supply.filters") }}</v-card-title>
       <v-card-text>
         <v-form>
           <v-row>
@@ -28,8 +30,12 @@
             </v-col>
           </v-row>
           <div class="d-flex justify-end ga-4 mt-4">
-            <v-btn color="primary" @click.prevent="applyFilters">{{ $t('common.search') }}</v-btn>
-            <v-btn class="me-2" @click.prevent="clearFilters">{{ $t('common.clear') }}</v-btn>
+            <v-btn color="primary" @click.prevent="applyFilters">{{
+              $t("common.search")
+            }}</v-btn>
+            <v-btn class="me-2" @click.prevent="clearFilters">{{
+              $t("common.clear")
+            }}</v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -56,12 +62,13 @@
               <td>{{ item.code }}</td>
               <td>{{ item.price }}</td>
               <td>{{ item.description }}</td>
-              
+
               <td class="d-flex ga-2">
                 <v-btn
-                  size="small"
-                  color="primary"
-                  icon="mdi-eye"
+                  color="blue"
+                  icon="mdi-eye-outline"
+                  variant="text"
+                  elevation="0"
                   @click="viewSupplyitem(item.id)"
                   :title="$t('common.view')"
                 ></v-btn>
@@ -76,11 +83,22 @@
             </tr>
 
             <div class="d-md-none pa-2 my-2 border rounded">
-              <div><strong>{{ $t('supply.id') }}:</strong> {{ item.id }}</div>
-              <div><strong>{{ $t('supply.name') }}:</strong> {{ item.name }}</div>
-              <div><strong>{{ $t('supply.code') }}:</strong> {{ item.code }}</div>
-              <div><strong>{{ $t('supply.price') }}:</strong> {{ item.price }}</div>
-              <div><strong>{{ $t('supply.description') }}:</strong> {{ item.description }}</div>
+              <div>
+                <strong>{{ $t("supply.id") }}:</strong> {{ item.id }}
+              </div>
+              <div>
+                <strong>{{ $t("supply.name") }}:</strong> {{ item.name }}
+              </div>
+              <div>
+                <strong>{{ $t("supply.code") }}:</strong> {{ item.code }}
+              </div>
+              <div>
+                <strong>{{ $t("supply.price") }}:</strong> {{ item.price }}
+              </div>
+              <div>
+                <strong>{{ $t("supply.description") }}:</strong>
+                {{ item.description }}
+              </div>
               <div class="mt-2">
                 <!--<v-btn
                   size="small"
@@ -93,7 +111,7 @@
             </div>
           </template>
 
-          <template #no-data>{{ $t('common.no_data') }}</template>
+          <template #no-data>{{ $t("common.no_data") }}</template>
         </v-data-table>
       </v-card-text>
     </v-card>
@@ -101,39 +119,39 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useSupplyItem } from '~/composables/supplyitem/useSupplyItem'
+import { ref, onMounted, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useSupplyItem } from "~/composables/supplyitem/useSupplyItem";
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
 definePageMeta({
-  layout: 'default',
-  middleware: 'auth',
-})
+  layout: "default",
+  middleware: "auth",
+});
 
-const { list, total, loading, error, load } = useSupplyItem()
+const { list, total, loading, error, load } = useSupplyItem();
 
-const supplyitem = computed(() => list.value || [])
+const supplyitem = computed(() => list.value || []);
 
 const headers = [
-  { title: $t('supply.id'), key: 'id' },
-  { title: $t('supply.name'), key: 'name' },
-  { title: $t('supply.code'), key: 'code' },
-  { title: $t('supply.price'), key: 'price' },
-  { title: $t('supply.description'), key: 'description' },
-  { title: $t('common.actions'), key: 'actions', sortable: false }
-]
+  { title: $t("supply.id"), key: "id" },
+  { title: $t("supply.name"), key: "name" },
+  { title: $t("supply.code"), key: "code" },
+  { title: $t("supply.price"), key: "price" },
+  { title: $t("supply.description"), key: "description" },
+  { title: $t("common.actions"), key: "actions", sortable: false },
+];
 
-const search = ref(route.query.search || '')
-const status = ref(route.query.status || '')
-const page = ref(Number(route.query.page || 1))
-const limit = ref(Number(route.query.limit || 10))
+const search = ref(route.query.search || "");
+const status = ref(route.query.status || "");
+const page = ref(Number(route.query.page || 1));
+const limit = ref(Number(route.query.limit || 10));
 
 onMounted(() => {
-  applyFilters(true)
-})
+  applyFilters(true);
+});
 
 function applyFilters(initial = false) {
   const query = {
@@ -141,42 +159,42 @@ function applyFilters(initial = false) {
     status: status.value || undefined,
     page: page.value || 1,
     limit: limit.value || 10,
-  }
+  };
   if (!initial) {
-    router.push({ query })
+    router.push({ query });
   }
-  load(query)
+  load(query);
 }
 
 function clearFilters() {
-  search.value = ''
-  status.value = ''
-  page.value = 1
-  router.push({ query: {} })
-  load({ page: 1, limit: limit.value })
+  search.value = "";
+  status.value = "";
+  page.value = 1;
+  router.push({ query: {} });
+  load({ page: 1, limit: limit.value });
 }
 
 function goToCreate() {
-  router.push('/supplyitem/create')
+  router.push("/supplyitem/create");
 }
 
 function viewSupplyitem(id) {
-  router.push(`/supplyitem/${id}`)
+  router.push(`/supplyitem/${id}`);
 }
 
 function editSupplyitem(id) {
-  router.push(`/supplyitem/${id}/edit`)
+  router.push(`/supplyitem/${id}/edit`);
 }
 
 function onPageChange(p) {
-  page.value = p
-  applyFilters()
+  page.value = p;
+  applyFilters();
 }
 
 function onLimitChange(l) {
-  limit.value = l < 1 ? 10 : l
-  page.value = 1
-  applyFilters()
+  limit.value = l < 1 ? 10 : l;
+  page.value = 1;
+  applyFilters();
 }
 </script>
 

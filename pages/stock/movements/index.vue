@@ -3,13 +3,13 @@
     <v-row>
       <v-col>
         <div class="mt-10">
-          <h1 class="text-h4 mb-4">{{$t('menu.estoque')}}</h1>
+          <h1 class="text-h4 mb-4">{{ $t("menu.estoque") }}</h1>
         </div>
       </v-col>
     </v-row>
 
     <v-card>
-      <v-card-title>{{$t('common.filters')}}</v-card-title>
+      <v-card-title>{{ $t("common.filters") }}</v-card-title>
       <v-card-text>
         <v-form>
           <v-row>
@@ -25,9 +25,11 @@
 
           <div class="d-flex justify-start ga-4 mt-4">
             <v-btn color="primary" @click.prevent="applyFilters">
-              {{$t('common.search')}}
+              {{ $t("common.search") }}
             </v-btn>
-            <v-btn class="me-2" @click.prevent="clearFilters"> {{$t('common.clear')}} </v-btn>
+            <v-btn class="me-2" @click.prevent="clearFilters">
+              {{ $t("common.clear") }}
+            </v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -41,7 +43,7 @@
           class="elevation-1"
         >
           <template #no-data>
-            {{$t('stock.empty')}}
+            {{ $t("stock.empty") }}
           </template>
         </v-data-table>
       </v-card-text>
@@ -65,9 +67,9 @@ const headers = [
 
 const router = useRouter();
 const route = useRoute();
-const { inventSum, load } =  useInventory();
+const { inventSum, load } = useInventory();
 
-const itemCode = ref("");
+const itemCode = ref<string[]>([]);
 
 definePageMeta({
   layout: "default",
@@ -83,18 +85,21 @@ function applyFilters() {
 }
 
 function clearFilters() {
-  itemCode.value = "";
+  itemCode.value = [];
 
   router.push({ query: {} });
 }
 
 async function build() {
-  itemCode.value = route.query.codigoItem || "";
-  load();
+  itemCode.value = route.query.codigoItem
+    ? Array.isArray(route.query.codigoItem)
+      ? (route.query.codigoItem as string[])
+      : [route.query.codigoItem]
+    : [];
+    load();
 }
 
-build()
-
+build();
 </script>
 
 <style></style>

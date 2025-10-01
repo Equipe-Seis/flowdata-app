@@ -10,21 +10,21 @@
       <v-col>
         <div class="d-flex justify-end ga-4">
           <v-btn @click="goBack">Voltar</v-btn>
-          <v-btn color="primary" :disabled="checking.lines.length == 0" @click="concludeDialog = true">Finalizar
+          <v-btn color="primary" :disabled="checking.lines.length == 0" @click="concludeDialog = true" v-if="!isReadOnly">Finalizar
             Recebimento</v-btn>
         </div>
       </v-col>
     </v-row>
 
-    <v-card class="mt-10">
+    <v-card class="mt-10" v-if="!isReadOnly">
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="10">
             <v-text-field hide-details label="Digite o código do produto..." variant="outlined" v-model="itemCode"
-              :loading="itemLoading" />
+              :loading="itemLoading" :disabled="isReadOnly"/>
           </v-col>
           <v-col cols="12" sm="2">
-            <v-btn color="primary" size="x-large" @click="getItem" :disabled="itemCode.length < 3 || itemLoading">
+            <v-btn color="primary" size="x-large" @click="getItem" :disabled="(itemCode.length < 3 || itemLoading) || isReadOnly">
               Confirmar
             </v-btn>
           </v-col>
@@ -42,7 +42,7 @@
           </template>
 
           <template #item.actions="{ item }">
-            <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0" @click="deleteLine(item.id)">
+            <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0" @click="deleteLine(item.id)" :disabled="isReadOnly">
             </v-btn>
           </template>
 
@@ -86,7 +86,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-card title="Item não enctrado" v-else>
+    <v-card title="Item não encontrado." v-else>
     </v-card>
   </v-dialog>
 
@@ -172,6 +172,8 @@ const id = Number(route.params.id as string);
 const { load, loading, checking, item, itemLoading, loadItem, conclude } = useCheckingEdit();
 const { create, loading: loadingLine, remove } = useUseCheckingLine();
 
+const isReadOnly = ref(true);
+
 const goBack = () => {
   router.push("/stock/checking/");
 }
@@ -223,6 +225,8 @@ const concludeChecking = async () => {
 
 const build = async () => {
   await load(id);
+
+  isReadOnly.value = checking.value?.status != 'draft';
 };
 
 build();
