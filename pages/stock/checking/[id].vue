@@ -9,8 +9,8 @@
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4">
-          <v-btn @click="goBack">Voltar</v-btn>
-          <v-btn color="primary" :disabled="checking.lines.length == 0" @click="concludeDialog = true" v-if="!isReadOnly">Finalizar
+          <v-btn @click="goBack" id="stock-back-button">Voltar</v-btn>
+          <v-btn color="primary" :disabled="checking.lines.length == 0" @click="concludeDialog = true" v-if="!isReadOnly" id="stock-end-button">Finalizar
             Recebimento</v-btn>
         </div>
       </v-col>
@@ -21,10 +21,10 @@
         <v-row>
           <v-col cols="12" sm="10">
             <v-text-field hide-details label="Digite o código do produto..." variant="outlined" v-model="itemCode"
-              :loading="itemLoading" :disabled="isReadOnly"/>
+              :loading="itemLoading" :disabled="isReadOnly"  id="stock-codpro-input"/>
           </v-col>
           <v-col cols="12" sm="2">
-            <v-btn color="primary" size="x-large" @click="getItem" :disabled="(itemCode.length < 3 || itemLoading) || isReadOnly">
+            <v-btn color="primary" size="x-large" @click="getItem" :disabled="(itemCode.length < 3 || itemLoading) || isReadOnly" id="stock-prod-confirm-button">
               Confirmar
             </v-btn>
           </v-col>
@@ -42,7 +42,7 @@
           </template>
 
           <template #item.actions="{ item }">
-            <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0" @click="deleteLine(item.id)" :disabled="isReadOnly">
+            <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0" @click="deleteLine(item.id)" :disabled="isReadOnly" id="stock-del-button">
             </v-btn>
           </template>
 
@@ -74,7 +74,7 @@
           <v-col cols="12" sm="6">
             <h4>Quantidade Recebida:</h4>
             <v-text-field hide-details variant="outlined" density="compact" :suffix="item.unitOfMeasure"
-              v-model="receivedQty" type="number"></v-text-field>
+              v-model="receivedQty" type="number" id="stock-received-qty-input"></v-text-field>
           </v-col>
         </v-row>
       </v-card-text>
@@ -82,7 +82,7 @@
       <v-card-actions>
         <v-btn text="Cancelar" @click="itemDialog = false"></v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :disabled="receivedQty <= 0 || loadingLine" @click="createLine"> Registrar </v-btn>
+        <v-btn color="primary" :disabled="receivedQty <= 0 || loadingLine" @click="createLine" id="stock-crete-line-button"> Registrar </v-btn>
       </v-card-actions>
     </v-card>
 
@@ -108,13 +108,13 @@
         <span class="text-primary">Finalizar Recebimento?</span>
       </template>
       <template v-slot:actions>
-        <v-btn @click="concludeDialog = false" :disabled="loading">
+        <v-btn @click="concludeDialog = false" :disabled="loading" id="stock-cancel-receive-button">
           Cancelar
         </v-btn>
 
         <v-spacer></v-spacer>
 
-        <v-btn color="primary" :loading="loading" @click="concludeChecking">
+        <v-btn color="primary" :loading="loading" @click="concludeChecking" id="stock-conclude-checking-button">
           Confirmar
         </v-btn>
       </template>
@@ -136,7 +136,7 @@
         </div>
       </template>
       <template v-slot:actions>
-        <v-btn color="primary" block variant="flat" rounded="xl" @click="goBack">
+        <v-btn color="primary" block variant="flat" rounded="xl" @click="goBack" id="stock-ok-button">
           OK
         </v-btn>
       </template>
