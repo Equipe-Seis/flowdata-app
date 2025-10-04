@@ -11,7 +11,7 @@
 
         <v-form ref="form" v-model="valid">
           <v-text-field v-model="email" label="Usuário:" variant="outlined" density="comfortable" class="mb-4"
-            :rules="emailRules" data-cy="email-input" required />
+            :rules="emailRules" data-cy="email-input" id="login-email-input" required />
           <v-text-field
             v-model="password"
             label="Senha:"
@@ -24,10 +24,11 @@
             data-cy="password-input"
             :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append-inner="showPassword = !showPassword"
+            id
           />
           <v-checkbox v-model="remember" label="Lembre-se de mim." hide-details class="mb-4" />
           <v-btn :disabled="!valid" block size="large" class="text-white" style="background-color: #1fcf54"
-            @click="login" data-cy="button-login">
+            @click="login" id="login-save-button"> 
             Entrar
           </v-btn>
         </v-form>
