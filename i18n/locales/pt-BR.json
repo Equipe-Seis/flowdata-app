@@ -93,7 +93,9 @@
     "id": "ID",
     "supply_item_detail": "Detalhes do Insumo",
     "supply_details": "Detalhes do Insumo",
-    "edit_supply_item": "Editar Insumo"
+    "edit_supply_item": "Editar Insumo",
+    "supplier": "Fornecedor",
+    "unit_of_measure": "Unidade de Medida"
   },
   "common": {
     "search": "Pesquisar",

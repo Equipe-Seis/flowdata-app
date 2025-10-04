@@ -18,10 +18,12 @@ export interface SupplyItemWithSupplier extends SupplyItem {
 }
 
 export interface SupplyItemCreatePayload {
-  name: string
-  code: string
-  price: number
-  description: string
+  name: string;
+  code: string;
+  price: number;
+  description: string;
+  supplierId: number | null;
+  unitOfMeasure: "KG" | "UN";
 }
 
 export interface SupplyItemListResponse {

@@ -92,8 +92,9 @@
       "id": "ID",
       "supply_item_detail": "Supply Item Detail",
       "supply_details": "Supply Details",
-      "edit_supply_item": "Edit Supply Item"
-
+      "edit_supply_item": "Edit Supply Item", 
+      "supplier": "Supplier",
+      "unit_of_measure": "Measurement Unit"
     },
     "common": {
       "search": "Search",

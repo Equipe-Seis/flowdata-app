@@ -1,9 +1,11 @@
 
 import { useState } from 'nuxt/app'
-import { ref } from 'vue'
-// @ts-ignore
-import type { Supplier, SupplierListResponse, SupplierQuery } from '~/models/supplier/Supplier'
-// @ts-ignore
+import { ref } from "vue";
+import type {
+  Supplier,
+  SupplierListResponse,
+  SupplierQuery,
+} from "~/models/supplier/Supplier";
 import { fetchSuppliers } from '~/services/supplier/supplierService'
 
 export const useSuppliers = () => {

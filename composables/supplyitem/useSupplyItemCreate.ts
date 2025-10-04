@@ -5,7 +5,14 @@ import { createSupplyItem } from '~/services/supplyitem/supplyitemService'
 export const useSupplyItemCreate = () => {
   const loading = ref(false)
   const error = ref<string | null>(null)
-  const payload = ref<SupplyItemCreatePayload>({ name: '', code: '', price: 0, description: '' })
+  const payload = ref<SupplyItemCreatePayload>({
+    name: "",
+    code: "",
+    price: 0,
+    description: "",
+    supplierId: null,
+    unitOfMeasure: "KG",
+  });
 
   const submit = async () => {
     loading.value = true
