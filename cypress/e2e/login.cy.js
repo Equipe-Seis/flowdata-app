@@ -8,7 +8,7 @@ describe('Tela de Login - FlowData', () => {
 
    it('Deve permitir realizar o login com credenciais válidas', () => {  
         cy.get('#login-email-input').type('admin@teste.com');
-        cy.get('#input-v-4').type('2025@flow');
+        cy.get('#login-pass-input').type('2025@flow');
         cy.get('#login-save-button').click(); 
 })
 })

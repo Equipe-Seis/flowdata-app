@@ -24,7 +24,7 @@
             data-cy="password-input"
             :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append-inner="showPassword = !showPassword"
-            id="login-email-input"
+            id="login-pass-input"
           />
           <v-checkbox v-model="remember" label="Lembre-se de mim." hide-details class="mb-4" />
           <v-btn :disabled="!valid" block size="large" class="text-white" style="background-color: #1fcf54"
