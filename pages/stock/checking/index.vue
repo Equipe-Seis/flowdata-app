@@ -8,7 +8,7 @@
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
-          <v-btn color="primary" @click="createChecking" :disabled="loading">
+          <v-btn color="primary" @click="createChecking" :disabled="loading" id="stock-create-button">
             Novo Registro
           </v-btn>
         </div>

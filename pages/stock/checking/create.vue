@@ -12,10 +12,10 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="10">
-            <v-text-field hide-details label="Digite o código do produto..." variant="outlined" />
+            <v-text-field hide-details label="Digite o código do produto..." variant="outlined" id="stock-cod-input"/>
           </v-col>
           <v-col cols="12" sm="2">
-            <v-btn color="primary" size="x-large" @click="dialog = true">
+            <v-btn color="primary" size="x-large" @click="dialog = true" id="stock-confirm-button">
               Confirmar
             </v-btn>
           </v-col>
@@ -31,7 +31,7 @@
             <tr class="d-none d-md-table-row">
               <td></td>
               <td>
-                <v-btn size="small" color="primary" icon="mdi-trash-can-outline" title="Remover Item">
+                <v-btn size="small" color="primary" icon="mdi-trash-can-outline" title="Remover Item" id="stock-remove-button">
                 </v-btn>
               </td>
             </tr>
@@ -74,7 +74,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary"> Registrar </v-btn>
+        <v-btn color="primary" id="stock-register-button"> Registrar </v-btn>
         <v-btn text="Fechar" @click="dialog = false"></v-btn>
       </v-card-actions>
     </v-card>
