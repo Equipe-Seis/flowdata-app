@@ -36,12 +36,12 @@
               {{ t('dashboard.new_supply') }}
             </v-btn>
           </v-col>
-          <v-col cols="12" sm="6" md="4">
+          <!--<v-col cols="12" sm="6" md="4">
             <v-btn block color="accent" size="large" to="/compras/pedidos">
               <v-icon start>mdi-cart-plus</v-icon>
               {{ t('dashboard.manage_orders') }}
             </v-btn>
-          </v-col>
+          </v-col>-->
         </v-row>
       </v-container>
     </v-card>
