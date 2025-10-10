@@ -4,14 +4,15 @@
     <v-row class="mt-10">
       <v-col>
         <div>
-          <h1 class="text-h4 mb-4">Recebimento {{ checking.id }}</h1>
+          <h1 class="text-h4 mb-4"> {{ t('stock.checking_supply_title') }} {{ checking.id }}</h1>
         </div>
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4">
-          <v-btn @click="goBack" id="stock-back-button">Voltar</v-btn>
-          <v-btn color="primary" :disabled="checking.lines.length == 0" @click="concludeDialog = true" v-if="!isReadOnly" id="stock-end-button">Finalizar
-            Recebimento</v-btn>
+          <v-btn @click="goBack" id="stock-back-button">{{ t('common.back') }}</v-btn>
+          <v-btn color="primary" :disabled="checking.lines.length == 0" @click="concludeDialog = true" v-if="!isReadOnly" id="stock-end-button">
+            {{ t('stock.checking_supply_end_receipt') }}
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -25,7 +26,7 @@
           </v-col>
           <v-col cols="12" sm="2">
             <v-btn color="primary" size="x-large" @click="getItem" :disabled="(itemCode.length < 3 || itemLoading) || isReadOnly" id="stock-prod-confirm-button">
-              Confirmar
+              {{ t('stock.checking_supply_item_not_found_confirm') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -33,7 +34,7 @@
     </v-card>
 
     <v-card class="mt-4">
-      <v-card-title>Recebido</v-card-title>
+      <v-card-title>{{ t('stock.checking_supply_received') }}</v-card-title>
       <v-card-text>
         <v-data-table :items="checking.lines ?? []" :headers="headers" :items-per-page="25" class="elevation-1"
           hide-default-footer>
@@ -46,33 +47,33 @@
             </v-btn>
           </template>
 
-          <template #no-data> Nenhum item cadastrado. </template>
+          <template #no-data> {{ t('stock.checking_supply_no_data') }} </template>
         </v-data-table>
       </v-card-text>
     </v-card>
   </v-container>
 
-  <v-container v-else> Nada por aqui 😥 </v-container>
+  <v-container v-else> {{ t('stock.checking_supply_no_data') }} </v-container>
 
   <v-dialog v-model="itemDialog" max-width="500">
     <v-card v-if="item">
-      <v-card-title>{{ item.name }} - Item {{ item.code }}</v-card-title>
+      <v-card-title>{{ item.name }} - {{ t('stock.checking_supply_item') }} {{ item.code }}</v-card-title>
       <v-card-text>
         <v-row>
           <v-col>
-            <h4>Fornecedor:</h4>
+            <h4>{{ t('stock.checking_supply_supplier') }}:</h4>
             <p>{{ item.supplier.tradeName }}</p>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <h4>Unidade de Medida:</h4>
+            <h4>{{ t('stock.checking_supply_unit_of_measure') }}:</h4>
             <p>{{ item.unitOfMeasure }}</p>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="6">
-            <h4>Quantidade Recebida:</h4>
+            <h4>{{ t('stock.checking_supply_received_quantity') }}:</h4>
             <v-text-field hide-details variant="outlined" density="compact" :suffix="item.unitOfMeasure"
               v-model="receivedQty" type="number" id="stock-received-qty-input"></v-text-field>
           </v-col>
@@ -82,11 +83,11 @@
       <v-card-actions>
         <v-btn text="Cancelar" @click="itemDialog = false"></v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :disabled="receivedQty <= 0 || loadingLine" @click="createLine" id="stock-crete-line-button"> Registrar </v-btn>
+        <v-btn color="primary" :disabled="receivedQty <= 0 || loadingLine" @click="createLine" id="stock-crete-line-button"> {{ t('stock.checking_supply_item_not_found_register') }} </v-btn>
       </v-card-actions>
     </v-card>
 
-    <v-card title="Item não encontrado." v-else>
+    <v-card :title="`${t('stock.checking_supply_item_not_found')}`" v-else>
     </v-card>
   </v-dialog>
 
@@ -98,24 +99,22 @@
       </template>
       <template v-slot:text>
         <div class="text-center d-flex flex-column ga-2">
-          <div>Tem certeza que deseja concluir este recebimento?</div>
-          <div>Ao clicar em <span class="text-primary">Confirmar</span> este recebimento não podera mais ser
-            editado ou removido.
-          </div>
+          <div>{{ t('stock.checking_supply_end_receipt_confirmation') }}</div>
+          <div>{{ t('stock.checking_supply_end_receipt_confirmation_description') }}</div>
         </div>
       </template>
       <template v-slot:title>
-        <span class="text-primary">Finalizar Recebimento?</span>
+        <span class="text-primary">{{ t('stock.checking_supply_end_receipt') }}</span>
       </template>
       <template v-slot:actions>
         <v-btn @click="concludeDialog = false" :disabled="loading" id="stock-cancel-receive-button">
-          Cancelar
+          {{ t('common.cancel') }}
         </v-btn>
 
         <v-spacer></v-spacer>
 
         <v-btn color="primary" :loading="loading" @click="concludeChecking" id="stock-conclude-checking-button">
-          Confirmar
+          {{ t('common.confirm') }}
         </v-btn>
       </template>
     </v-card>
@@ -126,18 +125,18 @@
       <template v-slot:text>
         <div class="text-center d-flex flex-column ga-2 align-center">
           <v-icon icon="mdi-check-circle-outline" color="primary" size="100"></v-icon>
-          <div>Recebimento concluido com sucesso!</div>
-          <div>Você será redirecionado para a tela de listagem.</div>
+          <div>{{ t('stock.checking_supply_end_receipt_success') }}</div>
+          <div>{{ t('stock.checking_supply_end_receipt_success_description') }}</div>
         </div>
       </template>
       <template v-slot:title>
         <div class="text-center d-flex flex-column ga-2 align-center">
-          <span class="text-primary">Recebimento concluído</span>
+          <span class="text-primary">{{ t('stock.checking_supply_end_receipt_success') }}</span>
         </div>
       </template>
       <template v-slot:actions>
         <v-btn color="primary" block variant="flat" rounded="xl" @click="goBack" id="stock-ok-button">
-          OK
+          {{ t('common.ok') }}
         </v-btn>
       </template>
     </v-card>
@@ -149,7 +148,9 @@ import { useRouter, useRoute } from "vue-router";
 import { ref } from "vue";
 import { useCheckingEdit } from "~/composables/checking/useCheckingEdit";
 import { useUseCheckingLine } from "~/composables/checking/useCheckingLine";
+import { useI18n } from "vue-i18n";
 
+const { t, locale } = useI18n();
 const headers = [
   { title: "#", key: "id" },
   { title: "Item", key: "item.name" },

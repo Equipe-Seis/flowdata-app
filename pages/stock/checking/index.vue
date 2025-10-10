@@ -3,54 +3,54 @@
     <v-row>
       <v-col>
         <div class="mt-10">
-          <h1 class="text-h4 mb-4">Recebimento de Insumos</h1>
+          <h1 class="text-h4 mb-4">{{ t('stock.checking_supply_title') }}</h1>
         </div>
       </v-col>
       <v-col>
         <div class="d-flex justify-end ga-4 mt-10">
           <v-btn color="primary" @click="createChecking" :disabled="loading" id="stock-create-button">
-            Novo Registro
+            {{ t('stock.checking_supply_new') }}
           </v-btn>
         </div>
       </v-col>
     </v-row>
 
     <v-card>
-      <v-card-title>Filtros</v-card-title>
+      <v-card-title>{{ t('stock.checking_supply_filters') }}</v-card-title>
       <v-card-text>
         <v-form>
           <v-row>
             <v-col cols="12" sm="8">
-              <v-text-field v-model="numeroRecebimento" hide-details label="Número do Recebimento"
+              <v-text-field v-model="numeroRecebimento" hide-details :label="` ${t('stock.checking_supply_receipt_number')}`"
                 variant="outlined"></v-text-field>
             </v-col>
 
             <v-col cols="12" sm="4">
-              <v-text-field v-model="dataRecebimento" hide-details clearable type="date" label="Data do Recebimento"
+              <v-text-field v-model="dataRecebimento" hide-details clearable type="date" :label="` ${t('stock.checking_supply_receipt_date')}`"
                 variant="outlined"></v-text-field>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12" sm="4">
-              <v-select v-model="fornecedor" hide-details clearable label="Fornecedor" :items="['', '', '', '']"
+              <v-select v-model="fornecedor" hide-details clearable :label="` ${t('stock.checking_supply_fornecedor')}`" :items="['', '', '', '']"
                 multiple variant="outlined"></v-select>
             </v-col>
 
             <v-col cols="12" sm="4">
-              <v-select v-model="estoque" clearable label="Estoque" :items="['', '', '']" multiple
+              <v-select v-model="estoque" clearable :label="` ${t('stock.checking_supply_estoque')}`" :items="['', '', '']" multiple
                 variant="outlined"></v-select>
             </v-col>
 
             <v-col cols="12" sm="4">
-              <v-select v-model="statusPedido" clearable label="Status"
+              <v-select v-model="statusPedido" clearable :label="` ${t('stock.checking_supply_status')}`"
                 :items="['Aguardando', 'Conferindo', 'Finalizado']" multiple variant="outlined"></v-select>
             </v-col>
           </v-row>
 
           <div class="d-flex justify-start ga-4">
-            <v-btn color="primary"> Pesquisar </v-btn>
-            <v-btn class="me-2"> Limpar </v-btn>
+            <v-btn color="primary"> {{ t('common.search') }} </v-btn>
+            <v-btn class="me-2"> {{ t('common.clear') }} </v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -68,7 +68,7 @@
               @click="openDeleteDialog(item.id)" :disabled="item.status != 'draft'" />
           </template>
           <template #no-data>
-            Nenhum recebimento encontrado.
+            {{ t('stock.checking_supply_empty') }}
           </template>
         </v-data-table>
       </v-card-text>
@@ -76,22 +76,22 @@
 
     <!--DELETE DIALOG-->
       <v-dialog v-model="deleteDialog" max-width="400" persistent>
-        <v-card text="Tem certeza que deseja excluir este recebimento?" rounded="xl">
+        <v-card :text="`${t('stock.checking_supply_delete_confirmation')}`" rounded="xl">
           <template v-slot:prepend>
             <v-icon icon="mdi-close-circle-outline" color="error"></v-icon>
           </template>
           <template v-slot:title>
-            <span class="text-error">Excluir</span>
+            <span class="text-error">{{ t('stock.checking_supply_delete_confirmation') }}</span>
           </template>
           <template v-slot:actions>
             <v-btn @click="deleteDialog = false">
-              Cancelar
+              {{ t('common.cancel') }}
             </v-btn>
 
             <v-spacer></v-spacer>
 
             <v-btn @click="removeChecking" color="error">
-              Excluir
+              {{ t('common.delete') }}
             </v-btn>
           </template>
         </v-card>
@@ -102,23 +102,33 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute } from "vue-router";
-import { ref } from "vue";
+import { ref, computed, onMounted, watch, markRaw } from "vue";
 import { useChecking } from "~/composables/checking/useChecking";
 import { useCheckingCreate } from "~/composables/checking/useCheckingCreate";
 import { useCheckingEdit } from "~/composables/checking/useCheckingEdit";
+import { useI18n } from "vue-i18n";
 
 definePageMeta({
   layout: "default",
   middleware: "auth",
 });
 
-const headers = [
-  { title: '#', key: 'id' },
-  { title: 'Status', key: 'statusDescription' },
-  { title: 'Data Recebimento', key: 'formattedReceiptDate' },
-  { title: 'Qtd. Linhas', key: 'lineCount' },
-  { title: 'Ações', key: 'actions', sortable: false },
-]
+const { t, locale } = useI18n();
+
+const headers = ref<any[]>([]);
+watch(
+  locale,
+  () => {
+    headers.value = markRaw([
+      { title: t("supplier.id"), key: "id" },
+      { title: t("stock.checking_supply_status"), key: "statusDescription" },
+      { title: t("stock.checking_supply_receipt_date"), key: "formattedReceiptDate" },
+      { title: t("stock.checking_supply_line_count"), key: "lineCount" },
+      { title: t("stock.checking_supply_actions"), key: "actions", sortable: false },
+    ]);
+  },
+  { immediate: true }
+);
 
 const router = useRouter();
 const route = useRoute();

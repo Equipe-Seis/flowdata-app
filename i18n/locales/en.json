@@ -77,7 +77,41 @@
       "person_type_legalentity": "Legal Entity"
     },
   "stock":{
-    "empty": "No items found."
+    "empty": "No items found.",
+    "checking_supply_title": "Supply Receiving",
+    "checking_supply_new": "New Receipt",
+    "checking_supply_filters": "Filters",
+    "checking_supply_search_placeholder": "Search by receipt number, receipt date, supplier, stock, status",
+    "checking_supply_fornecedor": "Supplier",
+    "checking_supply_estoque": "Stock",
+    "checking_supply_status": "Status",
+    "checking_supply_actions": "Actions",
+    "checking_supply_status_waiting": "Waiting",
+    "checking_supply_status_checking": "Checking",
+    "checking_supply_status_finished": "Finished",
+    "checking_supply_empty": "No receipts found.",
+    "checking_supply_delete_confirmation": "Are you sure you want to delete this receipt?",
+    "checking_supply_line_count": "Line Count",
+    "checking_supply_receipt_date": "Receipt Date",
+    "checking_supply_receipt_number": "Receipt Number",
+    "checking_supply_item_not_found": "Item not found.",
+    "checking_supply_item_not_found_description": "Enter the product code...",
+    "checking_supply_item_not_found_confirm": "Confirm",
+    "checking_supply_item_not_found_cancel": "Cancel",
+    "checking_supply_item_not_found_register": "Register",
+    "checking_supply_received": "Received",
+    "checking_supply_no_data": "No data found.",
+    "checking_supply_remove_item": "Remove Item",
+    "checking_supply_end_receipt_confirmation": "Are you sure you want to conclude this receipt?",
+    "checking_supply_end_receipt": "Finalize Receipt",
+    "checking_supply_supplier": "Supplier",
+    "checking_supply_unit_of_measure": "Unit of Measure",
+    "checking_supply_received_quantity": "Received Quantity",
+    "checking_supply_item": "Item",
+    "checking_supply_end_receipt_confirmation_description": "By clicking on Confirm this receipt will no longer be editable or deletable.",
+    "checking_supply_end_receipt_success": "Receipt concluded successfully!",
+    "checking_supply_end_receipt_success_description": "You will be redirected to the list screen."
+
   },
     "supply": {
       "create_title": "Create Supply Item",
@@ -113,7 +147,9 @@
       "logout": "Logout",
       "actions": "Actions",
       "no_data": "No data found",
-      "filters": "Filters"
+      "filters": "Filters",
+      "ok": "OK",
+      "confirm": "Confirm"
 
     },
     "validation": {

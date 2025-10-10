@@ -22,7 +22,40 @@
     "total_suppliers":"Total de Fornecedores"
   },
   "stock":{
-    "empty": "Nenhum item encontrado."
+    "empty": "Nenhum item encontrado.",
+    "checking_supply_title": "Recebimento de Insumos",
+    "checking_supply_new": "Novo Registro",
+    "checking_supply_filters": "Filtros",
+    "checking_supply_search_placeholder": "Buscar por número do recebimento, data de recebimento, fornecedor, estoque, status",
+    "checking_supply_fornecedor": "Fornecedor",
+    "checking_supply_estoque": "Estoque",
+    "checking_supply_status": "Status",
+    "checking_supply_actions": "Ações",
+    "checking_supply_status_waiting": "Aguardando",
+    "checking_supply_status_checking": "Conferindo",
+    "checking_supply_status_finished": "Finalizado",
+    "checking_supply_empty": "Nenhum recebimento encontrado.",
+    "checking_supply_delete_confirmation": "Deseja realmente excluir este recebimento?",
+    "checking_supply_line_count": "Qtd. Linhas",
+    "checking_supply_receipt_date": "Data do Recebimento",
+    "checking_supply_receipt_number": "Número do Recebimento",
+    "checking_supply_item_not_found": "Item não encontrado.",
+    "checking_supply_item_not_found_description": "Digite o código do produto...",
+    "checking_supply_item_not_found_confirm": "Confirmar",
+    "checking_supply_item_not_found_cancel": "Cancelar",
+    "checking_supply_item_not_found_register": "Registrar",
+    "checking_supply_received": "Recebido",
+    "checking_supply_no_data": "Nenhum item cadastrado.",
+    "checking_supply_remove_item": "Remover Item",
+    "checking_supply_end_receipt_confirmation": "Tem certeza que deseja concluir este recebimento?",
+    "checking_supply_end_receipt": "Finalizar Recebimento",
+    "checking_supply_supplier": "Fornecedor",
+    "checking_supply_unit_of_measure": "Unidade de Medida",
+    "checking_supply_received_quantity": "Quantidade Recebida",
+    "checking_supply_item": "Item",
+    "checking_supply_end_receipt_confirmation_description": "Ao clicar em Confirmar este recebimento não podera mais ser editado ou removido.",
+    "checking_supply_end_receipt_success": "Recebimento concluído com sucesso!",
+    "checking_supply_end_receipt_success_description": "Você será redirecionado para a tela de listagem."
   },
   "supplier": {
     "page_title": "Fornecedores",
@@ -114,7 +147,10 @@
     "logout": "Sair",
     "actions": "Ações",
     "no_data": "Nenhum dado encontrado",
-    "filters": "Filtros"
+    "filters": "Filtros",
+    "ok": "OK",
+    "confirm": "Confirmar"
+
   },
   "validation": {
     "required": "Campo obrigatório",
