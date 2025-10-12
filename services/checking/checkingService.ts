@@ -59,8 +59,14 @@ export const concludeChecking = async (id: number) => {
   });
 };
 
-export const deteleteChecking = async (id: number | string) => {
+export const deleteChecking = async (id: number | string) => {
   return await apiFetch<number>(`/checkings/${id}`, {
     method: "DELETE",
+  });
+};
+
+export const revertChecking = async (id: number | string) => {
+  return await apiFetch<number>(`/checkings/${id}/revert`, {
+    method: "POST",
   });
 };

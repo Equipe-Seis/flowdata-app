@@ -1,12 +1,27 @@
 /*TODO: substituir css global por classes*/
-h1,h2,h3,h4,h5,h6, .v-card-title {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.v-card-title {
   font-family: "Noto Sans", sans-serif !important;
-  color: #10692B;
-} 
+  color: #10692b;
+}
 
-h1,h2,.v-card-title{
-    font-weight: 600 !important;
+h1,
+h2,
+.v-card-title {
+  font-weight: 600 !important;
 }
 * {
   font-family: "Noto Sans", sans-serif !important;
+}
+
+.headerClass {
+  white-space: nowrap;
+  word-break: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

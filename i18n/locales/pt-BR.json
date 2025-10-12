@@ -36,6 +36,7 @@
     "checking_supply_status_finished": "Finalizado",
     "checking_supply_empty": "Nenhum recebimento encontrado.",
     "checking_supply_delete_confirmation": "Deseja realmente excluir este recebimento?",
+    "checking_supply_delete_title": "Remover recebimento",
     "checking_supply_line_count": "Qtd. Linhas",
     "checking_supply_receipt_date": "Data do Recebimento",
     "checking_supply_receipt_number": "Número do Recebimento",
@@ -55,7 +56,9 @@
     "checking_supply_item": "Item",
     "checking_supply_end_receipt_confirmation_description": "Ao clicar em Confirmar este recebimento não podera mais ser editado ou removido.",
     "checking_supply_end_receipt_success": "Recebimento concluído com sucesso!",
-    "checking_supply_end_receipt_success_description": "Você será redirecionado para a tela de listagem."
+    "checking_supply_end_receipt_success_description": "Você será redirecionado para a tela de listagem.",
+    "checking_supply_revert_confirmation": "Deseja realmente reverter este recebimento?",
+    "checking_supply_revert_title": "Reverter recebimento"
   },
   "supplier": {
     "page_title": "Fornecedores",
@@ -149,7 +152,8 @@
     "no_data": "Nenhum dado encontrado",
     "filters": "Filtros",
     "ok": "OK",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "revert_confirmation": "Deseja realmente reverter este item?"
 
   },
   "validation": {

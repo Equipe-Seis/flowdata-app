@@ -5,8 +5,9 @@ import type {
 } from "~/models/supplyitem/SupplyItem";
 import {
   concludeChecking,
-  deteleteChecking,
+  deleteChecking,
   fetchCheckingById,
+  revertChecking,
 } from "~/services/checking/checkingService";
 import { fetchSupplyItemByCode } from "~/services/supplyitem/supplyitemService";
 
@@ -37,7 +38,20 @@ export const useCheckingEdit = () => {
     error.value = null;
 
     try {
-      await deteleteChecking(id);
+      await deleteChecking(id);
+    } catch (e: any) {
+      error.value = e?.message || "Falha ao buscar os recebimentos";
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const revert = async (id: number | number) => {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await revertChecking(id);
     } catch (e: any) {
       error.value = e?.message || "Falha ao buscar os recebimentos";
     } finally {
@@ -84,5 +98,6 @@ export const useCheckingEdit = () => {
     item,
     loadItem,
     conclude,
+    revert,
   };
 };

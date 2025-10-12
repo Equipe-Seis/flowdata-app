@@ -91,6 +91,7 @@
     "checking_supply_status_finished": "Finished",
     "checking_supply_empty": "No receipts found.",
     "checking_supply_delete_confirmation": "Are you sure you want to delete this receipt?",
+    "checking_supply_delete_title": "Delete receipt",
     "checking_supply_line_count": "Line Count",
     "checking_supply_receipt_date": "Receipt Date",
     "checking_supply_receipt_number": "Receipt Number",
@@ -110,8 +111,9 @@
     "checking_supply_item": "Item",
     "checking_supply_end_receipt_confirmation_description": "By clicking on Confirm this receipt will no longer be editable or deletable.",
     "checking_supply_end_receipt_success": "Receipt concluded successfully!",
-    "checking_supply_end_receipt_success_description": "You will be redirected to the list screen."
-
+    "checking_supply_end_receipt_success_description": "You will be redirected to the list screen.",
+    "checking_supply_revert_confirmation": "Are you sure you want to revert this receipt?",
+    "checking_supply_revert_title": "Revert receipt"
   },
     "supply": {
       "create_title": "Create Supply Item",
@@ -149,7 +151,8 @@
       "no_data": "No data found",
       "filters": "Filters",
       "ok": "OK",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "revert_confirmation": "Are you sure you want to revert this item?"
 
     },
     "validation": {

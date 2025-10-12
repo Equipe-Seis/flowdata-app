@@ -64,6 +64,8 @@
               :disabled="item.status == 'draft'" />
             <v-btn color="primary" icon="mdi-pencil-outline" variant="text" elevation="0" @click="edit(item.id)"
               :disabled="item.status != 'draft'" />
+            <v-btn color="orange" icon="mdi-arrow-u-left-bottom" variant="text" elevation="0" @click="openRevertDialog(item.id)"
+              :disabled="item.status != 'received'" />
             <v-btn color="error" icon="mdi-trash-can-outline" variant="text" elevation="0"
               @click="openDeleteDialog(item.id)" :disabled="item.status != 'draft'" />
           </template>
@@ -81,7 +83,7 @@
             <v-icon icon="mdi-close-circle-outline" color="error"></v-icon>
           </template>
           <template v-slot:title>
-            <span class="text-error">{{ t('stock.checking_supply_delete_confirmation') }}</span>
+            <span class="text-error">{{ t('stock.checking_supply_delete_title') }}</span>
           </template>
           <template v-slot:actions>
             <v-btn @click="deleteDialog = false">
@@ -97,6 +99,29 @@
         </v-card>
       </v-dialog>
 
+      <!--REVERT DIALOG-->
+      <v-dialog v-model="revertDialog" max-width="400" persistent>
+        <v-card :text="`${t('stock.checking_supply_revert_confirmation')}`" rounded="xl">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-arrow-u-left-bottom" color="orange"></v-icon>
+          </template>
+          <template v-slot:title>
+            <span class="text-orange">{{ t('stock.checking_supply_revert_title') }}</span>
+          </template>
+          <template v-slot:actions>
+            <v-btn @click="revertDialog = false">
+              {{ t('common.cancel') }}
+            </v-btn>
+
+            <v-spacer></v-spacer>
+
+            <v-btn @click="revertChecking" color="orange">
+              {{ t('common.confirm') }}
+            </v-btn>
+          </template>
+        </v-card>
+      </v-dialog>
+
   </v-container>
 </template>
 
@@ -106,7 +131,7 @@ import { ref, computed, onMounted, watch, markRaw } from "vue";
 import { useChecking } from "~/composables/checking/useChecking";
 import { useCheckingCreate } from "~/composables/checking/useCheckingCreate";
 import { useCheckingEdit } from "~/composables/checking/useCheckingEdit";
-import { useI18n } from "vue-i18n";
+//import { useI18n } from "vue-i18n";
 
 definePageMeta({
   layout: "default",
@@ -135,7 +160,7 @@ const route = useRoute();
 
 const { load, checkings } = useChecking();
 const { create, loading, created } = useCheckingCreate()
-const { remove } = useCheckingEdit();
+const { remove, revert } = useCheckingEdit();
 
 const numeroRecebimento = ref("");
 const dataRecebimento = ref(new Date());
@@ -144,6 +169,8 @@ const estoque = ref<string[]>([]);
 const statusPedido = ref<string[]>([]);
 const deleteDialog = ref(false);
 const toDeleteChecking = ref<number | null>();
+const revertDialog = ref(false);
+const toRevertChecking = ref<number | null>();
 
 function edit(id: number) {
   router.push(`/stock/checking/${id}`);
@@ -151,6 +178,19 @@ function edit(id: number) {
 
 function visualize(id: number) {
   router.push(`/stock/checking/${id}`);
+}
+
+async function openRevertDialog(id: number) {
+  revertDialog.value = true;
+  toRevertChecking.value = id;
+}
+
+async function revertChecking() {
+  if (toRevertChecking.value) {
+    await revert(toRevertChecking.value);
+    await build();
+  }
+  revertDialog.value = false;
 }
 
 function applyFilters() {
