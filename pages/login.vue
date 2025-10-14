@@ -11,12 +11,24 @@
 
         <v-form ref="form" v-model="valid">
           <v-text-field v-model="email" label="Usuário:" variant="outlined" density="comfortable" class="mb-4"
-            :rules="emailRules" data-cy="email-input" required />
-          <v-text-field v-model="password" label="Senha:" type="password" variant="outlined" density="comfortable"
-            class="mb-4" :rules="passwordRules" required  data-cy="password-input"/>
+            :rules="emailRules" data-cy="email-input" id="login-email-input" required />
+          <v-text-field
+            v-model="password"
+            label="Senha:"
+            :type="showPassword ? 'text' : 'password'"
+            variant="outlined"
+            density="comfortable"
+            class="mb-4"
+            :rules="passwordRules"
+            required
+            data-cy="password-input"
+            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="showPassword = !showPassword"
+            id="login-pass-input"
+          />
           <v-checkbox v-model="remember" label="Lembre-se de mim." hide-details class="mb-4" />
           <v-btn :disabled="!valid" block size="large" class="text-white" style="background-color: #1fcf54"
-            @click="login" data-cy="button-login">
+            @click="login" id="login-save-button"> 
             Entrar
           </v-btn>
         </v-form>
@@ -58,6 +70,7 @@ const form = ref(null);
 
 const dialog = ref(false);
 const dialogMessage = ref("");
+const showPassword = ref(false);
 
 const emailRules = [
   (v) => (!v ? "E-mail é obrigatório" : true),
@@ -76,7 +89,7 @@ async function login() {
   const { valid: formIsValid } = await form.value.validate();
 
   if (formIsValid) {
-    const success = await tryLogin(email.value, password.value);
+    const success = await tryLogin(email.value, password.value, remember.value);
     if (success) {
       router.push("/dashboard");
     } else {
@@ -152,3 +165,4 @@ definePageMeta({
   }
 }
 </style>
+
